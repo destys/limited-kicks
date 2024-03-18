@@ -1,14 +1,14 @@
 import React from "react";
 
-interface IPrice {
+interface PriceProps {
   before?: string;
-  value: number;
+  value: string;
   after?: string;
   className?: string;
 }
 
-const Price: React.FC<IPrice> = ({ before, value, after, className }) => {
-  const price = value.toLocaleString("ru-RU", {
+const Price: React.FC<PriceProps> = ({ before, value, after, className }) => {;
+  const price = parseFloat(value).toLocaleString("ru-RU", {
     style: "currency",
     currency: "RUB",
     minimumFractionDigits: 0,

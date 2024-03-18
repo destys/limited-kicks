@@ -20,7 +20,6 @@ interface BlogSliderProps {
 }
 
 const BlogSlider: React.FC<BlogSliderProps> = ({ data }) => {
-  console.log('data: ', data);
 
   return (
     <section className={styles.blog}>

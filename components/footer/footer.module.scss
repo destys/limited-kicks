@@ -1,0 +1,11 @@
+.footer {
+    @apply bg-add_2 text-white px-2 pb-20 lg:pb-0 lg:px-16;
+
+    .top {
+        @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-14 lg:gap-5 2xl:gap-24 pb-10 lg:py-16;
+    }
+
+    .bottom {
+        @apply md:py-8;
+    }
+}

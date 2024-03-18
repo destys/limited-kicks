@@ -1,0 +1,9 @@
+.blog {
+    &__showMore {
+        @apply relative text-xs md:text-base lg:text-lg decoration-dashed after:w-full after:border-b-2 after:border-dashed after:border-black after:absolute after:bottom-0 after:left-0 hover:text-main hover:after:border-main transition-colors after:transition-colors;
+    }
+
+    &__navigation {
+        @apply hidden lg:flex items-center gap-2;
+    }
+}

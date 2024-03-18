@@ -1,0 +1,10 @@
+.blog {
+    @apply relative;
+    &__top {
+        @apply flex justify-between items-center gap-3 mb-5 md:mb-7 lg:mb-10;
+    }
+
+    &__title {
+        @apply max-md:text-base lg:uppercase max-md:max-w-[50%];
+    }
+}

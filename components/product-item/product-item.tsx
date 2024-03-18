@@ -1,0 +1,46 @@
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+
+import FlagItem from "../flag-item/flag-item";
+import Price from "../price/price";
+
+import styles from "./product-item.module.scss";
+import getProduct from "@/actions/get-product";
+import { ProductItem } from "@/types";
+
+interface IProductItem {
+    data: ProductItem;
+}
+
+const ProductItem: React.FC<IProductItem> = ({ data }) => {
+
+    return (
+
+        <article className={styles.product}>
+            <Link href={"/products/product1"}>
+                {data?.new && (
+                    <div className={styles.flags}>
+                        <FlagItem title="new" />
+                    </div>
+                )}
+                <div className={styles.image}>
+                    <Image
+                        src={data.images[0].src}
+                        width={400}
+                        height={240}
+                        alt={data.name}
+                    />
+                </div>
+                <div className={styles.content}>
+                    <h3 className="mb-2 max-md:text-base max-xs:text-sm">{data.name}</h3>
+                    <div className="price max-md:text-xs">
+                        {data.price ? <Price before="от" value={data.price} /> : "По запросу"}
+                    </div>
+                </div>
+            </Link>
+        </article>
+    );
+}
+
+export default ProductItem

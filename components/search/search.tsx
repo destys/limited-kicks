@@ -1,5 +1,7 @@
 "use client";
 
+import { FormEvent } from "react";
+
 import { useRouter } from "next/navigation";
 
 import styles from "./search.module.scss";
@@ -7,10 +9,11 @@ import styles from "./search.module.scss";
 export default function Search() {
   const router = useRouter();
 
-  const onSearch = (e) => {
+  const onSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.push("/search");
   };
+
   return (
     <form className={styles.search} onSubmit={onSearch}>
       <button type="submit">

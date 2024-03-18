@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 import styles from "./header.module.scss";
-import Search from "@/components/search/Search";
+import Search from "@/components/search/search";
 
 export default function Header() {
   const [openOffer, setOpenOffer] = useState(true);

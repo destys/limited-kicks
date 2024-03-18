@@ -187,7 +187,7 @@ export default function Header() {
       </div>
       <div className={`${styles.offer} ${!openOffer && "!hidden"} `}>
         <p>10% скидка на первый заказ</p>
-        <Link href={"/products"} className={styles.button}>
+        <Link href={"/shop"} className={styles.button}>
           Сюда
         </Link>
         <button className={styles.close} onClick={() => setOpenOffer(false)}>

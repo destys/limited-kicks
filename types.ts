@@ -4,6 +4,9 @@ export interface Banners {}
 
 export interface Page {
   id: string;
+  title: {
+    rendered: string;
+  };
   acf: {
     bannery: [];
   };
@@ -75,4 +78,20 @@ export interface Post {
 
 interface FeaturedMedia {
   source_url: string;
+}
+
+export interface Category {
+  menu_order: any;
+  id: number;
+  name: string;
+  slug: string;
+  count: number;
+  image: {
+    src: string;
+  };
+}
+
+export interface Brand {
+  title: string;
+  image: string;
 }

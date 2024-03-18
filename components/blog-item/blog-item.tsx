@@ -22,11 +22,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
                     />
                 </div>
                 <h3 className="mb-2 max-md:text-base">{data.title.rendered}</h3>
-                <p className="max-md:text-xs">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
-                    alias eaque soluta ducimus vero animi qui fugiat ea, totam, repellat
-                    et, dolorem corrupti dolor neque expedita? Nobis dolorem iste omnis!
-                </p>
+                <div dangerouslySetInnerHTML={{ __html: data.excerpt.rendered }} className="max-md:text-xs"/>
             </Link>
         </article>
     );

@@ -1,8 +1,8 @@
-import { Banner, Banners } from "@/types";
+import { CommonBanner } from "@/types";
 import Image from "next/image";
 
 interface IBanner {
-  data: Banner;
+  data: CommonBanner;
 }
 
 const Banner: React.FC<IBanner> = ({ data }) => {

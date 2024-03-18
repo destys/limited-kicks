@@ -1,19 +1,27 @@
 'use client'
 
+import React from "react";
 import Link from "next/link";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
-import styles from "./listing.module.scss";
-import "swiper/css";
-import { Listing } from "@/types";
+import ProductItem from "../product-item/product-item";
 import SlidePrevButton from "../ui/slider-navigations/slider-prev-button";
 import SlideNextButton from "../ui/slider-navigations/slider-next-button";
-import ProductItem from "../product-item/product-item";
-import React from "react";
 
-const Listing: React.FC<Listing> = ({ data, title, titleTag }) => {
+import { Product } from "@/types";
+
+import "swiper/css";
+import styles from "./listing.module.scss";
+interface ListingProps {
+    data: Product[];
+    title: string;
+    titleTag: string;
+
+}
+
+const Listing: React.FC<ListingProps> = ({ data, title, titleTag }) => {
     return (
         <section>
             <Swiper
@@ -35,7 +43,7 @@ const Listing: React.FC<Listing> = ({ data, title, titleTag }) => {
                 }}
             >
                 <div className={styles.listing__top}>
-                {title && React.createElement(titleTag || 'h2', { className: styles.listing__title }, title)}
+                    {title && React.createElement(titleTag || 'h2', { className: styles.listing__title }, title)}
                     <div className="flex items-center gap-10">
                         <Link href={"/products"} className={styles.listing__showMore}>
                             Смотреть все

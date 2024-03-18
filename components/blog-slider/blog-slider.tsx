@@ -9,47 +9,55 @@ import BlogItem from "../blog-item/blog-item";
 import SlidePrevButton from "../ui/slider-navigations/slider-prev-button";
 import SlideNextButton from "../ui/slider-navigations/slider-next-button";
 
-import { BlogSLider } from "@/types";
+import { Post } from "@/types";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import styles from "./blog-slider.module.scss";
 
+interface BlogSliderProps {
+  data: Post[];
+}
 
-
-const BlogSlider: React.FC<BlogSLider> = ({ data }) => {
+const BlogSlider: React.FC<BlogSliderProps> = ({ data }) => {
+  console.log('data: ', data);
 
   return (
-    <Swiper
-      spaceBetween={16}
-      slidesPerView={1}
-      speed={700}
-      modules={[Navigation]}
-      className="!flex flex-col-reverse"
-      breakpoints={{
-        640: {
-          slidesPerView: 2,
-        },
-        1024: {
-          slidesPerView: 3,
-        },
-      }}
-    >
-      <div className="absolute top-[-100%] right-0 flex items-center gap-10">
-        <Link href={"/blog"} className={styles.blog__showMore}>
-          Смотреть все
-        </Link>
-        <div className={styles.blog__navigation}>
-          <SlidePrevButton />
-          <SlideNextButton />
+    <section className={styles.blog}>
+      <Swiper
+        spaceBetween={16}
+        slidesPerView={1}
+        speed={700}
+        modules={[Navigation]}
+        className="!flex flex-col-reverse"
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          },
+        }}
+      >
+        <div className={styles.blog__top}>
+          <h2 className={styles.blog__title}>Блог</h2>
+          <div className="flex items-center gap-10">
+            <Link href={"/blog"} className={styles.blog__showMore}>
+              Смотреть все
+            </Link>
+            <div className={styles.blog__navigation}>
+              <SlidePrevButton />
+              <SlideNextButton />
+            </div>
+          </div>
         </div>
-      </div>
-      {data?.map((item) => (
-        <SwiperSlide key={item.id}>
-          <BlogItem data={item} id={0} />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+        {data?.map((item) => (
+          <SwiperSlide key={item.id}>
+            <BlogItem data={item} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </section>
   );
 }
 

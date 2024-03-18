@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "../ui/button/Button";
-import Input from "../ui/input/Input";
+import Button from "../ui/button/button";
+import Input from "../ui/input/input";
 
 import styles from "./subscribe.module.scss";
 
@@ -16,6 +16,7 @@ export default function Subscribe() {
           type="email"
           placeholder="Введите E-mail"
           className={"border-none"}
+          name="subscribe"
         />
         <Button type="submit" styled={"filled"}>
           Отправить

@@ -1,15 +1,25 @@
 "use client";
+import { MouseEvent, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-export default function Button({
-  size,
+interface ButtonProps {
+  type: string;
+  children: ReactNode;
+  styled: "filled" | "oulined";
+  className?: string;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void; 
+  disabled?: boolean; 
+}
+
+const Button: React.FC<ButtonProps> = ({
+  type,
   children,
   styled,
   className,
   onClick,
   disabled,
   ...props
-}) {
+}) => {
   const typeClasses = getTypeClasses(styled);
 
   return (
@@ -28,7 +38,7 @@ export default function Button({
   );
 }
 
-function getTypeClasses(styled) {
+function getTypeClasses(styled: string) {
   switch (styled) {
     case "filled":
       return "bg-black text-white hover:bg-white hover:text-black disabled:bg-add_1 disabled:text-add_4 disabled:border-add_1 disabled:hover:border-add_1 disabled:hover:text-add_4 disabled:hover:bg_add_1 ";
@@ -38,3 +48,5 @@ function getTypeClasses(styled) {
       return "bg-black text-white hover:bg-white hover:text-black";
   }
 }
+
+export default Button;

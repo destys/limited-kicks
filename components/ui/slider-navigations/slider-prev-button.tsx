@@ -1,5 +1,3 @@
-// some-inner-component.jsx
-import { React } from "react";
 import { useSwiper } from "swiper/react";
 
 export default function SlidePrevButton() {

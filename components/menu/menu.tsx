@@ -1,12 +1,26 @@
 import Link from "next/link";
 
-export default function Menu({
+interface IMenu {
+    title?: string;
+    titleClassList?: string;
+    containerClassList?: string;
+    menuClassList?: string;
+    menuItemClassList?: string;
+    items: IMenuItem[];
+}
+
+interface IMenuItem {
+    id: number;
+    title: string;
+}
+
+const Menu: React.FC<IMenu> = ({
     title,
     containerClassList,
     menuClassList,
     menuItemClassList,
     items,
-}) {
+}) => {
     return (
         <div className={containerClassList}>
             {title && <div className="mb-5 font-mediun text-2xl">{title}</div>}
@@ -20,3 +34,5 @@ export default function Menu({
         </div>
     );
 }
+
+export default Menu;

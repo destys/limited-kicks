@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { BlogItem } from "@/types";
+import { Post } from "@/types";
 
 import styles from "./blog-item.module.scss";
 
-interface IBlogItem {
-    data: BlogItem[];
+interface BlogItemProps {
+    data: Post;
 }
 
-const BlogItem: React.FC<BlogItem> = ({ data }) => {
+const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
     return (
         <article>
             <Link href={`/blog/${data.slug}`}>

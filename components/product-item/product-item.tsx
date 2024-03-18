@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -6,17 +5,14 @@ import FlagItem from "../flag-item/flag-item";
 import Price from "../price/price";
 
 import styles from "./product-item.module.scss";
-import getProduct from "@/actions/get-product";
-import { ProductItem } from "@/types";
+import { Product } from "@/types";
 
 interface IProductItem {
-    data: ProductItem;
+    data: Product;
 }
 
 const ProductItem: React.FC<IProductItem> = ({ data }) => {
-
     return (
-
         <article className={styles.product}>
             <Link href={"/products/product1"}>
                 {data?.new && (

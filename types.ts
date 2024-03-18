@@ -9,11 +9,6 @@ export interface Page {
   };
 }
 
-export interface Posts {
-  id: number;
-  data: BlogItem[];
-}
-
 export interface Banners {
   izobrazhenie: Image;
 }
@@ -29,20 +24,20 @@ export interface Image {
 
 export interface AcfOptions {
   acf: {
-    listing_1: Listing;
-    banner_dlya_pk: Banner;
+    listing_1: IListing;
+    banner_dlya_pk: CommonBanner;
   };
 }
 
-export interface Listing {
-  products?: ProductItem[];
+export interface IListing {
+  products?: Product[];
   title: string;
   titleTag: string;
-  data: ProductItem[];
+  data: Product[];
 }
 
-export interface ProductItem {
-  data: ProductItem[];
+export interface Product {
+  data: Product[];
   id: number;
   new: boolean;
   images: Image[];
@@ -50,7 +45,7 @@ export interface ProductItem {
   price: number;
 }
 
-export interface Banner {
+export interface CommonBanner {
   id: number;
   title: string;
   url: string;
@@ -59,30 +54,20 @@ export interface Banner {
   height: number;
 }
 
-export interface BlogSLider {
-  data: BlogItem2[];
-}
-
-export interface BlogItem {
+export interface Post {
   id: number;
-  data: {
-    id: number;
-    slug: string;
-    title: {
-      rendered: string;
-    };
-    _embedded: {
-      "wp:featuredmedia": FeaturedMedia[];
-    };
-  };
-}
-
-export interface BlogItem2 {
-  id: number;
+  date: string;
+  date_gmt: string;
+  guid: { rendered: string };
+  modified: string;
+  modified_gmt: string;
   slug: string;
-  title: {
-    rendered: string;
-  };
+  status: string;
+  type: string;
+  link: string;
+  title: { rendered: string };
+  content: { rendered: string; protected: boolean };
+  excerpt: { rendered: string; protected: boolean };
   _embedded: {
     "wp:featuredmedia": FeaturedMedia[];
   };

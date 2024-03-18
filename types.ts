@@ -3,6 +3,7 @@
 export interface Banners {}
 
 export interface Page {
+  yoast_head_json: any;
   id: string;
   title: {
     rendered: string;

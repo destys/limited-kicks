@@ -1,13 +1,15 @@
 import getProducts from "@/actions/get-products";
+import getCategories from "@/actions/get-categories";
 
 import BrandsCatalog from "./components/brands-catalog/brands-catalog";
 import TopBar from "./components/top-bar/top-bar";
+import Categories from "./components/categories/categories";
 import BannerCatalog from "./components/banner-catalog/banner-catalog";
 
-import Categories from "./components/categories/categories";
 import ProductItem from "@/components/product-item/product-item";
-import getCategories from "@/actions/get-categories";
+
 import { Product } from "@/types";
+import { ResolvingMetadata } from "next";
 
 interface CategoryPageProps {
   params: {
@@ -16,6 +18,36 @@ interface CategoryPageProps {
   searchParams?: {
     colorId?: string;
     sizeId?: string;
+  }
+}
+
+type MetaProps = {
+  params: { categorySlug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata(
+  { params, searchParams }: MetaProps,
+  parent: ResolvingMetadata
+) {
+  const category = await getCategories({ slug: params.categorySlug });
+  const yoast_head_json = category[0].yoast_head_json;
+
+  return {
+    title: yoast_head_json.title, // Если у продукта есть свое собственное название, используйте его, в противном случае используйте название из yoast_head_json
+    description: yoast_head_json.description,
+    canonical: yoast_head_json.canonical,
+    openGraph: {
+      type: yoast_head_json.og_type,
+      locale: yoast_head_json.og_locale,
+      url: yoast_head_json.og_url,
+      title: yoast_head_json.og_title,
+      description: yoast_head_json.og_description,
+      site_name: yoast_head_json.og_site_name,
+    },
+    twitter: {
+      cardType: yoast_head_json.twitter_card,
+    },
   }
 }
 

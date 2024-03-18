@@ -7,6 +7,29 @@ import TopBar from "../category/[categorySlug]/components/top-bar/top-bar";
 import BannerCatalog from "../category/[categorySlug]/components/banner-catalog/banner-catalog";
 import Categories from "../category/[categorySlug]/components/categories/categories";
 import getPage from "@/actions/get-page";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata() {
+    const shop = await getPage("8");
+    const yoast_head_json = shop.yoast_head_json;
+
+    return {
+        title: yoast_head_json.title, // Если у продукта есть свое собственное название, используйте его, в противном случае используйте название из yoast_head_json
+        description: yoast_head_json.description,
+        canonical: yoast_head_json.canonical,
+        openGraph: {
+            type: yoast_head_json.og_type,
+            locale: yoast_head_json.og_locale,
+            url: yoast_head_json.og_url,
+            title: yoast_head_json.og_title,
+            description: yoast_head_json.og_description,
+            site_name: yoast_head_json.og_site_name,
+        },
+        twitter: {
+            cardType: yoast_head_json.twitter_card,
+        },
+    }
+}
 
 export default async function ShopPage() {
     const shop = await getPage("8");

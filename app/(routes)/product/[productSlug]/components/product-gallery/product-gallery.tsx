@@ -11,8 +11,13 @@ import styles from "./product-gallery.module.scss";
 import FlagItem from "@/components/flag-item/flag-item";
 import SlidePrevButton from "@/components/ui/slider-navigations/slider-prev-button";
 import SlideNextButton from "@/components/ui/slider-navigations/slider-next-button";
+import { SingleImage } from "@/types";
 
-export default function ProductGallery() {
+interface ProductGalleryProps {
+  data: SingleImage[];
+}
+
+const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
   const swiperRef = useRef<any>(null);
 
   const handleImageClick = (index: number) => {
@@ -20,25 +25,6 @@ export default function ProductGallery() {
       swiperRef.current.swiper.slideTo(index);
     }
   };
-
-  const data = [
-    {
-      id: 0,
-      src: "1-435.jpeg",
-    },
-    {
-      id: 1,
-      src: "2-411.jpeg",
-    },
-    {
-      id: 2,
-      src: "3-404.jpeg",
-    },
-    {
-      id: 3,
-      src: "4-391.jpeg",
-    },
-  ];
 
   return (
     <div className={styles.gallery}>
@@ -100,10 +86,10 @@ export default function ProductGallery() {
         {data.map((image) => (
           <SwiperSlide key={image.id}>
             <Image
-              src={`/images/products/${image.src}`}
+              src={image.src}
               width={892}
               height={540}
-              alt="image"
+              alt={image.name}
             />
           </SwiperSlide>
         ))}
@@ -111,20 +97,24 @@ export default function ProductGallery() {
           <SlidePrevButton />
           <SlideNextButton />
         </div>
-        <div className={styles.thumbs}>
-          {data.map((image, index) => (
-            <div key={image.id} className={styles.item}>
-              <Image
-                src={`/images/products/${image.src}`}
-                width={438}
-                height={266}
-                alt="image"
-                onClick={() => handleImageClick(index)}
-              />
-            </div>
-          ))}
-        </div>
+        {data.length > 1 && (
+          <div className={styles.thumbs}>
+            {data.map((image, index) => (
+              <div key={image.id} className={styles.item}>
+                <Image
+                  src={image.src}
+                  width={438}
+                  height={266}
+                  alt={image.name}
+                  onClick={() => handleImageClick(index)}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </Swiper>
     </div>
   );
 }
+
+export default ProductGallery;

@@ -14,16 +14,17 @@ export interface Page {
 }
 
 export interface Banners {
-  izobrazhenie: Image;
+  izobrazhenie: SingleImage;
 }
 
-export interface Image {
+export interface SingleImage {
   id: string;
   url: string;
   width: number;
   height: number;
   alt: string;
   src: string;
+  name: string;
 }
 
 export interface AcfOptions {
@@ -45,7 +46,7 @@ export interface Product {
   id: number;
   new: boolean;
   slug: string;
-  images: Image[];
+  images: SingleImage[];
   name: string;
   price: number;
   variations?: [];
@@ -57,7 +58,7 @@ export interface Products {
   id: number;
   new: boolean;
   slug: string;
-  images: Image[];
+  images: SingleImage[];
   name: string;
   price: number;
   variationsData: Variation[];

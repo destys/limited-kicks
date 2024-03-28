@@ -23,6 +23,7 @@ interface ProductPageProps {
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     const data = await getProduct({ slug: params.productSlug, per_page: 1 });
+    console.log('data: ', data);
 
     const siteOptions = await getAcfOptions();
     const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
@@ -35,7 +36,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
         <>
             <section className={styles.product}>
                 <div className={styles.gallery}>
-                    <ProductGallery />
+                    <ProductGallery data={data.images} />
                 </div>
                 <div className={styles.info}>
                     <h1 className="mb-2 sm:mb-3 lg:mb-4">{data.name}</h1>

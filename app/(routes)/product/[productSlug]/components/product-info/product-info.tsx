@@ -13,6 +13,7 @@ import Price from "@/components/price/price";
 
 import styles from "./product-info.module.scss";
 import { Product } from "@/types";
+import addToCart from "@/actions/add-to-cart";
 
 interface ProductInfoProps {
   data: Product;
@@ -20,6 +21,7 @@ interface ProductInfoProps {
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
   const oneClickModal = useOneClickModal();
+  const [isAdding, setIsAdding] = useState(false);
 
   const brandsData = data?.brand ? data.brand : [];
   let sizeNames: string[][] = [];
@@ -71,6 +73,12 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
 
   const oneClickAction = () => {
     oneClickModal.onOpen(data, sizeType, entrySize);
+  };
+
+  const handleAddToCart = async () => {
+    setIsAdding(true);
+
+    addToCart({ product_id: 119, quantity: 2 })
   };
 
   return (
@@ -201,6 +209,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
             type="button"
             styled={"filled"}
             className={"py-5 px-10 bg-add_1 text-black"}
+            onClick={handleAddToCart}
           >
             В корзину
           </Button>

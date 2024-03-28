@@ -8,6 +8,7 @@ import BannerCatalog from "../category/[categorySlug]/components/banner-catalog/
 import Categories from "../category/[categorySlug]/components/categories/categories";
 import getPage from "@/actions/get-page";
 import { Metadata, ResolvingMetadata } from "next";
+import Crumbs from "@/components/crumbs/crumbs";
 
 export async function generateMetadata() {
     const shop = await getPage("8");
@@ -36,6 +37,7 @@ export default async function ShopPage() {
     const products = await getProducts();
     return (
         <section>
+            <Crumbs />
             <h1 className="mb-10">{shop.title.rendered}</h1>
             <Categories />
             <BrandsCatalog />

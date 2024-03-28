@@ -14,7 +14,7 @@ interface IProductItem {
 const ProductItem: React.FC<IProductItem> = ({ data }) => {
     return (
         <article className={styles.product}>
-            <Link href={"/products/product1"}>
+            <Link href={`/product/${data.slug}`}>
                 {data?.new && (
                     <div className={styles.flags}>
                         <FlagItem title="new" />

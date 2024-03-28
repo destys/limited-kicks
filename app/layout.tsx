@@ -34,9 +34,9 @@ export default function RootLayout({
           <main className="flex-auto">
             {children}
           </main>
+          <Subscribe />
+          <Footer />
         </div>
-        <Subscribe />
-        <Footer />
       </body>
     </html>
   )

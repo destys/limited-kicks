@@ -17,7 +17,7 @@ import styles from "./listing.module.scss";
 interface ListingProps {
     data: Product[];
     title: string;
-    titleTag: string;
+    titleTag?: string;
 
 }
 

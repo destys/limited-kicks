@@ -10,6 +10,7 @@ import ProductItem from "@/components/product-item/product-item";
 
 import { Product } from "@/types";
 import { ResolvingMetadata } from "next";
+import Crumbs from "@/components/crumbs/crumbs";
 
 interface CategoryPageProps {
   params: {
@@ -57,6 +58,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
 
   return (
     <section>
+      <Crumbs />
       <h1 className="mb-10">{category[0].name}</h1>
       <Categories />
       <BrandsCatalog />

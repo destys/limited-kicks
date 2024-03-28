@@ -1,6 +1,6 @@
 "use client";
 
-/* import OneClickModal from "@/components/modals/OneClickModal"; */
+import OneClickModal from "@/components/modals/one-click-modal";
 import { useEffect, useState } from "react";
 
 const ModalProvider = () => {
@@ -16,7 +16,7 @@ const ModalProvider = () => {
 
     return (
         <>
-            {/* <OneClickModal /> */}
+            <OneClickModal />
         </>
     );
 };

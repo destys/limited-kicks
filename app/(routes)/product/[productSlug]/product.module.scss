@@ -1,0 +1,9 @@
+.product {
+    @apply lg:grid lg:grid-cols-2 lg:gap-4;
+
+    .gallery {
+        @apply mb-4 lg:mb-0;
+    }
+    .info {
+    }
+}

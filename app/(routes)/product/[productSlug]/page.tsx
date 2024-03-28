@@ -1,0 +1,58 @@
+import { GetServerSideProps } from "next";
+
+import NotFound from "@/app/not-found";
+
+import Banner from "@/components/banner/banner";
+import Listing from "@/components/listing/listing";
+import Price from "@/components/price/price";
+import Ticker from "@/components/ticker/ticker";
+import ProductGallery from "./components/product-gallery/product-gallery";
+import ProductInfo from "./components/product-info/product-info";
+
+import getProduct from "@/actions/get-product";
+import getAcfOptions from "@/actions/get-acf-options";
+import getProducts from "@/actions/get-products";
+
+import styles from './product.module.scss';
+
+interface ProductPageProps {
+    params: {
+        productSlug: string;
+    },
+}
+
+const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
+    const data = await getProduct({ slug: params.productSlug, per_page: 1 });
+
+    const siteOptions = await getAcfOptions();
+    const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
+
+    if (!data) {
+        return <NotFound />;
+    }
+
+    return (
+        <>
+            <section className={styles.product}>
+                <div className={styles.gallery}>
+                    <ProductGallery />
+                </div>
+                <div className={styles.info}>
+                    <h1 className="mb-2 sm:mb-3 lg:mb-4">{data.name}</h1>
+                    <Price
+                        value={data.price}
+                        className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
+                    />
+                    <ProductInfo data={data} />
+                </div>
+            </section>
+            <Ticker />
+            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
+            <Banner data={siteOptions?.acf?.banner_dlya_pk} />
+            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
+        </>
+    );
+}
+
+export default ProductPage
+

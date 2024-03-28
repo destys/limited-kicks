@@ -41,12 +41,35 @@ export interface IListing {
 }
 
 export interface Product {
-  data: Product[];
+  variationsData: Variation[];
   id: number;
   new: boolean;
+  slug: string;
   images: Image[];
   name: string;
   price: number;
+  variations?: [];
+  brand: BrandDataItem[];
+}
+
+export interface Products {
+  data: Product[];
+  id: number;
+  new: boolean;
+  slug: string;
+  images: Image[];
+  name: string;
+  price: number;
+  variationsData: Variation[];
+}
+
+export interface Variation {
+  price: number;
+  id: number;
+  name: string;
+  stock_status: string;
+  [key: string]: any;
+  // Добавьте другие свойства вариации, если они вам нужны
 }
 
 export interface CommonBanner {
@@ -95,4 +118,20 @@ export interface Category {
 export interface Brand {
   title: string;
   image: string;
+}
+
+export interface BrandDataItem {
+  term_id: number;
+  name: string;
+  slug: string;
+  term_group: number;
+  term_taxonomy_id: number;
+  taxonomy: string;
+  description: string;
+  parent: number;
+  count: number;
+  filter: string;
+  acf: {
+    tablicza_razmerov_obuvi: { [key: string]: string }[];
+  };
 }

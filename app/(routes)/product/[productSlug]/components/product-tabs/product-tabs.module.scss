@@ -1,0 +1,5 @@
+.tabs {
+    .navigation {
+        @apply flex overflow-x-scroll py-5 lg:flex-wrap gap-2 mb-3 lg:overflow-visible;
+    }
+}

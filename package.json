@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
     "axios": "^1.6.8",
     "clsx": "^2.1.0",
@@ -20,7 +21,8 @@
     "react-spinners": "^0.13.8",
     "sass": "^1.72.0",
     "swiper": "^11.0.7",
-    "tailwind-merge": "^2.2.2"
+    "tailwind-merge": "^2.2.2",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20",

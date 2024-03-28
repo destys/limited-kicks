@@ -21,7 +21,7 @@ interface ProductInfoProps {
 const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
   const oneClickModal = useOneClickModal();
 
-  const brandsData = data?.brand;
+  const brandsData = data?.brand ? data.brand : [];
   let sizeNames: string[][] = [];
   if (brandsData && brandsData.length > 0 && brandsData[0]?.acf?.tablicza_razmerov_obuvi) {
     sizeNames = brandsData[0].acf.tablicza_razmerov_obuvi.map((obj: {}) =>

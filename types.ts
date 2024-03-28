@@ -49,7 +49,7 @@ export interface Product {
   name: string;
   price: number;
   variations?: [];
-  brand: BrandDataItem[];
+  brand?: BrandDataItem[];
 }
 
 export interface Products {

@@ -14,8 +14,6 @@ import Modal from "./modal";
 
 export default function OneClickModal() {
     const { onClose, isOpen, product, sizeType, entrySize } = useOneClickModal();
-    console.log('sizeType: ', sizeType);
-    console.log('entrySize: ', entrySize);
 
     const [count, setCount] = useState(1);
 

@@ -13,9 +13,9 @@ import SlidePrevButton from "@/components/ui/slider-navigations/slider-prev-butt
 import SlideNextButton from "@/components/ui/slider-navigations/slider-next-button";
 
 export default function ProductGallery() {
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<any>(null);
 
-  const handleImageClick = (index) => {
+  const handleImageClick = (index: number) => {
     if (swiperRef.current) {
       swiperRef.current.swiper.slideTo(index);
     }

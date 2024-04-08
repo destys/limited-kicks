@@ -33,7 +33,8 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
   }, [isInStock]);
 
   const handleAddToCart = () => {
-    console.log('added')
+    setIsAdding(true);
+
     cart.addItem({
       id: data.id,
       slug: data.slug,
@@ -42,6 +43,8 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
       price: data.price,
       image: data.images[0].src,
     })
+
+    setTimeout(() => setIsAdding(false), 2000)
   }
 
   return (

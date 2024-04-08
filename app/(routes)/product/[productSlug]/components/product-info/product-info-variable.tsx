@@ -79,7 +79,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
 
   const handleAddToCart = async () => {
     setIsAdding(true);
-
+ 
     if (data.type === 'variable') {
       cart.addItem(
         {

@@ -42,6 +42,8 @@ export interface IListing {
 }
 
 export interface Product {
+  stock_status: string;
+  type: string;
   variationsData: Variation[];
   id: number;
   new: boolean;
@@ -61,6 +63,8 @@ export interface Products {
   images: SingleImage[];
   name: string;
   price: number;
+  stock_status: string;
+  type: string;
   variationsData: Variation[];
 }
 
@@ -70,7 +74,6 @@ export interface Variation {
   name: string;
   stock_status: string;
   [key: string]: any;
-  // Добавьте другие свойства вариации, если они вам нужны
 }
 
 export interface CommonBanner {
@@ -135,4 +138,14 @@ export interface BrandDataItem {
   acf: {
     tablicza_razmerov_obuvi: { [key: string]: string }[];
   };
+}
+export interface ICartItem {
+  id: number;
+  slug: string;
+  name: string;
+  quantity: number;
+  price: number;
+  image: string;
+  entrySize?: { [key: string]: any };
+  sizeType?: string;
 }

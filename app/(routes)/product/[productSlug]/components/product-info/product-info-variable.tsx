@@ -13,14 +13,16 @@ import Price from "@/components/price/price";
 
 import styles from "./product-info.module.scss";
 import { Product } from "@/types";
-import addToCart from "@/actions/add-to-cart";
+import useShoppingCart from "@/hooks/use-cart";
 
 interface ProductInfoProps {
   data: Product;
 }
 
-const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
+const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const oneClickModal = useOneClickModal();
+  const cart = useShoppingCart();
+
   const [isAdding, setIsAdding] = useState(false);
 
   const brandsData = data?.brand ? data.brand : [];
@@ -78,7 +80,22 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
   const handleAddToCart = async () => {
     setIsAdding(true);
 
-    addToCart({ product_id: 119, quantity: 2 })
+    if (data.type === 'variable') {
+      cart.addItem(
+        {
+          id: entrySize.id,
+          slug: data.slug,
+          name: data.name,
+          quantity: 1,
+          price: entrySize.price,
+          image: data.images[0].src,
+          entrySize: entrySize,
+          sizeType: sizeType,
+        }
+      );
+    }
+
+    setTimeout(() => setIsAdding(false), 2000)
   };
 
   return (
@@ -210,8 +227,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
             styled={"filled"}
             className={"py-5 px-10 bg-add_1 text-black"}
             onClick={handleAddToCart}
+            disabled={isAdding}
           >
-            В корзину
+            {isAdding ? 'Товар в корзине' : 'В корзину'}
           </Button>
         </div>
         <Dolayme />
@@ -236,4 +254,4 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
   );
 }
 
-export default ProductInfo;
+export default ProductInfoVariable;

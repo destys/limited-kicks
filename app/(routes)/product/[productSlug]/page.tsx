@@ -7,7 +7,8 @@ import Listing from "@/components/listing/listing";
 import Price from "@/components/price/price";
 import Ticker from "@/components/ticker/ticker";
 import ProductGallery from "./components/product-gallery/product-gallery";
-import ProductInfo from "./components/product-info/product-info";
+import ProductInfoVariable from "./components/product-info/product-info-variable";
+import ProductInfoSimple from "./components/product-info/product-info-simple";
 
 import getProduct from "@/actions/get-product";
 import getAcfOptions from "@/actions/get-acf-options";
@@ -23,7 +24,6 @@ interface ProductPageProps {
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     const data = await getProduct({ slug: params.productSlug, per_page: 1 });
-    console.log('data: ', data);
 
     const siteOptions = await getAcfOptions();
     const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
@@ -44,13 +44,14 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                         value={data.price}
                         className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
                     />
-                    <ProductInfo data={data} />
+                    {data.type === 'variable' ? <ProductInfoVariable data={data} /> : <ProductInfoSimple data={data} />}
+
                 </div>
             </section>
             <Ticker />
-            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
+            {/* <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" /> */}
             <Banner data={siteOptions?.acf?.banner_dlya_pk} />
-            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
+            {/* <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" /> */}
         </>
     );
 }

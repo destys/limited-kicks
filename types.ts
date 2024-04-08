@@ -55,19 +55,9 @@ export interface Product {
   brand?: BrandDataItem[];
 }
 
-export interface Products {
+export interface Products extends Omit<Product, "data"> {
   data: Product[];
-  id: number;
-  new: boolean;
-  slug: string;
-  images: SingleImage[];
-  name: string;
-  price: number;
-  stock_status: string;
-  type: string;
-  variationsData: Variation[];
 }
-
 export interface Variation {
   price: number;
   id: number;

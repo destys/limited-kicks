@@ -7,13 +7,16 @@ import InputMask from 'react-input-mask';
 import { twMerge } from "tailwind-merge";
 
 interface InputProps {
+  defaultValue?: any;
   className?: string;
-  type: "text" | "tel" | "email" | "password" | "number"; // Добавьте другие типы, если необходимо
+  type: "text" | "tel" | "email" | "password" | "number" | "date"; // Добавьте другие типы, если необходимо
   label?: string;
   name: string;
   placeholder?: string;
   value?: string;
-  onChange?: (value: string) => void;
+  autoComplete?: string;
+  required?: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 const Input: React.FC<InputProps> = ({
   className,
@@ -50,6 +53,7 @@ const Input: React.FC<InputProps> = ({
         />
       ) : (
         <input
+          {...props}
           type={type}
           className={twMerge(classes, className)}
           name={name}

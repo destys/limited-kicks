@@ -139,3 +139,11 @@ export interface ICartItem {
   entrySize?: { [key: string]: any };
   sizeType?: string;
 }
+
+export interface User {
+  birthdate: any;
+  id: any;
+  email: string;
+  last_name: string;
+  first_name: string;
+}

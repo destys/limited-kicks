@@ -3,12 +3,12 @@ import { MouseEvent, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface ButtonProps {
-  type: string;
+  type?: string;
   children: ReactNode;
-  styled: "filled" | "oulined";
+  styled: "filled" | "outlined";
   className?: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void; 
-  disabled?: boolean; 
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({

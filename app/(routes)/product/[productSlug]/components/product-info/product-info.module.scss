@@ -1,5 +1,5 @@
 .sizes_type {
-    @apply flex flex-col xs:flex-row justify-between xs:items-center gap-5 xs:gap-2 mb-7;
+    @apply flex flex-col 2xl:flex-row justify-between xs:items-center gap-5 xs:gap-2 mb-7;
 
     &__link {
         @apply mx-auto xs:mr-0 relative decoration-dashed whitespace-nowrap max-md:text-xs after:w-full after:border-b-2 after:border-dashed after:border-black after:absolute after:bottom-0 after:left-0 hover:text-main hover:after:border-main transition-colors after:transition-colors;

@@ -22,7 +22,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
                     />
                 </div>
                 <h3 className="mb-2 max-md:text-base">{data.title.rendered}</h3>
-                <div dangerouslySetInnerHTML={{ __html: data.excerpt.rendered }} className="max-md:text-xs"/>
+                <div dangerouslySetInnerHTML={{ __html: data.excerpt.rendered }} className="max-md:text-xs line-clamp-5"/>
             </Link>
         </article>
     );

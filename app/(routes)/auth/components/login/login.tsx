@@ -30,7 +30,6 @@ export default function Login() {
       "password": password
     }).then((response) => {
       user.login(response.data.token);
-      user.fetchUser
       router.push('/profile');
     }).catch((error) => {
       console.error(error)

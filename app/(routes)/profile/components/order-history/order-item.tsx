@@ -2,7 +2,15 @@ import Price from "@/components/price/price";
 import Image from "next/image";
 import React from "react";
 
-export default function OrderItem({ data }) {
+interface IOrderItem {
+  data: {
+    status: string;
+    image: string;
+    title: string;
+  }
+}
+
+const OrderItem: React.FC<IOrderItem> = ({ data }) => {
   const statusColor = getStatusColor(data.status);
   return (
     <div className="flex items-center gap-3 sm:gap-7 md:gap-8 lg:gap-10 2xl:gap-14 py-5 px-7">
@@ -60,7 +68,7 @@ export default function OrderItem({ data }) {
   );
 }
 
-function getStatusColor(status) {
+function getStatusColor(status: string) {
   switch (status) {
     case "Оплачено":
       return "text-[#2ACF27]";
@@ -70,3 +78,6 @@ function getStatusColor(status) {
       return "";
   }
 }
+
+
+export default OrderItem;

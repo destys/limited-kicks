@@ -3,16 +3,22 @@ import { useEffect, useRef, useState } from "react";
 
 import Price from "@/components/price/price";
 
-export default function Discount({ totalAmount }) {
-  const totalRef = useRef(null);
-  const bgAdd2Ref = useRef(null);
+interface IDiscount {
+  totalAmount: number;
+}
+
+const Discount: React.FC<IDiscount> = ({ totalAmount }) => {
+  const totalRef = useRef<HTMLDivElement | null>(null);
+  const bgAdd2Ref = useRef<HTMLDivElement | null>(null);
   const [amount, setAmount] = useState(totalAmount); // Здесь ваша переменная amount
 
   useEffect(() => {
-    const total = parseInt(totalRef.current.getAttribute("data-total"), 10);
-    const percentage = Math.round((amount / total) * 100);
+    if (totalRef.current && bgAdd2Ref.current) {
+      const total = parseInt(totalRef.current.getAttribute("data-total") || "0", 10);
+      const percentage = Math.round((amount / total) * 100);
 
-    bgAdd2Ref.current.style.width = `${percentage}%`;
+      bgAdd2Ref.current.style.width = `${percentage}%`;
+    }
   }, [amount]);
 
   return (
@@ -62,3 +68,5 @@ export default function Discount({ totalAmount }) {
     </div>
   );
 }
+
+export default Discount;

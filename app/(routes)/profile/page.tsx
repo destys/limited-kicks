@@ -32,7 +32,7 @@ const Profile = () => {
                     setUser(userData);
                 } catch (error) {
                     console.error('Error fetching user data:', error);
-                    setUser(null); // Установка null в случае ошибки
+                    setUser(null);
                     router.push('/auth');
                 } finally {
                     setLoading(false);
@@ -59,7 +59,7 @@ const Profile = () => {
                     {activeIndex === 1 && <OrderHistory />}
                     {activeIndex === 2 && <Addresses />}
                     {activeIndex === 3 && <Payments />}
-                    {activeIndex === 4 && <Discount totalAmount={37568} />}
+                    {activeIndex === 4 && <Discount totalAmount={37568 || 0} />}
                 </div>}
             </div>
         </section>

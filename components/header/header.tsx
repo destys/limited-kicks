@@ -6,8 +6,10 @@ import React, { useState } from "react";
 
 import styles from "./header.module.scss";
 import Search from "@/components/search/search";
+import useUser from "@/hooks/use-user";
 
 export default function Header() {
+  const { jwtToken } = useUser();
   const [openOffer, setOpenOffer] = useState(true);
   const menuOpen = () => {
     alert("Menu open");
@@ -162,7 +164,7 @@ export default function Header() {
               />
             </svg>
           </Link>
-          <Link href={"/auth"}>
+          <Link href={jwtToken ? "/profile" : "/auth"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="28"

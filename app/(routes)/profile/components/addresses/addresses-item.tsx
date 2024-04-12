@@ -2,7 +2,18 @@
 
 import Image from "next/image";
 
-export default function AddressItem({ data, onDeleteItem }) {
+interface IAddressesItem {
+  data: {
+    id: number;
+    city: string;
+    street: string;
+    build: string;
+  };
+  onDeleteItem: (id: number) => void
+}
+
+
+const AddressItem: React.FC<IAddressesItem> = ({ data, onDeleteItem }) => {
   const handleDeleteItem = (id: number) => {
     onDeleteItem(id);
   };
@@ -34,3 +45,6 @@ export default function AddressItem({ data, onDeleteItem }) {
     </div>
   );
 }
+
+
+export default AddressItem;

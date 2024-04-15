@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent } from "react";
-
 import { useRouter } from "next/navigation";
 
 import styles from "./search.module.scss";
@@ -11,7 +10,7 @@ export default function Search() {
 
   const onSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push("/search");
+    router.push(`/search?s=${e.currentTarget.search.value}`);
   };
 
   return (
@@ -38,7 +37,7 @@ export default function Search() {
           />
         </svg>
       </button>
-      <input type="search" placeholder="Поиск" />
+      <input type="search" name="search" placeholder="Поиск" />
     </form>
   );
 }

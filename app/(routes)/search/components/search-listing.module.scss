@@ -1,5 +1,4 @@
-.blog {
-    @apply relative;
+.listing {
     &__top {
         @apply flex justify-between items-center gap-3 mb-5 md:mb-7 lg:mb-10;
     }

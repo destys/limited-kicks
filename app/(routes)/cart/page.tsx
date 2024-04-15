@@ -31,7 +31,7 @@ export default function Cart() {
         <div>
           {
             cart.items.map(item => (
-              <CartItem key={item.id} data={item} />
+              <CartItem key={item.entrySize?.id ? item.entrySize.id : item.id} data={item} />
             ))
           }
           <h3 className="flex justify-between items-center gap-3 mb-8 pt-5 border-t border-add_1 max-md:text-base">

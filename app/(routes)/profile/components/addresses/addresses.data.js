@@ -7,6 +7,7 @@ const addressesList = [
         city: "Москва",
         street: "Ленина",
         build: "1",
+        apartmentNumber: "12"
     },
     {
         id: 1,
@@ -14,6 +15,7 @@ const addressesList = [
         city: "Старобжегокай",
         street: "Совмена",
         build: "1/1",
+        apartmentNumber: "312"
     },
 ];
 

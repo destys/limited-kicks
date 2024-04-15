@@ -1,3 +1,4 @@
+'use client'
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
@@ -14,6 +15,10 @@ export default function Login() {
   const [error, setError] = useState('');
   const router = useRouter();
   const user = useUser();
+
+  if (user.jwtToken) {
+    router.push('/profile');
+  }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

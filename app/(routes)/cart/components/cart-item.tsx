@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+'use client';
+import { useState } from "react";
 import Image from "next/image";
 
 import useShoppingCart from "@/hooks/use-cart";
@@ -13,6 +14,7 @@ interface ICartItemData {
 }
 
 const CartItem: React.FC<ICartItemData> = ({ data }) => {
+  console.log('data: ', data);
   const cart = useShoppingCart();
   const [count, setCount] = useState(data.quantity);
 
@@ -130,7 +132,7 @@ const CartItem: React.FC<ICartItemData> = ({ data }) => {
           </svg>
         </button>
       </div>
-    </div>
+    </div >
   );
 }
 

@@ -37,7 +37,9 @@ export default async function HomePage() {
   const pageData = await getPage('45');
   const siteOptions = await getAcfOptions();
   const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
-  const posts = await getPosts('?per_page=4&orderby=date&_embed=true');
+  const listing_2 = await getProducts({ include: siteOptions?.acf?.listing_2?.products });
+  const listing_3 = await getProducts({ include: siteOptions?.acf?.listing_3?.products });
+  const posts = await getPosts('?per_page=8&orderby=date&_embed=true');
 
   return (
     <>
@@ -45,9 +47,9 @@ export default async function HomePage() {
       <Ticker />
       <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" />
       <Brands />
-      <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
+      <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" />
       <Banner data={siteOptions?.acf?.banner_dlya_pk} />
-      <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
+      <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" />
       <BlogSlider data={posts} />
     </>
   );

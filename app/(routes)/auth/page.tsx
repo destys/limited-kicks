@@ -1,10 +1,7 @@
-"use client";
-
 import Login from "./components/login/login";
 
-export default function Cabinet() {
-
-
+export default function Auth() {
+  
   return (
     <section>
       <div className="container !max-w-[530px] mx-auto">

@@ -8,6 +8,7 @@ interface IAddressesItem {
     city: string;
     street: string;
     build: string;
+    apartment_number?: string;
   };
   onDeleteItem: (id: number) => void
 }
@@ -22,7 +23,7 @@ const AddressItem: React.FC<IAddressesItem> = ({ data, onDeleteItem }) => {
       <div className="flex flex-col xs:flex-row xs:justify-between items-center gap-5">
         <div className="flex items-center justify-between py-5 px-4 md:py-7 md:px-8 lg:py-9 lg:px-10 bg-add_1 w-full rounded-lg">
           <div className="text-sm md:text-base">
-            {data.city}, ул.{data.street}, {data.build}
+            {data.city}, ул.{data.street}, д. {data.build} {!!data.apartment_number && `, кв. ${data.apartment_number}`}
           </div>
           <Image
             src={"/icons/Icon/Alt_Arrow_Right.svg"}

@@ -8,7 +8,7 @@ import Input from "@/components/ui/input/input";
 import Image from "next/image";
 import { useState } from "react";
 import Price from "../price/price";
-import Radio from "../ui/radio/Radio";
+import Radio from "../ui/radio/radio";
 import useOneClickModal from "@/hooks/use-one-click-modal";
 import Modal from "./modal";
 

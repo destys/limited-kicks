@@ -1,9 +1,17 @@
-import { twMerge } from "tailwind-merge";
 
-export default function Radio({ className, label, id, ...props }) {
+interface IRadio {
+  className?: string;
+  label: string;
+  id: string;
+  name: string;
+  defaultChecked?: boolean;
+  value?: any;
+}
+
+const Radio: React.FC<IRadio> = ({ className, label, id, name, ...props }) => {
   return (
     <div>
-      <input type="radio" id={id} className="hidden peer" {...props} />
+      <input type="radio" id={id} className="hidden peer" name={name} {...props} />
       {label && (
         <label
           htmlFor={id}
@@ -14,4 +22,6 @@ export default function Radio({ className, label, id, ...props }) {
       )}
     </div>
   );
-}
+};
+
+export default Radio;

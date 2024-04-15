@@ -1,0 +1,35 @@
+
+import Listing from "@/components/listing/listing";
+import SearchListing from "./components/search-listing";
+import Ticker from "@/components/ticker/ticker";
+import Brands from "@/components/brands/brands";
+import Banner from "@/components/banner/banner";
+import BlogSlider from "@/components/blog-slider/blog-slider";
+import getPosts from "@/actions/get-posts";
+import getProducts from "@/actions/get-products";
+import getAcfOptions from "@/actions/get-acf-options";
+
+const Search = async () => {
+  const siteOptions = await getAcfOptions();
+  const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
+  const listing_2 = await getProducts({ include: siteOptions?.acf?.listing_2?.products });
+  const listing_3 = await getProducts({ include: siteOptions?.acf?.listing_3?.products });
+  const posts = await getPosts('?per_page=8&orderby=date&_embed=true');
+
+
+
+  return (
+    <>
+      <SearchListing />
+      <Ticker />
+      <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} />
+      <Brands />
+      <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} />
+      <Banner data={siteOptions?.acf?.banner_dlya_pk} />
+      <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} />
+      <BlogSlider data={posts} />
+    </>
+  );
+}
+
+export default Search

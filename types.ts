@@ -29,6 +29,8 @@ export interface SingleImage {
 
 export interface AcfOptions {
   acf: {
+    listing_2: IListing;
+    listing_3: IListing;
     listing_1: IListing;
     banner_dlya_pk: CommonBanner;
   };
@@ -146,4 +148,16 @@ export interface User {
   email: string;
   last_name: string;
   first_name: string;
+  phone: string;
+  acf: {
+    addresses: Address[];
+  };
+}
+
+export interface Address {
+  id: number;
+  city: string;
+  street: string;
+  build: string;
+  apartment_number: string;
 }

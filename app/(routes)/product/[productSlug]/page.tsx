@@ -50,7 +50,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
             </section>
             <Ticker />
             {/* <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" /> */}
-            <Banner data={siteOptions?.acf?.banner_dlya_pk} />
+            <Banner data={siteOptions?.acf?.bannery} />
             {/* <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" /> */}
         </>
     );

@@ -29,10 +29,14 @@ export interface SingleImage {
 
 export interface AcfOptions {
   acf: {
+    bannery: {
+      banner_dlya_pk: CommonBanner;
+      banner_dlya_telefonov: CommonBanner;
+    };
+    tovary_po_zaprosu: IProductsOnRequest;
     listing_2: IListing;
     listing_3: IListing;
     listing_1: IListing;
-    banner_dlya_pk: CommonBanner;
   };
 }
 
@@ -160,4 +164,42 @@ export interface Address {
   street: string;
   build: string;
   apartment_number: string;
+}
+
+export interface IOrder {
+  shipping_lines: any;
+  total: string;
+  date_created: string | number | Date;
+  line_items: OrderProduct[];
+  id: number;
+  status: string;
+  name: string;
+  image: {
+    src: string;
+  };
+}
+
+interface OrderProduct {
+  name: string;
+  image: any;
+  total: string;
+  quantity: number;
+  variation_id: number;
+  meta_data: any;
+  id: number;
+}
+
+export interface IProductsOnRequest {
+  tovary: [
+    {
+      izobrazhenie: {
+        url: string;
+      };
+      czena: string;
+      kategoriya: string;
+      nazvanie: string;
+    }
+  ];
+  zagolovok: string;
+  tekst: string;
 }

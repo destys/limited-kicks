@@ -33,7 +33,7 @@ const Addresses: React.FC<IAddresses> = ({ user }) => {
             onDeleteItem={handleDeleteAddress}
           />
         ))}
-        <Button styled={"filled"} className={'w-full mt-3 xs:mt-0 xs:w-fit'}>Добавить адрес</Button>
+        <Button type="button" styled={"filled"} className={'w-full mt-3 xs:mt-0 xs:w-fit'}>Добавить адрес</Button>
       </div>
     </div>
   );

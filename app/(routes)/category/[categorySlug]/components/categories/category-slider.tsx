@@ -18,7 +18,7 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ data }) => {
     const allCategory = {
         id: 0,
         name: "ВСЕ",
-        slug: "/shop",
+        slug: "shop",
         count: 1,
         menu_order: 0,
         image: {
@@ -33,7 +33,7 @@ const CategorySlider: React.FC<CategorySliderProps> = ({ data }) => {
             slidesPerView={2}
             speed={700}
             modules={[Navigation]}
-            className="!flex flex-col-reverse"
+            className="!flex flex-col-reverse !pb-5"
             breakpoints={{
                 480: {
                     slidesPerView: 3,

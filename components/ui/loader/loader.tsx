@@ -1,12 +1,15 @@
 import React from 'react'
 import { PacmanLoader } from 'react-spinners'
 
-type Props = {}
+interface LoaderProps {
+    color?: string;
+    size?: number;
+}
 
-const Loader = (props: Props) => {
+const Loader: React.FC<LoaderProps> = ({ color, size }) => {
     return (
         <div className='absolute w-full h-full bg-white flex justify-center items-center'>
-            <PacmanLoader color="#2972FF" size={36} />
+            <PacmanLoader color={color || "#2972FF"} size={size || 36} />
         </div>
     )
 }

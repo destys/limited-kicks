@@ -7,8 +7,6 @@ import Categories from "./components/categories/categories";
 import BannerCatalog from "./components/banner-catalog/banner-catalog";
 
 import ProductItem from "@/components/product-item/product-item";
-
-import { Product } from "@/types";
 import { ResolvingMetadata } from "next";
 import Crumbs from "@/components/crumbs/crumbs";
 
@@ -63,18 +61,16 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
       <Categories />
       <BrandsCatalog />
       <TopBar count={products.length} />
-      <div className="grid lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
-        {products?.map((item: Product, index: number) => (
-          <div
-            key={item.id}
-            className={
-              index + 1 === 9 || index + 1 === 22 ? "col-span-2 row-span-2" : ""
-            }
-          >
-            {index + 1 === 9 && <BannerCatalog />}
-            <ProductItem data={item} />
-            {index + 1 === 22 && <BannerCatalog />}
-          </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
+        {products?.map((item, index) => (
+          (index + 1 === 9 || index + 1 === 22) ?
+            (<>
+              <div key={index + '-banner'} className="col-span-2 row-span-2">
+                <BannerCatalog banner={null} />
+              </div>
+              <ProductItem key={item.id} data={item} />
+            </>)
+            : (<ProductItem key={item.id} data={item} />)
         ))}
       </div>
     </section>

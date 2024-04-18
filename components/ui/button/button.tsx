@@ -3,7 +3,7 @@ import { MouseEvent, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface ButtonProps {
-  type?: string;
+  type?: "submit" | "reset" | "button" | undefined;
   children: ReactNode;
   styled: "filled" | "outlined";
   className?: string;
@@ -31,6 +31,7 @@ const Button: React.FC<ButtonProps> = ({
       )}
       disabled={disabled}
       onClick={onClick}
+      type={type || "button"}
       {...props}
     >
       {children}

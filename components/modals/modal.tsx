@@ -45,7 +45,7 @@ const Modal:React.FC<ModalProps> = ({
               </div>
               <Dialog.Close
                 asChild
-                className="lg:absolute lg:-top-2 lg:-right-2"
+                className="lg:absolute lg:-top-2 lg:-right-2 cursor-pointer"
               >
                 <Image
                   src={"/icons/Icon/Close.svg"}

@@ -9,12 +9,14 @@ interface CategoryItemProps {
 
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ data }) => {
+    console.log('data: ', data.slug);
     const pathname = usePathname();
+    console.log('pathname: ', pathname.split("/").pop());
     const isActive = data.slug === pathname.split("/").pop();
 
     return (
         <Link
-            href={data.id === 0 ? data.slug : `/category/${data.slug}`}
+            href={data.id === 0 ? `/${data.slug}` : `/category/${data.slug}`}
             className={`flex justify-center items-center relative h-[97px] lg:p-10 md:h-[200px] bg-add_1 rounded-[20px] border border-transparent ${isActive &&
                 "!border-black after:w-[90%] after:h-[2px] after:bg-black after:absolute after:bottom-[-14px] after:left-[50%] after:translate-x-[-50%]"
                 }`}

@@ -25,7 +25,7 @@ const Search = async () => {
       <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} />
       <Brands />
       <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} />
-      <Banner data={siteOptions?.acf?.banner_dlya_pk} />
+      <Banner data={siteOptions?.acf?.bannery} />
       <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} />
       <BlogSlider data={posts} />
     </>

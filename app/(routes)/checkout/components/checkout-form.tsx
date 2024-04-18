@@ -109,7 +109,7 @@ const CheckoutForm = () => {
     };
 
     return (
-        <form action="#" className="relative 2xl:col-span-4 min-h-[100vh]" onSubmit={handleCheckout}>
+        <form action="#" className="relative lg:col-span-3 2xl:col-span-4 min-h-[100vh] row-start-2" onSubmit={handleCheckout}>
             {loading ? <Loader /> : (
                 <div>
                     <div className="mb-6 lg:mb-11">

@@ -1,34 +1,43 @@
-import React from "react";
-import OrderItem from "./order-item";
-import Price from "@/components/price/price";
+import { wooApi } from "@/lib/wc-rest-api";
+import React, { useEffect, useState } from "react";
 
-export default function OrderHistory() {
-  const orders = [
-    {
-      id: 0,
-      title: "YEEZY BOOST 350 V2 SULFUR",
-      image: "prod1.png",
-      status: "Оплачено",
-    },
-    {
-      id: 1,
-      title: "NEW BALANCE 991 X PALACE TEAL",
-      image: "prod2.png",
-      status: "Доставлено",
-    },
-  ];
+import Price from "@/components/price/price";
+import OrderItem from "./order-item";
+import Loader from "@/components/ui/loader/loader";
+import { IOrder } from "@/types";
+
+interface IOrderHistory {
+  userId: number
+}
+
+
+const OrderHistory: React.FC<IOrderHistory> = ({ userId }) => {
+  const [orders, setOrders] = useState<IOrder[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOrdersByCustomerId = async (customerId: number) => {
+      setLoading(true);
+      const ordersList = await wooApi.get(`orders?customer=${customerId}`);
+      setOrders(ordersList.data)
+      setLoading(false);
+    };
+
+    fetchOrdersByCustomerId(userId); // Замените 123 на ID нужного пользователя
+  }, [userId])
+
   return (
-    <div>
+    <div className="relative">
+      {loading && <Loader />}
       <h1 className="hidden lg:block mb-8 uppercase">Мои заказы</h1>
       <div className="grid gap-4 md:gap-6 lg:gap-8">
-        {orders.map((item) => (
+        {orders.length ? orders.map((item) => (
           <OrderItem key={item.id} data={item} />
-        ))}
-      </div>
-      <div className="flex items-center justify-between gap-5 mt-8 pt-5 border-t font-medium text-base md:textlg lg:text-xl">
-        <div>Итого</div>
-        <Price value={35168} />
+        )) : <h3>У вас еще нет заказов</h3>}
       </div>
     </div>
   );
 }
+
+
+export default OrderHistory

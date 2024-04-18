@@ -1,14 +1,13 @@
 import getProducts from "@/actions/get-products";
+import getPage from "@/actions/get-page";
 
+import Crumbs from "@/components/crumbs/crumbs";
 import ProductItem from "@/components/product-item/product-item";
 
+import Categories from "../category/[categorySlug]/components/categories/categories";
 import BrandsCatalog from "../category/[categorySlug]/components/brands-catalog/brands-catalog";
 import TopBar from "../category/[categorySlug]/components/top-bar/top-bar";
 import BannerCatalog from "../category/[categorySlug]/components/banner-catalog/banner-catalog";
-import Categories from "../category/[categorySlug]/components/categories/categories";
-import getPage from "@/actions/get-page";
-import { Metadata, ResolvingMetadata } from "next";
-import Crumbs from "@/components/crumbs/crumbs";
 
 export async function generateMetadata() {
     const shop = await getPage("8");
@@ -43,18 +42,16 @@ export default async function ShopPage() {
             <BrandsCatalog />
             <TopBar count={products.length} />
 
-            <div className="grid lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
+            <div className="grid grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
                 {products?.map((item, index) => (
-                    <div
-                        key={item.id}
-                        className={
-                            index + 1 === 9 || index + 1 === 22 ? "col-span-2 row-span-2" : ""
-                        }
-                    >
-                        {index + 1 === 9 && <BannerCatalog />}
-                        <ProductItem data={item} />
-                        {index + 1 === 22 && <BannerCatalog />}
-                    </div>
+                    (index + 1 === 9 || index + 1 === 22) ?
+                        (<>
+                            <div key={index + '-banner'} className="col-span-2 row-span-2">
+                                <BannerCatalog banner={null} />
+                            </div>
+                            <ProductItem key={item.id} data={item} />
+                        </>)
+                        : (<ProductItem key={item.id} data={item} />)
                 ))}
             </div>
         </section>

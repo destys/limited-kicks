@@ -26,10 +26,11 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                         width={400}
                         height={240}
                         alt={data.name}
+                        className="object-contain"
                     />
                 </div>
                 <div className={styles.content}>
-                    <h3 className="mb-2 max-md:text-base max-xs:text-sm">{data.name}</h3>
+                    <h3 className="mb-2 max-md:text-base max-xs:text-[10px] max-xs:leading-tight">{data.name}</h3>
                     <div className="price max-md:text-xs">
                         {data.price ? <Price before="от" value={data.price} /> : "По запросу"}
                     </div>

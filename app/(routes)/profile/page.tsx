@@ -53,11 +53,11 @@ const Profile = () => {
     return (
         <section className="relative">
             {loading && <Loader />}
-            <div className="lg:grid lg:grid-cols-[335px_1fr] xl:grid-cols-[535px_1fr] ">
+            <div className="lg:grid lg:grid-cols-[335px_1fr] xl:grid-cols-[435px_1fr] ">
                 <Sidebar onChangeActiveTab={handleActiveTab} userName={user?.first_name} />
                 {user && <div className="lg:pl-10 xl:pl-20">
                     {activeIndex === 0 && <PersonalInfo user={user} />}
-                    {activeIndex === 1 && <OrderHistory />}
+                    {activeIndex === 1 && <OrderHistory userId={user?.id} />}
                     {activeIndex === 2 && <Addresses user={user} />}
                     {activeIndex === 3 && <Payments />}
                     {activeIndex === 4 && <Discount totalAmount={37568 || 0} />}

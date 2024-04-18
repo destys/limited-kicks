@@ -10,6 +10,7 @@ import Banner from "@/components/banner/banner";
 
 import getPosts from "@/actions/get-posts";
 import BlogSlider from "@/components/blog-slider/blog-slider";
+import ProductsOnRequest from "@/components/products-on-request/products-on-request";
 
 export async function generateMetadata() {
   const shop = await getPage("45");
@@ -48,9 +49,10 @@ export default async function HomePage() {
       <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" />
       <Brands />
       <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" />
-      <Banner data={siteOptions?.acf?.banner_dlya_pk} />
+      <Banner data={siteOptions?.acf?.bannery} />
       <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" />
       <BlogSlider data={posts} />
+      <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} />
     </>
   );
 }

@@ -9,6 +9,7 @@ import BannerCatalog from "./components/banner-catalog/banner-catalog";
 import ProductItem from "@/components/product-item/product-item";
 import { ResolvingMetadata } from "next";
 import Crumbs from "@/components/crumbs/crumbs";
+import TagCloud from "@/components/tag-cloud/tag-cloud";
 
 interface CategoryPageProps {
   params: {
@@ -55,25 +56,28 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
   const products = await getProducts({ category: category[0].id });
 
   return (
-    <section>
-      <Crumbs />
-      <h1 className="mb-10">{category[0].name}</h1>
-      <Categories />
-      <BrandsCatalog />
-      <TopBar count={products.length} />
-      <div className="grid grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
-        {products?.map((item, index) => (
-          (index + 1 === 9 || index + 1 === 22) ?
-            (<>
-              <div key={index + '-banner'} className="col-span-2 row-span-2">
-                <BannerCatalog banner={null} />
-              </div>
-              <ProductItem key={item.id} data={item} />
-            </>)
-            : (<ProductItem key={item.id} data={item} />)
-        ))}
-      </div>
-    </section>
+    <>
+      <section>
+        <Crumbs />
+        <h1 className="mb-10">{category[0].name}</h1>
+        <Categories />
+        <BrandsCatalog />
+        <TopBar count={products.length} />
+        <div className="grid grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
+          {products?.map((item, index) => (
+            (index + 1 === 9 || index + 1 === 22) ?
+              (<>
+                <div key={index + '-banner'} className="col-span-2 row-span-2">
+                  <BannerCatalog banner={null} />
+                </div>
+                <ProductItem key={item.id} data={item} />
+              </>)
+              : (<ProductItem key={item.id} data={item} />)
+          ))}
+        </div>
+      </section>
+      <TagCloud />
+    </>
   );
 }
 

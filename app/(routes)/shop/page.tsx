@@ -3,6 +3,7 @@ import getPage from "@/actions/get-page";
 
 import Crumbs from "@/components/crumbs/crumbs";
 import ProductItem from "@/components/product-item/product-item";
+import TagCloud from "@/components/tag-cloud/tag-cloud";
 
 import Categories from "../category/[categorySlug]/components/categories/categories";
 import BrandsCatalog from "../category/[categorySlug]/components/brands-catalog/brands-catalog";
@@ -35,26 +36,29 @@ export default async function ShopPage() {
     const shop = await getPage("8");
     const products = await getProducts();
     return (
-        <section>
-            <Crumbs />
-            <h1 className="mb-10">{shop.title.rendered}</h1>
-            <Categories />
-            <BrandsCatalog />
-            <TopBar count={products.length} />
+        <>
+            <section>
+                <Crumbs />
+                <h1 className="mb-10">{shop.title.rendered}</h1>
+                <Categories />
+                <BrandsCatalog />
+                <TopBar count={products.length} />
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
-                {products?.map((item, index) => (
-                    (index + 1 === 9 || index + 1 === 22) ?
-                        (<>
-                            <div key={index + '-banner'} className="col-span-2 row-span-2">
-                                <BannerCatalog banner={null} />
-                            </div>
-                            <ProductItem key={item.id} data={item} />
-                        </>)
-                        : (<ProductItem key={item.id} data={item} />)
-                ))}
-            </div>
-        </section>
+                <div className="grid grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
+                    {products?.map((item, index) => (
+                        (index + 1 === 9 || index + 1 === 22) ?
+                            (<>
+                                <div key={index + '-banner'} className="col-span-2 row-span-2">
+                                    <BannerCatalog banner={null} />
+                                </div>
+                                <ProductItem key={item.id} data={item} />
+                            </>)
+                            : (<ProductItem key={item.id} data={item} />)
+                    ))}
+                </div>
+            </section>
+            <TagCloud />
+        </>
     );
 }
 

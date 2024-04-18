@@ -9,9 +9,7 @@ interface CategoryItemProps {
 
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ data }) => {
-    console.log('data: ', data.slug);
     const pathname = usePathname();
-    console.log('pathname: ', pathname.split("/").pop());
     const isActive = data.slug === pathname.split("/").pop();
 
     return (

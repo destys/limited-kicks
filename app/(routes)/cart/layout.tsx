@@ -23,7 +23,7 @@ const CartLayout = async (props: Props) => {
             <Ticker />
             <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} />
             <Banner data={siteOptions?.acf?.bannery} />
-            <TagCloud />
+            <TagCloud data={siteOptions?.acf.oblako_metok} />
         </>
     )
 }

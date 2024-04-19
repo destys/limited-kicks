@@ -15,7 +15,6 @@ interface IAddresses {
 }
 
 const Addresses: React.FC<IAddresses> = ({ user }) => {
-  console.log('user: ', user);
   const [addresses, setAddresses] = useState(user.acf.addresses);
 
   const handleDeleteAddress = (id: number) => {

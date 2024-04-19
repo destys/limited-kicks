@@ -9,7 +9,6 @@ interface IBanner {
 }
 
 const Banner: React.FC<IBanner> = ({ data }) => {
-  console.log('data: ', data);
   return (
     <section>
       <div>

@@ -8,7 +8,6 @@ interface IOrderItem {
 }
 
 const OrderItem: React.FC<IOrderItem> = ({ data }) => {
-  console.log('data: ', data);
   const statusColor = getStatusColor(data.status);
 
   const pub_date = new Date(data.date_created).toLocaleDateString();

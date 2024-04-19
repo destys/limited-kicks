@@ -29,6 +29,7 @@ export interface SingleImage {
 
 export interface AcfOptions {
   acf: {
+    oblako_metok: Tag[];
     bannery: {
       banner_dlya_pk: CommonBanner;
       banner_dlya_telefonov: CommonBanner;
@@ -202,4 +203,10 @@ export interface IProductsOnRequest {
   ];
   zagolovok: string;
   tekst: string;
+}
+
+export interface Tag {
+  term_id: number;
+  name: string;
+  slug: string;
 }

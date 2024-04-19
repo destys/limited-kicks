@@ -20,7 +20,6 @@ interface ProductInfoProps {
 }
 
 const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
-  console.log('data: ', data);
   const [isInStock, setIsInStock] = useState(data.stock_status === 'instock');
   const [deliveryDate, setDeliveryDate] = useState("");
   const [isAdding, setIsAdding] = useState(false);

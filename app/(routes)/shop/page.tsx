@@ -35,6 +35,7 @@ export async function generateMetadata() {
 export default async function ShopPage() {
     const shop = await getPage("8");
     const products = await getProducts();
+    
     return (
         <>
             <section>
@@ -57,7 +58,6 @@ export default async function ShopPage() {
                     ))}
                 </div>
             </section>
-            <TagCloud />
         </>
     );
 }

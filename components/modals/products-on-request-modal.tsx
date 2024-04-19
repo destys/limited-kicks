@@ -37,7 +37,7 @@ export default function ProductsOnRequestModal() {
     return (
         <Modal title={"Что ищем?"} isOpen={isOpen} onChange={onChange}>
             <form action="">
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-10 lg:mb-14">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-8 lg:mb-10">
                     <div className="h-full">
                         <label htmlFor="photo" className="flex items-center justify-center w-full h-full border-2 border-dashed border-add_4 rounded-2xl cursor-pointer">
                             {imageSource ? <Image src={imageSource} width={253} height={90} alt="Загрузить изображение" /> : (
@@ -55,7 +55,7 @@ export default function ProductsOnRequestModal() {
                         <Textarea name="comment" label="Комментарий (Необязательно)" placeholder="Комментарий" />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-10 lg:mb-14">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-8 lg:mb-10">
                     <Input type="text" name="name" label="Имя" placeholder="Введите Ваше имя" />
                     <Input type="tel" name="tel" label="Телефон" placeholder="+7" />
                 </div>

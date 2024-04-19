@@ -14,7 +14,6 @@ interface ICartItemData {
 }
 
 const CartItem: React.FC<ICartItemData> = ({ data }) => {
-  console.log('data: ', data);
   const cart = useShoppingCart();
   const [count, setCount] = useState(data.quantity);
 

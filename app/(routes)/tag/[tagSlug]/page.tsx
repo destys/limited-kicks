@@ -1,12 +1,13 @@
 import getProducts from "@/actions/get-products";
-import getCategories from "@/actions/get-categories";
 import { ResolvingMetadata } from "next";
 import TagCloud from "@/components/tag-cloud/tag-cloud";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
+import getTags from "@/actions/get-tags";
 
 interface CategoryPageProps {
   params: {
+    tagSlug: any;
     categorySlug: string;
   },
   searchParams?: {
@@ -16,7 +17,7 @@ interface CategoryPageProps {
 }
 
 type MetaProps = {
-  params: { categorySlug: string }
+  params: { tagSlug: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
@@ -24,8 +25,8 @@ export async function generateMetadata(
   { params, searchParams }: MetaProps,
   parent: ResolvingMetadata
 ) {
-  const category = await getCategories({ slug: params.categorySlug });
-  const yoast_head_json = category[0].yoast_head_json;
+  const tag = await getTags({ slug: params.tagSlug });
+  const yoast_head_json = tag[0].yoast_head_json;
 
   return {
     title: yoast_head_json.title, // Если у продукта есть свое собственное название, используйте его, в противном случае используйте название из yoast_head_json
@@ -47,12 +48,12 @@ export async function generateMetadata(
 
 const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
   const siteOptions = await getAcfOptions();
-  const category = await getCategories({ slug: params.categorySlug });
-  const products = await getProducts({ category: category[0].id });
+  const tag = await getTags({ slug: params.tagSlug });
+  const products = await getProducts({ tag: tag[0].id });
 
   return (
     <>
-      <CatalogContent products={products} title={category[0].name} excerpt={category[0].acf?.korotkoe_opisanie} description={category[0].description} tags={siteOptions?.acf.oblako_metok} />
+      <CatalogContent products={products} title={tag[0].name} excerpt={tag[0].acf?.korotkoe_opisanie} description={tag[0].acf?.description} tags={siteOptions?.acf.oblako_metok} />
     </>
   );
 }

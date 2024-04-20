@@ -1,0 +1,18 @@
+.product {
+    @apply relative py-3 md:py-5 lg:py-10 rounded-lg transition-colors;
+
+    .flags {
+        @apply absolute top-2 right-2 z-10 flex justify-end gap-2;
+    }
+    .image {
+        @apply flex m-5 bg-white rounded-lg max-h-[240px] max-md:max-h-[181px];
+
+        img {
+            width: 100%;
+            max-height: 100%;
+        }
+    }
+    .content {
+        @apply mb-4 px-5;
+    }
+}

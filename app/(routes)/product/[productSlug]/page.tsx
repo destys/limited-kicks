@@ -15,6 +15,7 @@ import getAcfOptions from "@/actions/get-acf-options";
 import getProducts from "@/actions/get-products";
 
 import styles from './product.module.scss';
+import TagCloud from "@/components/tag-cloud/tag-cloud";
 
 interface ProductPageProps {
     params: {
@@ -24,6 +25,7 @@ interface ProductPageProps {
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     const data = await getProduct({ slug: params.productSlug, per_page: 1 });
+    console.log('data: ', data);
 
     const siteOptions = await getAcfOptions();
     const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
@@ -36,7 +38,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
         <>
             <section className={styles.product}>
                 <div className={styles.gallery}>
-                    <ProductGallery data={data.images} />
+                    <ProductGallery productId={data.id} data={data.images} />
                 </div>
                 <div className={styles.info}>
                     <h1 className="mb-2 sm:mb-3 lg:mb-4">{data.name}</h1>
@@ -49,9 +51,9 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                 </div>
             </section>
             <Ticker />
-            {/* <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" /> */}
+            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
             <Banner data={siteOptions?.acf?.bannery} />
-            {/* <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" /> */}
+            <TagCloud data={siteOptions?.acf?.oblako_metok} />
         </>
     );
 }

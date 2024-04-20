@@ -36,7 +36,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
 
   // Объединение массивов
   const combinedData = variationsData.map(variation => {
-    const brandData = brandsData[0].acf.tablicza_razmerov_obuvi.find(data => data.eur === variation.name.replace(',', '.'));
+    const brandData = brandsData[0]?.acf.tablicza_razmerov_obuvi.find(data => data.eur === variation.name.replace(',', '.'));
     if (brandData) {
       const { ...rest } = brandData; // Включаем все данные из brandData в rest
       return {

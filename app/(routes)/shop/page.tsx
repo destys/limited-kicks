@@ -5,7 +5,7 @@ import Crumbs from "@/components/crumbs/crumbs";
 import ProductItem from "@/components/product-item/product-item";
 import Categories from "./components/categories/categories";
 import BrandsCatalog from "./components/brands-catalog/brands-catalog";
-import TopBar from "./components/top-bar/top-bar";
+import TopBar from "../../../components/top-bar/top-bar";
 import BannerCatalog from "./components/banner-catalog/banner-catalog";
 
 export async function generateMetadata() {

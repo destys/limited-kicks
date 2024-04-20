@@ -230,8 +230,8 @@ export interface IMenu {
   items: IMenuItem[];
 }
 export interface IMenuItem {
+  id: number;
   url: any;
-  ID: number;
   title: string;
   slug: string;
 }

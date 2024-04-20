@@ -1,6 +1,6 @@
 import { Product, Tag } from '@/types'
 
-import TopBar from '@/app/(routes)/shop/components/top-bar/top-bar';
+import TopBar from '@/components/top-bar/top-bar';
 import BannerCatalog from '@/app/(routes)/shop/components/banner-catalog/banner-catalog';
 
 import Crumbs from '../crumbs/crumbs'

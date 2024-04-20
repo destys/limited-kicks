@@ -1,5 +1,6 @@
 import getPage from "@/actions/get-page";
 import getAcfOptions from "@/actions/get-acf-options";
+import NotFound from "@/app/not-found";
 
 type Params = {
   params: {
@@ -9,6 +10,9 @@ type Params = {
 
 export async function generateMetadata({ params }: Params) {
   const page = await getPage(params.pageSlug);
+  if (!page.length) {
+    return
+  }
   const yoast_head_json = page[0].yoast_head_json;
 
   return {
@@ -31,7 +35,9 @@ export async function generateMetadata({ params }: Params) {
 
 export default async function HomePage({ params }: Params) {
   const pageData = await getPage(params.pageSlug);
-  console.log('pageData: ', pageData);
+  if (!pageData.length) {
+    return <NotFound />
+  }
   const siteOptions = await getAcfOptions();
 
   return (

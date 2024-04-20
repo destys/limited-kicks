@@ -1,5 +1,6 @@
 "use client";
 
+import MobileFilters from "@/components/modals/mobile-filters";
 import MobileSearch from "@/components/modals/mobile-search";
 import OneClickModal from "@/components/modals/one-click-modal";
 import ProductsOnRequestModal from "@/components/modals/products-on-request-modal";
@@ -21,6 +22,7 @@ const ModalProvider = () => {
             <OneClickModal />
             <ProductsOnRequestModal />
             <MobileSearch />
+            <MobileFilters />
         </>
     );
 };

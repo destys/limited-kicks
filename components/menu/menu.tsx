@@ -22,7 +22,7 @@ const Menu: React.FC<IMenuProps> = ({
             {title && <div className="mb-5 font-mediun text-2xl">{title}</div>}
             <ul className={menuClassList}>
                 {data.map((item) => (
-                    <li key={item.ID} className={`${menuItemClassList} hover:text-main`}>
+                    <li key={item.id} className={`${menuItemClassList} hover:text-main`}>
                         <Link href={`${item.url}`}>{item.title}</Link>
                     </li>
                 ))}

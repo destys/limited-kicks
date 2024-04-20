@@ -1,6 +1,8 @@
 import getPage from "@/actions/get-page";
 import getAcfOptions from "@/actions/get-acf-options";
 import getProducts from "@/actions/get-products";
+import getPosts from "@/actions/get-posts";
+import getBrands from "@/actions/get-brands";
 
 import MainBanner from "@/components/main-banner/main-banner";
 import Ticker from "@/components/ticker/ticker";
@@ -8,14 +10,12 @@ import Listing from "@/components/listing/listing";
 import Brands from "@/components/brands/brands";
 import Banner from "@/components/banner/banner";
 
-import getPosts from "@/actions/get-posts";
 import BlogSlider from "@/components/blog-slider/blog-slider";
 import ProductsOnRequest from "@/components/products-on-request/products-on-request";
-import getBrands from "@/actions/get-brands";
 
 export async function generateMetadata() {
-  const shop = await getPage("45");
-  const yoast_head_json = shop.yoast_head_json;
+  const page = await getPage('glavnaya-stranicza');
+  const yoast_head_json = page[0].yoast_head_json;
 
   return {
     title: yoast_head_json.title,
@@ -36,7 +36,7 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const pageData = await getPage('45');
+  const pageData = await getPage('glavnaya-stranicza');
   const siteOptions = await getAcfOptions();
   const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
   const listing_2 = await getProducts({ include: siteOptions?.acf?.listing_2?.products });
@@ -46,7 +46,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <MainBanner data={pageData?.acf?.bannery} />
+      <MainBanner data={pageData[0]?.acf?.bannery} />
       <Ticker />
       <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" />
       <Brands data={brands} />

@@ -3,6 +3,9 @@
 export interface Banners {}
 
 export interface Page {
+  content: {
+    rendered: string;
+  };
   yoast_head_json: any;
   id: string;
   title: {
@@ -220,5 +223,15 @@ export interface IProductsOnRequest {
 export interface Tag {
   term_id: number;
   name: string;
+  slug: string;
+}
+
+export interface IMenu {
+  items: IMenuItem[];
+}
+export interface IMenuItem {
+  url: any;
+  ID: number;
+  title: string;
   slug: string;
 }

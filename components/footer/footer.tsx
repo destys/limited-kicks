@@ -1,29 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import getMenu from "@/actions/get-menu";
+
 import Menu from "@/components/menu/menu";
 
 import styles from "./footer.module.scss";
 
-export default function Footer() {
-    const menuItems = [
-        { id: 1, title: "Вопрос-ответ" },
-        { id: 2, title: "Как подобрать размер?" },
-        { id: 3, title: "Оплата" },
-        { id: 4, title: "Доставка" },
-        { id: 5, title: "Обмен" },
-        { id: 6, title: "Возврат" },
-        { id: 7, title: "Гарантия" },
-        { id: 8, title: "Карта сайта" },
-    ];
+export default async function Footer() {
+    const menuInfo = await getMenu(50);
+    const menuBrands = await getMenu(51);
+    const menuPopular = await getMenu(52);
+    const menuDocs = await getMenu(53);
 
-    const menuBottomFooterItems = [
-        { id: 2, title: "Возврат" },
-        { id: 3, title: "Доставка" },
-        { id: 4, title: "Оплата" },
-        { id: 5, title: "Офферта" },
-        { id: 1, title: "Политика конфиденциальности" },
-    ];
     return (
         <footer className={styles.footer}>
             <div className={styles.top}>
@@ -46,33 +35,47 @@ export default function Footer() {
                     containerClassList=""
                     titleClassList="mb-5 font-mediun text-2xl"
                     menuClassList="flex flex-col gap-2"
-                    items={menuItems}
+                    data={menuInfo.items}
                 />
+                <div className="">
+                    <div className="mb-5 font-mediun text-2xl">Контакты</div>
+                    <ul className="flex flex-col gap-2">
+                        <li>
+                            Напишите нам в {" "}
+                            <Link href="#" className="font-medium hover:text-main">WhatsApp</Link>
+                        </li>
+                        <li>
+                            Напишите нам в {" "}
+                            <Link href="#" className="font-medium hover:text-main">Telegram</Link>
+                        </li>
+                        <li>
+                            Позвоните нам {" "}
+                            <Link href="#" className="font-medium hover:text-main whitespace-nowrap">+7 (995) 600-95-75</Link>
+                        </li>
+                        <li>
+                            Наша почта  {" "}
+                            <Link href="#" className="font-medium hover:text-main">hello@yeezysales.ru</Link>
+                        </li>
+                    </ul>
+                </div>
                 <Menu
-                    title={"Инфо"}
+                    title={"Бренды"}
                     containerClassList=""
                     titleClassList="mb-5 font-mediun text-2xl"
                     menuClassList="flex flex-col gap-2"
-                    items={menuItems}
+                    data={menuBrands.items}
                 />
                 <Menu
-                    title={"Инфо"}
+                    title={"Популярные"}
                     containerClassList=""
                     titleClassList="mb-5 font-mediun text-2xl"
                     menuClassList="flex flex-col gap-2"
-                    items={menuItems}
-                />
-                <Menu
-                    title={"Инфо"}
-                    containerClassList=""
-                    titleClassList="mb-5 font-mediun text-2xl"
-                    menuClassList="flex flex-col gap-2"
-                    items={menuItems}
+                    data={menuPopular.items}
                 />
             </div>
             <div className={styles.bottom}>
                 <Menu
-                    items={menuBottomFooterItems}
+                    data={menuDocs.items}
                     menuClassList="flex flex-col md:flex-row gap-3 md:ga-6 lg:gap-14"
                     menuItemClassList="lg:text-lg"
                 />

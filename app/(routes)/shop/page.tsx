@@ -9,8 +9,8 @@ import TopBar from "./components/top-bar/top-bar";
 import BannerCatalog from "./components/banner-catalog/banner-catalog";
 
 export async function generateMetadata() {
-    const shop = await getPage("8");
-    const yoast_head_json = shop.yoast_head_json;
+    const shop = await getPage("shop");
+    const yoast_head_json = shop[0].yoast_head_json;
 
     return {
         title: yoast_head_json.title, // Если у продукта есть свое собственное название, используйте его, в противном случае используйте название из yoast_head_json
@@ -31,14 +31,14 @@ export async function generateMetadata() {
 }
 
 export default async function ShopPage() {
-    const shop = await getPage("8");
+    const shop = await getPage("shop");
     const products = await getProducts();
 
     return (
         <>
             <section>
                 <Crumbs />
-                <h1 className="mb-10">{shop.title.rendered}</h1>
+                <h1 className="mb-10">{shop[0].title.rendered}</h1>
                 <Categories />
                 <BrandsCatalog />
                 <TopBar count={products.length} />

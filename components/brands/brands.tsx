@@ -16,7 +16,6 @@ interface IBrands {
 }
 
 const Brands: React.FC<IBrands> = ({ data }) => {
-  console.log('data: ', data);
   return (
     <section>
       <Swiper

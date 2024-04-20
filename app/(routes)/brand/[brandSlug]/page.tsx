@@ -2,7 +2,6 @@ import getProducts from "@/actions/get-products";
 import { ResolvingMetadata } from "next";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
-import getTags from "@/actions/get-tags";
 import getBrands from "@/actions/get-brands";
 
 interface CategoryPageProps {
@@ -49,7 +48,6 @@ export async function generateMetadata(
 const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
   const siteOptions = await getAcfOptions();
   const brand = await getBrands(params.brandSlug);
-  console.log('brand: ', brand);
 
   const products = await getProducts({ brand_id: brand[0].id });
 

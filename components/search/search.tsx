@@ -4,13 +4,16 @@ import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "./search.module.scss";
+import useMobileSearch from "@/hooks/use-mobile-search";
 
 export default function Search() {
   const router = useRouter();
+  const mobileSearch = useMobileSearch();
 
   const onSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.push(`/search?s=${e.currentTarget.search.value}`);
+    mobileSearch.onClose();
   };
 
   return (

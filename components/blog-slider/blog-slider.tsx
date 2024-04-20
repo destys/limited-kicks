@@ -36,6 +36,9 @@ const BlogSlider: React.FC<BlogSliderProps> = ({ data }) => {
           1024: {
             slidesPerView: 3,
           },
+          1921: {
+            slidesPerView: 6,
+        },
         }}
       >
         <div className={styles.blog__top}>

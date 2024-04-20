@@ -117,8 +117,20 @@ export interface Category {
 }
 
 export interface Brand {
-  title: string;
-  image: string;
+  description: string;
+  yoast_head_json: any;
+  id: number;
+  name: string;
+  slug: string;
+  acf: {
+    logotip: {
+      url: string;
+    };
+    korotkoe_opisanie: string;
+    ikonka: {
+      url: string;
+    };
+  };
 }
 
 export interface BrandDataItem {

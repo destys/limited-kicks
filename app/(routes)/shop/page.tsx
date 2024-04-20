@@ -3,12 +3,10 @@ import getPage from "@/actions/get-page";
 
 import Crumbs from "@/components/crumbs/crumbs";
 import ProductItem from "@/components/product-item/product-item";
-import TagCloud from "@/components/tag-cloud/tag-cloud";
-
-import Categories from "../category/[categorySlug]/components/categories/categories";
-import BrandsCatalog from "../category/[categorySlug]/components/brands-catalog/brands-catalog";
-import TopBar from "../category/[categorySlug]/components/top-bar/top-bar";
-import BannerCatalog from "../category/[categorySlug]/components/banner-catalog/banner-catalog";
+import Categories from "./components/categories/categories";
+import BrandsCatalog from "./components/brands-catalog/brands-catalog";
+import TopBar from "./components/top-bar/top-bar";
+import BannerCatalog from "./components/banner-catalog/banner-catalog";
 
 export async function generateMetadata() {
     const shop = await getPage("8");
@@ -35,7 +33,7 @@ export async function generateMetadata() {
 export default async function ShopPage() {
     const shop = await getPage("8");
     const products = await getProducts();
-    
+
     return (
         <>
             <section>
@@ -45,7 +43,7 @@ export default async function ShopPage() {
                 <BrandsCatalog />
                 <TopBar count={products.length} />
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
+                <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5">
                     {products?.map((item, index) => (
                         (index + 1 === 9 || index + 1 === 22) ?
                             (<>

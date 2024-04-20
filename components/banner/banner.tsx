@@ -23,7 +23,7 @@ const Banner: React.FC<IBanner> = ({ data }) => {
               width={data.banner_dlya_pk.width}
               height={data.banner_dlya_pk.height}
               alt={data.banner_dlya_pk.alt || data.banner_dlya_pk.title}
-              className="rounded-[20px] hidden md:block"
+              className="rounded-[20px] hidden md:block w-full"
             />
             <Image
               src={data.banner_dlya_telefonov.url}

@@ -27,7 +27,7 @@ const Post = async ({ params }: { params: { slug: string } }) => {
             width={1800}
             height={400}
             alt="Релиз кроссовок Adidas YEEZY в августе 2023"
-            className="hidden md:block h-[400px] object-cover object-center"
+            className="hidden md:block h-[400px] object-cover object-center w-full min-h-[400px]"
           />
           <Image
             src={post[0]._embedded['wp:featuredmedia'][0].source_url}

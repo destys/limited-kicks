@@ -1,7 +1,6 @@
+import { ResolvingMetadata } from "next";
 import getProducts from "@/actions/get-products";
 import getCategories from "@/actions/get-categories";
-import { ResolvingMetadata } from "next";
-import TagCloud from "@/components/tag-cloud/tag-cloud";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 
@@ -52,7 +51,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
 
   return (
     <>
-      <CatalogContent products={products} title={category[0].name} excerpt={category[0].acf?.korotkoe_opisanie} description={category[0].description} tags={siteOptions?.acf.oblako_metok} />
+      <CatalogContent products={products} title={category[0].name} excerpt={category[0].acf?.korotkoe_opisanie} description={category[0].description} tagCloud={siteOptions?.acf.oblako_metok} categoryTags={category[0].acf?.metki_pod_zagolovkom} />
     </>
   );
 }

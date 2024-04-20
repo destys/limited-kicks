@@ -1,9 +1,13 @@
+'use client';
 import Image from "next/image";
 import Link from "next/link";
 
 import styles from "./app-bar.module.scss";
+import useMobileSearch from "@/hooks/use-mobile-search";
 
 export default function AppBar() {
+  const mobileSearch = useMobileSearch();
+
   return (
     <div className={styles.appBar}>
       <nav className={styles.appBar__nav}>
@@ -30,7 +34,7 @@ export default function AppBar() {
               />
             </Link>
           </li>
-          <li className="flex justify-center items-center bg-main rounded-full -translate-y-[10px] w-[52px] h-[52px]">
+          <li className="flex justify-center items-center bg-main rounded-full -translate-y-[10px] w-[52px] h-[52px]" onClick={mobileSearch.onOpen}>
             <Image
               src={"/icons/Icon/Search_type 1.svg"}
               width={20}
@@ -51,7 +55,7 @@ export default function AppBar() {
             </Link>
           </li>
           <li>
-            <Link href={"/cabinet"}>
+            <Link href={"/profile"}>
               <Image
                 src={"/icons/Icon/profile.svg"}
                 width={20}

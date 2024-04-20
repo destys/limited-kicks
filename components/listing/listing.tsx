@@ -40,6 +40,9 @@ const Listing: React.FC<ListingProps> = ({ data, title, titleTag }) => {
                     1024: {
                         slidesPerView: 4,
                     },
+                    1921: {
+                        slidesPerView: 6,
+                    },
                 }}
             >
                 <div className={styles.listing__top}>

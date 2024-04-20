@@ -1,26 +1,36 @@
 "use client";
+import { Brand } from "@/types";
 
 import Link from "next/link";
 import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-
-import { BRANDS } from "./brands.data";
+import { Scrollbar } from 'swiper/modules';
 
 import "swiper/css";
+import 'swiper/css/scrollbar';
 import styles from "./brands.module.scss";
 
-const Brands = () => {
+interface IBrands {
+  data: Brand[];
+}
+
+const Brands: React.FC<IBrands> = ({ data }) => {
+  console.log('data: ', data);
   return (
     <section>
       <Swiper
+        modules={[Scrollbar]}
         spaceBetween={12}
         slidesPerView={2}
         speed={3000}
-        loop={true}
+        loop={false}
         autoplay={{
           delay: 0,
           disableOnInteraction: false,
+        }}
+        scrollbar={{
+          hide: false,
         }}
         className={styles.slider}
         breakpoints={{
@@ -40,16 +50,19 @@ const Brands = () => {
           1368: {
             slidesPerView: 6,
           },
+          1921: {
+            slidesPerView: 8,
+          },
         }}
       >
-        {BRANDS.map((item, index) => (
+        {data.map((item, index) => (
           <SwiperSlide key={item.id}>
-            <Link href="#" className={styles.slide}>
+            <Link href={`brand/${item.slug}`} className={styles.slide}>
               <Image
-                src={`/images/brands/${item.image}`}
+                src={item.acf?.logotip.url}
                 width={200}
                 height={200}
-                alt={`brand-${index}`}
+                alt={item.name}
                 className="w-full h-full object-contain"
               />
             </Link>

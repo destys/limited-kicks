@@ -1,7 +1,6 @@
 import { wooApi } from "@/lib/wc-rest-api";
 import React, { useEffect, useState } from "react";
 
-import Price from "@/components/price/price";
 import OrderItem from "./order-item";
 import Loader from "@/components/ui/loader/loader";
 import { IOrder } from "@/types";
@@ -23,11 +22,11 @@ const OrderHistory: React.FC<IOrderHistory> = ({ userId }) => {
       setLoading(false);
     };
 
-    fetchOrdersByCustomerId(userId); // Замените 123 на ID нужного пользователя
+    fetchOrdersByCustomerId(userId);
   }, [userId])
 
   return (
-    <div className="relative">
+    <div className="relative min-h-full">
       {loading && <Loader />}
       <h1 className="hidden lg:block mb-8 uppercase">Мои заказы</h1>
       <div className="grid gap-4 md:gap-6 lg:gap-8">

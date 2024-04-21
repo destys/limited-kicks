@@ -53,7 +53,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
 
   return (
     <>
-      <CatalogContent products={products} title={tag[0].name} excerpt={tag[0].acf?.korotkoe_opisanie} description={tag[0].acf?.description} tagCloud={siteOptions?.acf.oblako_metok} />
+      <CatalogContent category={tag[0]} products={products} title={tag[0].name} excerpt={tag[0].acf?.korotkoe_opisanie} description={tag[0].acf?.description} tagCloud={siteOptions?.acf.oblako_metok} />
     </>
   );
 }

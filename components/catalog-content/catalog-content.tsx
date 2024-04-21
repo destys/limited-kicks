@@ -1,4 +1,4 @@
-import { Product, Tag } from '@/types'
+import { Brand, Category, Product, Tag } from '@/types'
 
 import TopBar from '@/components/top-bar/top-bar';
 import BannerCatalog from '@/app/(routes)/shop/components/banner-catalog/banner-catalog';
@@ -14,14 +14,16 @@ interface ICatalogContent {
     description: string;
     tagCloud: Tag[];
     categoryTags?: Tag[];
+    category: Category | Brand;
 }
 
-const CatalogContent: React.FC<ICatalogContent> = ({ products, title, excerpt, description, tagCloud, categoryTags }) => {
+const CatalogContent: React.FC<ICatalogContent> = ({ category, products, title, excerpt, description, tagCloud, categoryTags }) => {
+    console.log('category: ', category);
 
     return (
         <>
             <section>
-                <Crumbs />
+                <Crumbs data={category} type="category" />
                 <h1 className="mb-10">{title}</h1>
                 {excerpt && <div dangerouslySetInnerHTML={{ __html: excerpt }} className="mb-10" />}
                 {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}

@@ -1,18 +1,44 @@
 import Link from 'next/link'
 
+import getProduct from '@/actions/get-product';
+
 import styles from "./crumbs.module.scss";
 
+interface ICrumbs {
+    type?: string;
+    id?: number;
+    slug?: string;
+    parentCategory?: any;
+    data?: any;
+}
 
+const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
+    console.log('data: ', data);
+    let crumbs;
 
-const Crumbs = () => {
-    const crumbs = [
-        { text: "Главная", link: "/" },
-        { text: "Категория", link: "/products" },
-        { text: "Товар 1" },
-    ];
+    if (type === 'product') {
+        crumbs = [
+            { text: "Главная", link: "/" },
+            { text: data.categories[0].name, link: `/category/${data.categories[0].slug}` },
+            { text: data.name },
+        ];
+    }
+
+    if (type === 'category') {
+        crumbs = [
+            { text: "Главная", link: "/" },
+            { text: data.name }
+        ];
+    } else {
+        crumbs = [
+            { text: "Главная", link: "/" },
+            { text: "Хлебые крошки не настроены для данного типа страницы" },
+        ];
+    }
+
     return (
         <div className={styles.breadcrumbs}>
-            {crumbs.map((crumb, index) => (
+            {crumbs?.map((crumb, index) => (
                 <span key={index} className={styles.item}>
                     {crumb.link ? (
                         <Link href={crumb.link} className={styles.link}>

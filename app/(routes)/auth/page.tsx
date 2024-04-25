@@ -1,13 +1,14 @@
 import Login from "./components/login/login";
+import Registration from "./components/login/registration";
 
 export default function Auth() {
-  
+
   return (
     <section>
-      <div className="container !max-w-[530px] mx-auto">
-        <div>
-          <h1 className="mb-6 text-center uppercase">Вход или регистрация</h1>
+      <div className="container">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-10 lg:gap-20">
           <Login />
+          <Registration />
         </div>
       </div>
     </section>

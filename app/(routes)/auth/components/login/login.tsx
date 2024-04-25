@@ -45,29 +45,32 @@ export default function Login() {
   };
 
   return (
-    <form action="#" onSubmit={handleSubmit}>
-      <p className="mb-4 sm:mb-6 lg:mb-10 text-xs xs:text-sm md:text-base  text-center ">
-        Введите ваш email и пароль. Если аккаунта еще нет, он будет создан.
-      </p>
-      <Input
-        type="text"
-        className="mb-2.5 md:mb-5"
-        placeholder="example@mail.com"
-        name="login"
-      />
-      <Input
-        type="password"
-        className="mb-2.5 md:mb-5"
-        placeholder="********"
-        name="password"
-      />
-      {error && (
-        <div dangerouslySetInnerHTML={{ __html: error }} className="mt-[-15px] mb-2.5 md:mb-5 text-red-500 text-sm" />
-      )}
+    <div className="max-w-[580px]">
+      <h1 className="mb-6 text-center uppercase">Вход</h1>
+      <form action="#" onSubmit={handleSubmit}>
+        <p className="mb-4 sm:mb-6 lg:mb-10 text-xs xs:text-sm md:text-base  text-center ">
+          Введите ваш email и пароль. Если аккаунта еще нет, он будет создан.
+        </p>
+        <Input
+          type="text"
+          className="mb-2.5 md:mb-5"
+          placeholder="example@mail.com"
+          name="login"
+        />
+        <Input
+          type="password"
+          className="mb-2.5 md:mb-5"
+          placeholder="********"
+          name="password"
+        />
+        {error && (
+          <div dangerouslySetInnerHTML={{ __html: error }} className="mt-[-15px] mb-2.5 md:mb-5 text-red-500 text-sm" />
+        )}
 
-      <Button styled="filled" className={"w-full flex justify-center items-center h-14"} type="submit">
-        {loading ? <PacmanLoader color="#fff" size={18} /> : "Отправить код"}
-      </Button>
-    </form>
+        <Button styled="filled" className={"w-full flex justify-center items-center h-14"} type="submit">
+          {loading ? <PacmanLoader color="#fff" size={18} /> : "Вход"}
+        </Button>
+      </form>
+    </div>
   );
 }

@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 
 import Button from "@/components/ui/button/button";
 
-import addressesList from "./addresses.data";
 import AddressItem from "./addresses-item";
 
 interface IAddresses {
@@ -25,7 +24,8 @@ const Addresses: React.FC<IAddresses> = ({ user }) => {
     <div>
       <h1 className="mb-8 uppercase">Мои адреса</h1>
       <div className="grid gap-4">
-        {user.acf.addresses.map(item => (
+        {!user.acf.addresses && 'Адреса еще не добавлены'}
+        {user.acf.addresses?.map(item => (
           <AddressItem
             data={item}
             key={item.id}

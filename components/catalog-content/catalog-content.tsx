@@ -18,8 +18,6 @@ interface ICatalogContent {
 }
 
 const CatalogContent: React.FC<ICatalogContent> = ({ category, products, title, excerpt, description, tagCloud, categoryTags }) => {
-    console.log('category: ', category);
-
     return (
         <>
             <section>

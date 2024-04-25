@@ -15,6 +15,17 @@ export default function AppBar() {
           <li>
             <Link href={"/"}>
               <Image
+                src={"/icons/Icon/Address.svg"}
+                width={20}
+                height={20}
+                alt="menu burger"
+                className="text-black"
+              />
+            </Link>
+          </li>
+          <li>
+            <Link href={"/"}>
+              <Image
                 src={"/icons/Icon/menu-burger.svg"}
                 width={20}
                 height={20}
@@ -42,6 +53,17 @@ export default function AppBar() {
               alt="Search"
               className="text-black"
             />
+          </li>
+          <li>
+            <Link href={"/cart"}>
+              <Image
+                src={"/icons/Icon/Find Card.svg"}
+                width={20}
+                height={20}
+                alt="Bag"
+                className="text-black"
+              />
+            </Link>
           </li>
           <li>
             <Link href={"/cart"}>

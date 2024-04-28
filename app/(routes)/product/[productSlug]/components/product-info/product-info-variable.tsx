@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import formatDate from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import useOneClickModal from "@/hooks/use-one-click-modal";
 
 import Dolayme from "../dolyame/Dolayme";
@@ -79,7 +79,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
 
   const handleAddToCart = async () => {
     setIsAdding(true);
- 
+
     if (data.type === 'variable') {
       cart.addItem(
         {

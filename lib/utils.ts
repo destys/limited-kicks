@@ -5,9 +5,46 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export default function formatDate(date: Date) {
+export function formatDate(date: Date) {
   return new Intl.DateTimeFormat("ru-RU", {
     day: "numeric",
     month: "long",
   }).format(date);
+}
+
+export async function fetchWooCommerce(
+  endpoint: string,
+  method: string = "GET",
+  data: Record<string, unknown> = {},
+  revalidate: number = 60
+) {
+  const url = "https://admin.limited-kicks.ru/wp-json/wc/v3/";
+
+  const credentials = btoa(
+    `${process.env.WC_PUBLIC_KEY}:${process.env.WC_SECRET_KEY}`
+  );
+  const headers = new Headers({
+    Authorization: `Basic ${credentials}`,
+    "Content-Type": "application/json",
+  });
+
+  const options: RequestInit = {
+    method: method,
+    next: { revalidate: revalidate },
+    headers: headers,
+    body: method !== "GET" && data ? JSON.stringify(data) : null,
+  };
+
+  try {
+    const response = await fetch(`${url}${endpoint}`, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const jsonData = await response.json();
+
+    return jsonData;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
 }

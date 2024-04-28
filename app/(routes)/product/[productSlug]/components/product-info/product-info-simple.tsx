@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import formatDate from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import useOneClickModal from "@/hooks/use-one-click-modal";
 
 import Dolayme from "../dolyame/Dolayme";

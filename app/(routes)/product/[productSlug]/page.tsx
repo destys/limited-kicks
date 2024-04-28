@@ -8,13 +8,13 @@ import ProductGallery from "./components/product-gallery/product-gallery";
 import ProductInfoVariable from "./components/product-info/product-info-variable";
 import ProductInfoSimple from "./components/product-info/product-info-simple";
 
-import getProduct from "@/actions/get-product";
 import getAcfOptions from "@/actions/get-acf-options";
 import getProducts from "@/actions/get-products";
 
 import styles from './product.module.scss';
 import TagCloud from "@/components/tag-cloud/tag-cloud";
 import Crumbs from "@/components/crumbs/crumbs";
+import getProductFetch from "@/actions/get-product-copy";
 
 interface ProductPageProps {
     params: {
@@ -23,8 +23,7 @@ interface ProductPageProps {
 }
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
-    const data = await getProduct({ slug: params.productSlug, per_page: 1 });
-
+    const data = await getProductFetch(params.productSlug);
     const siteOptions = await getAcfOptions();
     const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
 

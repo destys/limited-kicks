@@ -13,7 +13,6 @@ interface ICrumbs {
 }
 
 const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
-    console.log('data: ', data);
     let crumbs;
 
     if (type === 'product') {
@@ -22,9 +21,7 @@ const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
             { text: data.categories[0].name, link: `/category/${data.categories[0].slug}` },
             { text: data.name },
         ];
-    }
-
-    if (type === 'category') {
+    } else if (type === 'category') {
         crumbs = [
             { text: "Главная", link: "/" },
             { text: data.name }

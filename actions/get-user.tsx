@@ -1,31 +1,37 @@
 import { User } from "@/types";
-import axios from "axios";
 
 const URL = `${process.env.WP_ADMIN_REST_URL}/wp/v2/users/me`;
 
 const getUser = async (token: string): Promise<User> => {
     try {
         // Выполняем первый запрос и ожидаем его завершения
-        const response = await axios.get(`${URL}`, {
+        const response = await fetch(URL, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         });
 
-        // Получаем id пользователя из первого запроса
-        const userId = response.data.id;
+        if (!response.ok) {
+            throw new Error(`HTTP error, status = ${response.status}`);
+        }
 
-        // Выполняем второй запрос и ожидаем его завершения
-        const userResponse = await axios.get(`${process.env.WP_ADMIN_REST_URL}/wp/v2/users/${userId}?context=edit`, {
+        const data = await response.json();
+        const userId = data.id; 
+
+        const userResponse = await fetch(`${process.env.WP_ADMIN_REST_URL}/wp/v2/users/${userId}?context=edit`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         });
 
-        // Возвращаем данные пользователя из второго запроса
-        return userResponse.data;
+        if (!userResponse.ok) {
+            throw new Error(`HTTP error, status = ${userResponse.status}`);
+        }
+
+        return await userResponse.json();
     } catch (error) {
-        throw error; // Пробрасываем ошибку дальше, чтобы ее можно было обработать
+        console.error("Error fetching data:", error);
+        throw error; 
     }
 };
 

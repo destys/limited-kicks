@@ -7,12 +7,10 @@ import getProducts from '@/actions/get-products'
 
 import Crumbs from '@/components/crumbs/crumbs'
 import FavoritesItem from '@/components/favorites-item/favorites-item'
-import Loader from '@/components/ui/loader/loader';
 import useFavoriteStore from '@/hooks/use-favorite';
+import Loader from '@/components/ui/loader/loader';
 
-type Props = {}
-
-const FavoritesPage = (props: Props) => {
+const FavoritesPage = () => {
     const [loading, setLoading] = useState(true);
     const [productsList, setProductsList] = useState<Product[] | null>([]);
     const { favorites } = useFavoriteStore();
@@ -20,7 +18,7 @@ const FavoritesPage = (props: Props) => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            const products = await getProducts({ include: favorites });
+            const products = await getProducts({ include: [favorites] });
             setProductsList(products);
             setLoading(false);
         }
@@ -29,8 +27,9 @@ const FavoritesPage = (props: Props) => {
 
     return (
         <section>
-            <Crumbs />
+            <Crumbs data={{ title: { rendered: 'Избранное' } }} />
             <h1 className="mb-10 uppercase">Избранное</h1>
+            {loading && <Loader />}
             <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-6 gap-3 lg:gap-x-4 lg:gap-y-5 relative min-h-[520px]">
                 {productsList?.map(item => (
                     <FavoritesItem key={item.id} data={item} />

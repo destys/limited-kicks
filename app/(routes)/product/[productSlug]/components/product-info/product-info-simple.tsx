@@ -9,7 +9,6 @@ import useOneClickModal from "@/hooks/use-one-click-modal";
 import Dolayme from "../dolyame/Dolayme";
 import ProductTabs from "../product-tabs/product-tabs";
 import Button from "@/components/ui/button/button";
-import Price from "@/components/price/price";
 
 import styles from "./product-info.module.scss";
 import { Product } from "@/types";

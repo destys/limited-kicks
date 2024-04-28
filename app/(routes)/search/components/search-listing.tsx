@@ -1,23 +1,15 @@
 'use client'
 
+import { Products } from "@/types";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import getProducts from "@/actions/get-products";
 
-
-
-import { Product, Products } from "@/types";
-
-import "swiper/css";
-import styles from "./search-listing.module.scss";
-import SlidePrevButton from "@/components/ui/slider-navigations/slider-prev-button";
-import SlideNextButton from "@/components/ui/slider-navigations/slider-next-button";
 import ProductItem from "@/components/product-item/product-item";
 import Loader from "@/components/ui/loader/loader";
-import getSearch from "@/actions/get-search";
-import { useSearchParams } from "next/navigation";
+
+import styles from "./search-listing.module.scss";
 
 interface ListingProps {
 }
@@ -33,7 +25,7 @@ const SearchListing: React.FC<ListingProps> = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            const res = await getSearch(search || '');
+            const res = await getProducts({ search: search });
             setSearchResuts(res)
             setLoading(false);
         }
@@ -49,9 +41,9 @@ const SearchListing: React.FC<ListingProps> = () => {
             </div>
 
             <div className="grid lg:grid-cols-4 lg:gap-x-4 lg:gap-y-5">
-                {searchResults?.map((item) => (
+                {searchResults.length ? searchResults?.map((item) => (
                     <ProductItem data={item} key={item.id} />
-                ))}
+                )) : "Ничего не найдено"}
             </div>
 
         </section>

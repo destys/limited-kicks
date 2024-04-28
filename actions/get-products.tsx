@@ -1,9 +1,9 @@
-import { wooApi } from "@/lib/wc-rest-api";
+import { fetchWooCommerce } from "@/lib/utils";
 import { Products } from "@/types";
 
 const getProducts = async (query?: {}): Promise<Products[]> => {
-    const res = await wooApi.get('products', query);
-    return res.data;
+    const res = await fetchWooCommerce('products', query);
+    return res;
 };
 
 export default getProducts;

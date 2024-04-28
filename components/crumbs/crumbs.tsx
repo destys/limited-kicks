@@ -29,7 +29,7 @@ const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
     } else {
         crumbs = [
             { text: "Главная", link: "/" },
-            { text: "Хлебые крошки не настроены для данного типа страницы" },
+            { text: data?.title?.rendered || "Хлебые крошки не настроены для данного типа страницы" },
         ];
     }
 

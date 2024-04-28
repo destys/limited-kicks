@@ -1,6 +1,7 @@
 import getPage from "@/actions/get-page";
 import getAcfOptions from "@/actions/get-acf-options";
 import NotFound from "@/app/not-found";
+import Crumbs from "@/components/crumbs/crumbs";
 
 type Params = {
   params: {
@@ -43,6 +44,7 @@ export default async function HomePage({ params }: Params) {
   return (
     <>
       <section>
+        <Crumbs data={pageData[0]} />
         <h1 className="mb-10">{pageData[0].title.rendered}</h1>
         <div dangerouslySetInnerHTML={{ __html: pageData[0].content.rendered }} className="grid gap-4 text-xs xs:text-sm lg:text-base" />
       </section>

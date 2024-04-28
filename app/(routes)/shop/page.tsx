@@ -37,7 +37,7 @@ export default async function ShopPage() {
     return (
         <>
             <section>
-                <Crumbs />
+                <Crumbs data={shop[0]} />
                 <h1 className="mb-10">{shop[0].title.rendered}</h1>
                 <Categories />
                 <BrandsCatalog />

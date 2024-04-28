@@ -14,7 +14,7 @@ type Props = {
 
 const CartLayout = async (props: Props) => {
     const siteOptions = await getAcfOptions();
-    const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
+    const listing_1 = await getProducts({ include: [siteOptions?.acf?.listing_1?.products] });
     return (
         <>
             <section className="max-w-[1070px] mx-auto">

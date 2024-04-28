@@ -23,7 +23,7 @@ export async function generateMetadata(
   { params, searchParams }: MetaProps,
   parent: ResolvingMetadata
 ) {
-  const category = await getCategories({ slug: params.categorySlug });
+  const category = await getCategories(params.categorySlug);
   const yoast_head_json = category[0].yoast_head_json;
 
   return {

@@ -5,8 +5,9 @@ export default async function Categories() {
     const categories = await getCategories({
         parent: 0,
         per_page: 10,
-        _fields: ['id', 'name', 'image', 'slug', 'count', 'menu_order'],
     });
+
+    console.log('categories: ', categories);
 
     return (
         <div className="mb-10">

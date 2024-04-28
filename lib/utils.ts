@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { stringify } from "querystring";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,11 +15,13 @@ export function formatDate(date: Date) {
 
 export async function fetchWooCommerce(
   endpoint: string,
+  query?: {},
   method: string = "GET",
   data: Record<string, unknown> = {},
   revalidate: number = 60
 ) {
   const url = "https://admin.limited-kicks.ru/wp-json/wc/v3/";
+  const params = stringify(query);
 
   const credentials = btoa(
     `${process.env.WC_PUBLIC_KEY}:${process.env.WC_SECRET_KEY}`
@@ -30,13 +33,14 @@ export async function fetchWooCommerce(
 
   const options: RequestInit = {
     method: method,
+    cache: "force-cache",
     next: { revalidate: revalidate },
     headers: headers,
     body: method !== "GET" && data ? JSON.stringify(data) : null,
   };
 
   try {
-    const response = await fetch(`${url}${endpoint}`, options);
+    const response = await fetch(`${url}${endpoint}?${params}`, options);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

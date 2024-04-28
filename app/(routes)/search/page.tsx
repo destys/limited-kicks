@@ -12,9 +12,9 @@ import SearchListing from "./components/search-listing";
 
 const Search = async () => {
   const siteOptions = await getAcfOptions();
-  const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
-  const listing_2 = await getProducts({ include: siteOptions?.acf?.listing_2?.products });
-  const listing_3 = await getProducts({ include: siteOptions?.acf?.listing_3?.products });
+  const listing_1 = await getProducts({ include: [siteOptions?.acf?.listing_1?.products] });
+  const listing_2 = await getProducts({ include: [siteOptions?.acf?.listing_2?.products] });
+  const listing_3 = await getProducts({ include: [siteOptions?.acf?.listing_3?.products] });
   const posts = await getPosts('?per_page=8&orderby=date&_embed=true');
   const brands = await getBrands();
 

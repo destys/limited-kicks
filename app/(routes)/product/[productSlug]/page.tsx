@@ -14,7 +14,7 @@ import getProducts from "@/actions/get-products";
 import styles from './product.module.scss';
 import TagCloud from "@/components/tag-cloud/tag-cloud";
 import Crumbs from "@/components/crumbs/crumbs";
-import getProductFetch from "@/actions/get-product-copy";
+import getProduct from "@/actions/get-product";
 
 interface ProductPageProps {
     params: {
@@ -23,9 +23,9 @@ interface ProductPageProps {
 }
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
-    const data = await getProductFetch(params.productSlug);
+    const data = await getProduct(params.productSlug);
     const siteOptions = await getAcfOptions();
-    const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products });
+    const listing_1 = await getProducts({ include: [siteOptions?.acf?.listing_1?.products] });
 
     if (!data) {
         return <NotFound />;

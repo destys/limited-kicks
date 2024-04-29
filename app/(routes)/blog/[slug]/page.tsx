@@ -11,7 +11,7 @@ import ProductItem from "@/components/product-item/product-item";
 const Post = async ({ params }: { params: { slug: string } }) => {
   const post = await getPost(params.slug);
   const posts = await getPosts(`?per_page=4&orderby=date&_embed=true&exclude=${post[0].id}`);
-  const product = await getProduct(35);
+  const product = await getProduct({});
 
   const pub_date = new Date(post[0].date).toLocaleDateString();
 

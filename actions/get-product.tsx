@@ -3,6 +3,7 @@ import { Product, Variation } from "@/types";
 
 
 const getProduct = async (query: {}): Promise<Product> => {
+
     const res = await fetchWooCommerce('products', query);
 
     const product: Product = res[0];

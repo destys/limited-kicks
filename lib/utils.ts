@@ -20,6 +20,7 @@ export async function fetchWooCommerce(
   data: Record<string, unknown> = {},
   revalidate: number = 60
 ) {
+
   const url = "https://admin.limited-kicks.ru/wp-json/wc/v3/";
   const params = stringify(query);
 
@@ -33,7 +34,6 @@ export async function fetchWooCommerce(
 
   const options: RequestInit = {
     method: method,
-    cache: "force-cache",
     next: { revalidate: revalidate },
     headers: headers,
     body: method !== "GET" && data ? JSON.stringify(data) : null,

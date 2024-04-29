@@ -23,7 +23,7 @@ interface ProductPageProps {
 }
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
-    const data = await getProduct(params.productSlug);
+    const data = await getProduct({ slug: params.productSlug });
     const siteOptions = await getAcfOptions();
     const listing_1 = await getProducts({ include: [siteOptions?.acf?.listing_1?.products] });
 

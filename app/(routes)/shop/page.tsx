@@ -7,6 +7,7 @@ import Categories from "./components/categories/categories";
 import BrandsCatalog from "./components/brands-catalog/brands-catalog";
 import TopBar from "../../../components/top-bar/top-bar";
 import BannerCatalog from "./components/banner-catalog/banner-catalog";
+import { Attribute } from "@/types";
 
 export async function generateMetadata() {
     const shop = await getPage("shop");
@@ -34,6 +35,32 @@ export default async function ShopPage() {
     const shop = await getPage("shop");
     const products = await getProducts();
 
+    const attributesMap = new Map();
+
+    products.forEach(product => {
+        product.attributes.forEach(attribute => {
+            if (!attributesMap.has(attribute.id)) {
+                attributesMap.set(attribute.id, {
+                    id: attribute.id,
+                    name: attribute.name,
+                    slug: attribute.slug,
+                    options: new Set(attribute.options)
+                });
+            } else {
+                const existingAttr = attributesMap.get(attribute.id);
+                attribute.options.forEach(option => existingAttr.options.add(option));
+            }
+        });
+    });
+
+    // Преобразуем Map в массив с атрибутами, где опции преобразованы из Set в Array
+    const filters: Attribute[] = Array.from(attributesMap.values()).map(attr => ({
+        id: attr.id,
+        name: attr.name,
+        slug: attr.slug,
+        options: Array.from(attr.options)
+    }));
+
     return (
         <>
             <section>
@@ -41,7 +68,7 @@ export default async function ShopPage() {
                 <h1 className="mb-10">{shop[0].title.rendered}</h1>
                 <Categories />
                 <BrandsCatalog />
-                <TopBar count={products.length} />
+                <TopBar count={products.length} filters={filters} />
 
                 <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5">
                     {products?.map((item, index) => (

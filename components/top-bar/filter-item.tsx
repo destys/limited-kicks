@@ -1,12 +1,38 @@
-import { useState } from "react";
-import Radio from "../ui/radio/radio";
+import { Attribute } from "@/types";
+import { SetStateAction, useState, useEffect } from "react";
 
-export default function FilterItem({ data }: { data: { id: number; title: string } }) {
-  const [open, setOpen] = useState(false)
+import getAttributes from "@/actions/get-attributes";
+import CheckBox from "../ui/checkbox/checkbox";
+
+interface IFilterItem {
+  data: Attribute;
+  onChange: (arg0: string, arg1: SetStateAction<string>, arg2: boolean) => void;
+}
+
+const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
+
+  const [open, setOpen] = useState(false);
+  const [attributes, setAttributes] = useState<Attribute[] | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const attributesList = await getAttributes(data.id);
+      const filteredAttributesList = attributesList.filter(attribute => data.options.includes(attribute.name));
+      setAttributes(filteredAttributesList);
+    }
+
+    fetchData();
+  }, [data])
+
+  const handleInputChange = (event: { target: { value: string, checked: boolean }; }) => {
+    // Отправляем ID фильтра, выбранное значение и состояние активности
+    onChange(data.slug, event.target.value, event.target.checked);
+  };
+
   return (
     <div className="border-b border-b-add_1 lg:rounded-lg lg:bg-add_1 transition-colors lg:hover:bg-add_1_hv">
       <div className="flex items-center justify-between gap-3 py-3 px-2.5 md:py-3 md:px-5 lg:py-5 lg:px-7 cursor-pointer" onClick={() => setOpen(!open)}>
-        <p className="text-xs xs:text-sm md:text-base" >{data.title}</p>
+        <p className="text-xs xs:text-sm md:text-base">{data.name}</p>
         <svg
           width="28"
           height="28"
@@ -25,52 +51,22 @@ export default function FilterItem({ data }: { data: { id: number; title: string
         </svg>
       </div>
       <div className={open ? 'block' : 'hidden'}>
-        {data.id === 0 && (
-          <div className="hidden max-lg:flex grid-cols-2 gap-2 mb-4">
-            <Radio
-              label={"Мужской"}
-              name="gender"
-              id="male"
-              defaultChecked
-              className="py-2.5 !px-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-              value="male"
+        <div className="flex lg:grid grid-cols-2 gap-2 mb-4 p-2">
+          {attributes?.map((option) => (
+            <CheckBox
+              key={option.id}
+              label={option.name}
+              name={option.slug}
+              id={option.slug + '_' + option.id}
+              onChange={(e) => handleInputChange(e)}
+              className="!py-2 !px-3 border border-add_4 font-medium !text-xs !max-md:text-sm justify-center before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
+              value={option.id}
             />
-            <Radio
-              label={"Женский"}
-              name="gender"
-              id="female"
-              className="py-2.5 !px-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-              value="female"
-            />
-          </div>
-        )}
-        {data.id === 2 && (
-          <div className="hidden max-lg:flex grid-cols-2 gap-2 mb-4">
-            <Radio
-              label={"XS"}
-              name="size"
-              id="size-xs"
-              defaultChecked
-              className="py-2.5 !px-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-              value="xs"
-            />
-            <Radio
-              label={"S"}
-              name="size"
-              id="size-s"
-              className="py-2.5 !px-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-              value="s"
-            />
-            <Radio
-              label={"M"}
-              name="size"
-              id="size-m"
-              className="py-2.5 !px-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-              value="m"
-            />
-          </div>
-        )}
+          ))}
+        </div>
       </div>
-    </div >
+    </div>
   );
 }
+
+export default FilterItem

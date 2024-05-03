@@ -52,6 +52,7 @@ export interface IListing {
 }
 
 export interface Product {
+  attributes: Attribute[];
   stock_status: string;
   type: string;
   variationsData: Variation[];
@@ -65,6 +66,12 @@ export interface Product {
   brand?: BrandDataItem[];
 }
 
+export interface Attribute {
+  id: number;
+  name: string;
+  slug: string;
+  options: string[];
+}
 export interface Products extends Omit<Product, "data"> {
   data: Product[];
 }

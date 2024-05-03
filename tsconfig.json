@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(routes)/profile/components/payments/Payments.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(routes)/profile/components/payments/Payments.jsx", "components/top-bar/filters-desktop.jsx"],
   "exclude": ["node_modules"]
 }

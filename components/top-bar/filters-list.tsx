@@ -1,17 +1,56 @@
-import React, { useState } from 'react'
-import FilterItem from './filter-item'
+'use client';
 
-type Props = {
+import React, { Attributes, useCallback, useState } from 'react';
+import FilterItem from './filter-item';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Attribute } from '@/types';
+
+interface IFiltersList {
     count: number;
-    filters: any;
+    filters: Attribute[]
 }
 
-const FiltersDesktop = ({ count, filters }: Props) => {
+const FiltersList: React.FC<IFiltersList> = ({ count, filters }) => {
 
     const [showFilters, setShowFilters] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    const updateFilters = (attributeName: string, termValue: any, isActive: boolean) => {
+        const newQuery = new URLSearchParams(searchParams);
+
+        // Формирование ключей для параметров
+        const attributeKey = `attribute`;
+        const termKey = `attribute_term`;
+
+        // Удалить текущий атрибут и его значения
+        const existingAttributes = newQuery.getAll(attributeKey);
+        const existingTerms = newQuery.getAll(termKey);
+        newQuery.delete(attributeKey);
+        newQuery.delete(termKey);
+
+        // Пересобрать параметры, исключая удаленный, если он неактивен
+        existingAttributes.forEach((attr, index) => {
+            if (!(attr === attributeName && existingTerms[index] === termValue && !isActive)) {
+                newQuery.append(attributeKey, attr);
+                newQuery.append(termKey, existingTerms[index]);
+            }
+        });
+
+        // Добавить новый атрибут, если он активен
+        if (isActive) {
+            newQuery.append(attributeKey, attributeName);
+            newQuery.append(termKey, termValue);
+        }
+
+        // Обновить URL
+        const newPath = `${pathname}?${newQuery.toString()}`;
+        router.push(newPath, undefined);
+    };
 
     return (
-        <div className="hidden lg:block mb-6 pb-2 md:mb-11 md:pb-6 border-b">
+        <div className="block mb-6 pb-2 md:mb-11 md:pb-6 border-b">
             <div className="flex justify-between items-center gap-5">
                 <div className="whitespace-nowrap text-[10px] xs:text-xs sm:text-sm md:text-base">
                     <span className="font-light">Показано</span>{" "}
@@ -83,16 +122,13 @@ const FiltersDesktop = ({ count, filters }: Props) => {
                     </span>
                 </button>
             </div>
-            <div
-                className={`gap-3 items-baseline flex-wrap mt-6 ${showFilters ? "flex" : "hidden"
-                    }`}
-            >
-                {filters.map((item: any) => (
-                    <FilterItem key={item.id} data={item} />
+            <div className={`grid-cols-6 gap-3 items-baseline flex-wrap mt-6 ${showFilters ? "grid" : "hidden"}`}>
+                {filters.map(item => (
+                    <FilterItem key={item.id} data={item} onChange={(attributeName, termValue, isActive) => updateFilters(attributeName, termValue, isActive)} />
                 ))}
             </div>
         </div>
-    )
+    );
 }
 
-export default FiltersDesktop
+export default FiltersList;

@@ -7,8 +7,6 @@ export default async function Categories() {
         per_page: 10,
     });
 
-    console.log('categories: ', categories);
-
     return (
         <div className="mb-10">
             <CategorySlider data={categories} />

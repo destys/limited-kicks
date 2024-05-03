@@ -1,8 +1,10 @@
 import { ResolvingMetadata } from "next";
+
 import getProducts from "@/actions/get-products";
 import getCategories from "@/actions/get-categories";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
+import { fetchWooCommerce } from "@/lib/utils";
 
 interface CategoryPageProps {
   params: {
@@ -23,7 +25,7 @@ export async function generateMetadata(
   { params, searchParams }: MetaProps,
   parent: ResolvingMetadata
 ) {
-  const category = await getCategories(params.categorySlug);
+  const category = await getCategories({ slug: params.categorySlug });
   const yoast_head_json = category[0].yoast_head_json;
 
   return {
@@ -44,10 +46,15 @@ export async function generateMetadata(
   }
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
+
+const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams }) => {
   const siteOptions = await getAcfOptions();
   const category = await getCategories({ slug: params.categorySlug });
-  const products = await getProducts({ category: category[0].id });
+
+  const products = await getProducts({
+    category: category[0].id,
+    ...searchParams
+  });
 
   return (
     <>

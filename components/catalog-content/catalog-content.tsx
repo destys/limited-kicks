@@ -1,4 +1,4 @@
-import { Brand, Category, Product, Tag } from '@/types'
+import { Attribute, Brand, Category, Product, Tag } from '@/types'
 
 import TopBar from '@/components/top-bar/top-bar';
 import BannerCatalog from '@/app/(routes)/shop/components/banner-catalog/banner-catalog';
@@ -18,6 +18,33 @@ interface ICatalogContent {
 }
 
 const CatalogContent: React.FC<ICatalogContent> = ({ category, products, title, excerpt, description, tagCloud, categoryTags }) => {
+    const attributesMap = new Map();
+
+    products.forEach(product => {
+        product.attributes.forEach(attribute => {
+            if (!attributesMap.has(attribute.id)) {
+                attributesMap.set(attribute.id, {
+                    id: attribute.id,
+                    name: attribute.name,
+                    slug: attribute.slug,
+                    options: new Set(attribute.options)
+                });
+            } else {
+                const existingAttr = attributesMap.get(attribute.id);
+                attribute.options.forEach(option => existingAttr.options.add(option));
+            }
+        });
+    });
+
+    // Преобразуем Map в массив с атрибутами, где опции преобразованы из Set в Array
+    const filters: Attribute[] = Array.from(attributesMap.values()).map(attr => ({
+        id: attr.id,
+        name: attr.name,
+        slug: attr.slug,
+        options: Array.from(attr.options)
+    }));
+
+
     return (
         <>
             <section>
@@ -25,7 +52,7 @@ const CatalogContent: React.FC<ICatalogContent> = ({ category, products, title, 
                 <h1 className="mb-10">{title}</h1>
                 {excerpt && <div dangerouslySetInnerHTML={{ __html: excerpt }} className="mb-10" />}
                 {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}
-                <TopBar count={products.length} />
+                <TopBar count={products.length} filters={filters} />
                 <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-6 lg:gap-x-4 lg:gap-y-5">
                     {products?.map((item, index) => (
                         (index + 1 === 9 || index + 1 === 22) ?

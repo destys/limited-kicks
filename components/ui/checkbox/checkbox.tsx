@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-interface IRadio {
+interface ICheckBox {
   className?: string;
   label: string;
   id: string;
@@ -11,10 +11,10 @@ interface IRadio {
   onChange?: (e: any) => void;
 }
 
-const Radio: React.FC<IRadio> = ({ className, label, id, name, ...props }) => {
+const CheckBox: React.FC<ICheckBox> = ({ className, label, id, name, ...props }) => {
   return (
     <div>
-      <input type="radio" id={id} className="hidden peer" name={name} {...props} />
+      <input type="checkbox" id={id} className="hidden peer" name={name} {...props} />
       {label && (
         <label
           htmlFor={id}
@@ -27,4 +27,4 @@ const Radio: React.FC<IRadio> = ({ className, label, id, name, ...props }) => {
   );
 };
 
-export default Radio;
+export default CheckBox;

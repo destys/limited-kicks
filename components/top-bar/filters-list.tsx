@@ -46,7 +46,7 @@ const FiltersList: React.FC<IFiltersList> = ({ count, filters }) => {
 
         // Обновить URL
         const newPath = `${pathname}?${newQuery.toString()}`;
-        router.push(newPath, undefined);
+        router.push(newPath, { scroll: false });
     };
 
     return (

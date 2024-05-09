@@ -1,36 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import getMenu from "@/actions/get-menu";
+
 import Search from "@/components/search/search";
 import Offer from "./components/offer";
-
-import styles from "./header.module.scss";
 import Actions from "./components/actions";
 
-export default function Header() {
+import styles from "./header.module.scss";
+import MenuButton from "./components/menu-button";
+
+const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.top}>
         <div className="flex justify-center w-full lg:w-auto lg:justify-start lg:items-center">
-          <button
-            className="hidden lg:block mr-3 lg:mr-5 2xl:mr-11"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-            >
-              <path
-                d="M3.5 7H24.5M3.5 14H15.1667M3.5 21H21"
-                stroke="#060F2F"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          <MenuButton />
           <Link
             href={"/"}
             className="lg:mr-5 2xl:mr-11 min-w-[64px] xl:min-w-[150px]"
@@ -109,3 +94,5 @@ export default function Header() {
     </header>
   );
 }
+
+export default Header;

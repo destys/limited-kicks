@@ -1,7 +1,7 @@
 import { Attribute, Brand, Category, Product, Tag } from '@/types'
 
 import TopBar from '@/components/top-bar/top-bar';
-import BannerCatalog from '@/app/(routes)/shop/components/banner-catalog/banner-catalog';
+import BannerCatalog from '@/components/banner-catalog/banner-catalog';
 
 import Crumbs from '../crumbs/crumbs'
 import ProductItem from '../product-item/product-item'

@@ -6,14 +6,11 @@ import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import { fetchWooCommerce } from "@/lib/utils";
 
-interface CategoryPageProps {
+interface ICategoryPage {
   params: {
     categorySlug: string;
   },
-  searchParams?: {
-    colorId?: string;
-    sizeId?: string;
-  }
+  searchParams?: {}
 }
 
 type MetaProps = {
@@ -47,7 +44,7 @@ export async function generateMetadata(
 }
 
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams }) => {
+const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) => {
   const siteOptions = await getAcfOptions();
   const category = await getCategories({ slug: params.categorySlug });
 
@@ -56,6 +53,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams 
     ...searchParams
   });
 
+  console.log('products: ', products);
   return (
     <>
       <CatalogContent products={products} category={category[0]} title={category[0].name} excerpt={category[0].acf?.korotkoe_opisanie} description={category[0].description} tagCloud={siteOptions?.acf?.oblako_metok} categoryTags={category[0].acf?.metki_pod_zagolovkom} />

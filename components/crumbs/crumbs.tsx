@@ -18,12 +18,14 @@ const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
     if (type === 'product') {
         crumbs = [
             { text: "Главная", link: "/" },
+            { text: "Каталог", link: "/shop" },
             { text: data.categories[0].name, link: `/category/${data.categories[0].slug}` },
             { text: data.name },
         ];
     } else if (type === 'category') {
         crumbs = [
             { text: "Главная", link: "/" },
+            { text: "Каталог", link: "/shop" },
             { text: data.name }
         ];
     } else {

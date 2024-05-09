@@ -4,9 +4,11 @@ import Link from "next/link";
 
 import styles from "./app-bar.module.scss";
 import useMobileSearch from "@/hooks/use-mobile-search";
+import useMainMenu from "@/hooks/use-main-menu";
 
 export default function AppBar() {
   const mobileSearch = useMobileSearch();
+  const { onOpen } = useMainMenu();
 
   return (
     <div className={styles.appBar}>
@@ -23,16 +25,14 @@ export default function AppBar() {
               />
             </Link>
           </li>
-          <li>
-            <Link href={"/"}>
-              <Image
-                src={"/icons/Icon/menu-burger.svg"}
-                width={20}
-                height={20}
-                alt="menu burger"
-                className="text-black"
-              />
-            </Link>
+          <li onClick={onOpen}>
+            <Image
+              src={"/icons/Icon/menu-burger.svg"}
+              width={20}
+              height={20}
+              alt="menu burger"
+              className="text-black"
+            />
           </li>
           <li>
             <Link href={"/favorites"}>

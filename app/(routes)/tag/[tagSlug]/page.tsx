@@ -4,6 +4,7 @@ import TagCloud from "@/components/tag-cloud/tag-cloud";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import getTags from "@/actions/get-tags";
+import NotFound from "@/app/not-found";
 
 interface CategoryPageProps {
   params: {
@@ -47,8 +48,13 @@ export async function generateMetadata(
 }
 
 const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
-  const siteOptions = await getAcfOptions();
   const tag = await getTags({ slug: params.tagSlug });
+
+  if (!tag.length) {
+    return <NotFound />
+  }
+
+  const siteOptions = await getAcfOptions();
   const products = await getProducts({ tag: tag[0].id });
 
   return (

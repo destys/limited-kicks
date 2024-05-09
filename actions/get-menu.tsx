@@ -7,6 +7,7 @@ const getMenu = async (id: number): Promise<IMenu> => {
         next: { revalidate: 10 }
     });
 
+
     return res.json();
 };
 

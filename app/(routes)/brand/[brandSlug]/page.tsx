@@ -1,9 +1,10 @@
-import getProducts from "@/actions/get-products";
 import { ResolvingMetadata } from "next";
-import getAcfOptions from "@/actions/get-acf-options";
-import CatalogContent from "@/components/catalog-content/catalog-content";
+import getProducts from "@/actions/get-products";
 import getBrands from "@/actions/get-brands";
-import getBrandProduct from "@/actions/get-brand-product";
+import getAcfOptions from "@/actions/get-acf-options";
+
+import CatalogContent from "@/components/catalog-content/catalog-content";
+import getProductsByBrand from "@/actions/get-products-by-brand";
 
 interface CategoryPageProps {
   params: {
@@ -22,8 +23,7 @@ type MetaProps = {
 }
 
 export async function generateMetadata(
-  { params, searchParams }: MetaProps,
-  parent: ResolvingMetadata
+  { params }: MetaProps
 ) {
   const brand = await getBrands(params.brandSlug);
   const yoast_head_json = brand[0].yoast_head_json;
@@ -46,11 +46,17 @@ export async function generateMetadata(
   }
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
+const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams }) => {
+  console.log('searchParams: ', searchParams);
   const siteOptions = await getAcfOptions();
   const brand = await getBrands(params.brandSlug);
-  const products = await getProducts({ brand_id: brand[0].id });
 
+  const products = await getProductsByBrand({
+    brand_id: brand[0].id,
+    ...searchParams
+  });
+
+  console.log('products: ', products);
   return (
     <>
       <CatalogContent category={brand[0]} products={products} title={brand[0].name} excerpt={brand[0].acf?.korotkoe_opisanie} description={brand[0].description} tagCloud={siteOptions?.acf.oblako_metok} />

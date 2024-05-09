@@ -1,16 +1,25 @@
+import { Attribute } from "@/types";
 import getProducts from "@/actions/get-products";
 import getPage from "@/actions/get-page";
 
 import Crumbs from "@/components/crumbs/crumbs";
 import ProductItem from "@/components/product-item/product-item";
+import TopBar from "@/components/top-bar/top-bar";
+import BannerCatalog from "@/components/banner-catalog/banner-catalog";
+
 import Categories from "./components/categories/categories";
 import BrandsCatalog from "./components/brands-catalog/brands-catalog";
-import TopBar from "../../../components/top-bar/top-bar";
-import BannerCatalog from "./components/banner-catalog/banner-catalog";
-import { Attribute } from "@/types";
+import NotFound from "@/app/not-found";
+
+interface IShopPage {
+    searchParams: {}
+}
 
 export async function generateMetadata() {
     const shop = await getPage("shop");
+    if (!shop.length) {
+        return <NotFound />
+    }
     const yoast_head_json = shop[0].yoast_head_json;
 
     return {
@@ -30,10 +39,14 @@ export async function generateMetadata() {
         },
     }
 }
-
-export default async function ShopPage() {
+const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
     const shop = await getPage("shop");
-    const products = await getProducts();
+    
+    if (!shop.length) {
+        return <NotFound />
+    }
+
+    const products = await getProducts({ ...searchParams });
 
     const attributesMap = new Map();
 
@@ -86,4 +99,6 @@ export default async function ShopPage() {
         </>
     );
 }
+
+export default ShopPage;
 

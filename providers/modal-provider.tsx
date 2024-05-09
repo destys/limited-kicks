@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import MainMenu from "@/components/main-menu/main-menu";
 import MobileSearch from "@/components/modals/mobile-search";
 import OneClickModal from "@/components/modals/one-click-modal";
 import ProductsOnRequestModal from "@/components/modals/products-on-request-modal";
-import { useEffect, useState } from "react";
 
 const ModalProvider = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -21,6 +22,7 @@ const ModalProvider = () => {
             <OneClickModal />
             <ProductsOnRequestModal />
             <MobileSearch />
+            <MainMenu />
         </>
     );
 };

@@ -241,4 +241,5 @@ export interface IMenuItem {
   url: any;
   title: string;
   slug: string;
+  children?: IMenuItem[];
 }

@@ -1,76 +1,70 @@
-'use client'
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
-import { PacmanLoader } from "react-spinners";
-
-import useUser from "@/hooks/use-user";
+import { ChangeEvent, FormEvent, SetStateAction, useState } from "react";
 
 import Button from "@/components/ui/button/button";
 import Input from "@/components/ui/input/input";
+import { PacmanLoader } from "react-spinners";
 
+interface LoginProps {
+  onFormSubmit: (e: SetStateAction<string>) => void;
+}
 
-export default function Login() {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('');
-  const router = useRouter();
-  const user = useUser();
+interface FormData {
+  email: string;
+}
 
-  if (user.jwtToken) {
-    router.push('/profile');
-  }
+export default function Login({ onFormSubmit }: LoginProps) {
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
+    const email = e.currentTarget.email.value;
+    // Вызов колбэк-функции из родительского компонента
 
-    const formData = new FormData(e.currentTarget);
-
-    const email = formData.get('login');
-    const password = formData.get('password');
-
-    axios.post(`${process.env.WP_ADMIN_REST_URL}/jwt-auth/v1/token`, {
-      "username": email,
-      "password": password
-    }).then((response) => {
-      user.login(response.data.token);
-      router.push('/profile');
-    }).catch((error) => {
-      console.error(error)
-      setError(error.response.data.message)
-    }).finally(() => {
+    try {
+      setLoading(true)
+      const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/send-email-code`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        onFormSubmit(email);
+        setMessage('Email sent successfully.');
+      } else {
+        setMessage(`Error: ${data.message}`);
+      }
+    } catch (error: any) {
+      console.error('error: ', error);
+      setMessage(`Error: ${error.message}`);
+    } finally {
       setLoading(false);
-    })
+    }
   };
 
   return (
-    <div className="max-w-[580px]">
-      <h1 className="mb-6 text-center uppercase">Вход</h1>
-      <form action="#" onSubmit={handleSubmit}>
-        <p className="mb-4 sm:mb-6 lg:mb-10 text-xs xs:text-sm md:text-base  text-center ">
-          Введите ваш email и пароль. Если аккаунта еще нет, он будет создан.
-        </p>
-        <Input
-          type="text"
-          className="mb-2.5 md:mb-5"
-          placeholder="example@mail.com"
-          name="login"
-        />
-        <Input
-          type="password"
-          className="mb-2.5 md:mb-5"
-          placeholder="********"
-          name="password"
-        />
-        {error && (
-          <div dangerouslySetInnerHTML={{ __html: error }} className="mt-[-15px] mb-2.5 md:mb-5 text-red-500 text-sm" />
-        )}
+    <form action="#" onSubmit={handleSubmit}>
+      <p className="mb-4 sm:mb-6 lg:mb-10 text-xs xs:text-sm md:text-base  text-center ">
+        Введите адрес электронной почты, мы отправим Вам письмо с кодом подтверждения
+      </p>
+      <Input
+        type="email"
+        className={`mb-2.5 md:mb-5 ${message && "border-red-500"}`}
+        placeholder="example@gmail.com"
+        name="email"
+      />
+      {message && (
+        <div className={"mt-[-15px] mb-2.5 md:mb-5 text-red-500 text-sm"}>
+          {message}
+        </div>
+      )}
 
-        <Button styled="filled" className={"w-full flex justify-center items-center h-14"} type="submit">
-          {loading ? <PacmanLoader color="#fff" size={18} /> : "Вход"}
-        </Button>
-      </form>
-    </div>
+      <Button styled="filled" className={"w-full flex justify-center items-center h-14"} type="submit" >
+        {loading ? <PacmanLoader color="#fff" size={18} /> : "Вход"}
+      </Button>
+    </form>
   );
 }

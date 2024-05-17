@@ -62,7 +62,7 @@ const CartItem: React.FC<ICartItemData> = ({ data }) => {
           {/* Количество */}
           <div className="flex gap-1 font-medium md:text-xl">
             <button
-              className="flex justify-center items-center w-8 h-8 md:w-12 md:h-12 bg-add_1 rounded-lg"
+              className="flex justify-center items-center shrink-0 w-8 h-8 md:w-12 md:h-12 bg-add_1 rounded-lg"
               onClick={decrement}
             >
               -
@@ -71,7 +71,7 @@ const CartItem: React.FC<ICartItemData> = ({ data }) => {
               {count}
             </div>
             <button
-              className="flex justify-center items-center w-8 h-8 md:w-12 md:h-12 bg-add_1 rounded-lg"
+              className="flex justify-center items-center shrink-0 w-8 h-8 md:w-12 md:h-12 bg-add_1 rounded-lg"
               onClick={increment}
             >
               +

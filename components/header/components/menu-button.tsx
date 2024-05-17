@@ -9,7 +9,7 @@ const MenuButton = () => {
             className="hidden lg:block mr-3 lg:mr-5 2xl:mr-11"
             onClick={onOpen}
         >
-            <Image src="icons/Icon/menu-burger.svg" alt="menu-icon" width={24} height={24} />
+            <Image src="/icons/Icon/menu-burger.svg" alt="menu-icon" width={24} height={24} />
         </button>
     )
 }

@@ -1,5 +1,5 @@
 import BrandsItem from "./brands-item";
-import getBrands from "@/actions/get-brands";
+import getBrands from "@/actions/get-brands"; 
 
 const BrandsCatalog = async () => {
     const brands = await getBrands();

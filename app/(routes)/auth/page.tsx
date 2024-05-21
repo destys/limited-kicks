@@ -5,10 +5,10 @@ import Login from "./components/login/login";
 
 export default function Cabinet() {
   const [isSent, setIsSent] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const [userPhone, setUserPhone] = useState("");
 
   const handleFormSubmit = (e: SetStateAction<string>) => {
-    setUserEmail(e);
+    setUserPhone(e);
     setIsSent(true);
   };
 
@@ -23,7 +23,7 @@ export default function Cabinet() {
           <h1 className="mb-6 text-center uppercase">Вход или регистрация</h1>
           {isSent ? (
             <Confirmation
-              userEmail={userEmail}
+              userPhone={userPhone}
               onChangeUserPhone={handleChangeUserPhone}
             />
           ) : (

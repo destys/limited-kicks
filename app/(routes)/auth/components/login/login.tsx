@@ -18,21 +18,23 @@ export default function Login({ onFormSubmit }: LoginProps) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const email = e.currentTarget.email.value;
+    const phone = e.currentTarget.phone.value;
     // Вызов колбэк-функции из родительского компонента
 
     try {
+      setMessage('')
       setLoading(true)
-      const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/send-email-code`, {
+      const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/send-sms-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ phone }),
       });
       const data = await response.json();
+      console.log('data: ', data);
       if (response.ok) {
-        onFormSubmit(email);
+        onFormSubmit(phone);
         setMessage('Email sent successfully.');
       } else {
         setMessage(`Error: ${data.message}`);
@@ -51,10 +53,10 @@ export default function Login({ onFormSubmit }: LoginProps) {
         Введите адрес электронной почты, мы отправим Вам письмо с кодом подтверждения
       </p>
       <Input
-        type="email"
+        type="tel"
         className={`mb-2.5 md:mb-5 ${message && "border-red-500"}`}
-        placeholder="example@gmail.com"
-        name="email"
+        placeholder="+7 999 999-99-99"
+        name="phone"
       />
       {message && (
         <div className={"mt-[-15px] mb-2.5 md:mb-5 text-red-500 text-sm"}>

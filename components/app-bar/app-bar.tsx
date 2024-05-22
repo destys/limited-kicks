@@ -77,9 +77,9 @@ export default function AppBar() {
             </Link>
           </li>
           <li>
-            <Link href={"/profile"}>
+            <Link href={"/auth"}>
               <Image
-                src={"/icons/Icon/profile.svg"}
+                src={"/icons/Icon/Profile.svg"}
                 width={20}
                 height={20}
                 alt="profile"

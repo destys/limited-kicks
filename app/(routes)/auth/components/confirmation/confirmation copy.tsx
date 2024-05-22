@@ -2,9 +2,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import Button from "@/components/ui/button/button";
+import VerificationCodeInput from "@/components/verification-input/verification-input";
 import useUser from "@/hooks/use-user";
 import Loader from "@/components/ui/loader/loader";
-import Input from "@/components/ui/input/input";
 
 interface ConfirmationProps {
   userPhone: string;
@@ -19,17 +19,6 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
   const [loading, setLoading] = useState(false);
   const { login } = useUser();
   const router = useRouter();
-
-  const handleSetCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newCode = e.target.value.substring(0, 4); // Ограничение длины кода до 4 символов
-    setCode((prevCode) => {
-      if (newCode.length === 4) {
-        confirmationSubmit(newCode); // Вызов функции с актуальным кодом
-      }
-      return newCode;
-    });
-  };
-
 
   const buttonReset = () => {
     setIsButtonActive(false);
@@ -59,10 +48,9 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
   }, [isButtonActive]);
 
   const confirmationSubmit = async (code: any) => {
-    setLoading(true);
-    setMessage("")
     const phone = userPhone;
     try {
+      setLoading(true);
       const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/verify-sms-code`, {
         method: 'POST',
         headers: {
@@ -92,9 +80,13 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
         Мы отправили Вам четырехзначный код на номер телефона {" "}
         <strong>{userPhone}</strong>
       </p>
-      <div className="relative mb-4">
-        {loading && <Loader size={18}/>}
-        <input onChange={handleSetCode} type="number" name="code" max="9999" value={code} className="border-b rounded-none tracking-[30px] py-3 px-4 md:py-4 md:px-6 w-full bg-white text-center text-xs xs:text-sm lg:text-base" />
+      <div className="relative">
+        {loading && <Loader />}
+        <VerificationCodeInput
+          onCodeChange={handleCodeChange}
+          onDataEntered={() => confirmationSubmit(code)}
+          message={message}
+        />
       </div>
 
       {message && (

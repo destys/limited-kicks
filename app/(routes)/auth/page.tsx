@@ -21,7 +21,7 @@ export default function Cabinet() {
       <div className="container !max-w-[530px] mx-auto">
         <div>
           <h1 className="mb-6 text-center uppercase">Вход или регистрация</h1>
-          {isSent ? (
+          {!isSent ? (
             <Confirmation
               userPhone={userPhone}
               onChangeUserPhone={handleChangeUserPhone}

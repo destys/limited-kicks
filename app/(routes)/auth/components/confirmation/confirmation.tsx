@@ -93,8 +93,8 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
         <strong>{userPhone}</strong>
       </p>
       <div className="relative mb-4">
-        {loading && <Loader size={18}/>}
-        <input onChange={handleSetCode} type="number" name="code" max="9999" value={code} className="border-b rounded-none tracking-[30px] py-3 px-4 md:py-4 md:px-6 w-full bg-white text-center text-xs xs:text-sm lg:text-base" />
+        {loading && <Loader size={18} />}
+        <input onChange={handleSetCode} autoComplete="one-time-code" type="number" name="code" max="9999" value={code} className="border-b rounded-none tracking-[30px] py-3 px-4 md:py-4 md:px-6 w-full bg-white text-center text-xs xs:text-sm lg:text-base" />
       </div>
 
       {message && (

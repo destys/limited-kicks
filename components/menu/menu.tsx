@@ -17,13 +17,14 @@ const Menu: React.FC<IMenuProps> = ({
     menuItemClassList,
     data,
 }) => {
+
     return (
         <div className={containerClassList}>
             {title && <div className="mb-5 font-mediun text-2xl">{title}</div>}
             <ul className={menuClassList}>
                 {data.map((item) => (
                     <li key={item.id} className={`${menuItemClassList} hover:text-main`}>
-                        <Link href={`${item.url}`}>{item.title}</Link>
+                        <Link href={`${item.url.replace('https://admin.limited-kicks.ru', '')}`}>{item.title}</Link>
                     </li>
                 ))}
             </ul>

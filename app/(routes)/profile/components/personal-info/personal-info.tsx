@@ -13,7 +13,7 @@ const PersonalInfo: React.FC<IPersonalInfo> = ({ user }) => {
     <div>
       <h1 className="mb-8 uppercase">Личная информация</h1>
       <ChangeUserInfo user={user} />
-      <ChangeUserPassword user={user} />
+      {/* <ChangeUserPassword user={user} /> */}
     </div>
   );
 }

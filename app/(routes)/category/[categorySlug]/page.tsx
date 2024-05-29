@@ -52,8 +52,6 @@ const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) =
     category: category[0].id,
     ...searchParams
   });
-
-  console.log('products: ', products);
   return (
     <>
       <CatalogContent products={products} category={category[0]} title={category[0].name} excerpt={category[0].acf?.korotkoe_opisanie} description={category[0].description} tagCloud={siteOptions?.acf?.oblako_metok} categoryTags={category[0].acf?.metki_pod_zagolovkom} />

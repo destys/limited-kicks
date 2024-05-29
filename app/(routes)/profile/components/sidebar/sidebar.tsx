@@ -30,11 +30,11 @@ const Sidebar: React.FC<ISidebar> = ({ onChangeActiveTab, userName }) => {
       title: "Мои адреса",
       icon: "Address",
     },
-    {
+    /* {
       id: 3,
       title: "Способ оплаты",
       icon: "Payments",
-    },
+    }, */
     {
       id: 4,
       title: "Дисконтная программа",

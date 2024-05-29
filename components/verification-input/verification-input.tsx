@@ -41,7 +41,6 @@ const VerificationCodeInput: React.FC<IVerificationCodeInput> = ({ onCodeChange,
     // Проверяем, если все поля заполнены
     const isCodeFilled = newCode.every((val) => /^\d$/.test(val));
     if (isCodeFilled) {
-      console.log('newCode: ', newCode.join(""));
       onCodeChange(newCode.join(""));
       onDataEntered();
     }

@@ -1,25 +1,31 @@
 "use client";
 
+import { Address } from "@/types";
+
+import { useState } from "react";
 import Image from "next/image";
 
+import Loader from "@/components/ui/loader/loader";
 interface IAddressesItem {
-  data: {
-    id: number;
-    city: string;
-    street: string;
-    build: string;
-    apartment_number?: string;
-  };
-  onDeleteItem: (id: number) => void
+  data: Address;
+  onDeleteItem: (address: {}) => void
 }
 
 
 const AddressItem: React.FC<IAddressesItem> = ({ data, onDeleteItem }) => {
-  const handleDeleteItem = (id: number) => {
-    onDeleteItem(id);
+  const [currentAddress, setCurrentAddress] = useState({
+    'city': data.city,
+    'street': data.street,
+    'build': data.build,
+    'apartment_number': data.apartment_number,
+  })
+
+  const handleDeleteItem = (address: {}) => {
+    onDeleteItem(currentAddress);
   };
+
   return (
-    <div className="">
+    <div className="relative">
       <div className="flex flex-col xs:flex-row xs:justify-between items-center gap-5">
         <div className="flex items-center justify-between py-5 px-4 md:py-7 md:px-8 lg:py-9 lg:px-10 bg-add_1 w-full rounded-lg">
           <div className="text-sm md:text-base">
@@ -32,7 +38,7 @@ const AddressItem: React.FC<IAddressesItem> = ({ data, onDeleteItem }) => {
             alt="arrow"
           />
         </div>
-        <button onClick={(id) => handleDeleteItem(data.id)} className="flex items-center gap-2">
+        <button onClick={() => handleDeleteItem(currentAddress)} className="flex items-center gap-2">
           <span className="xs:hidden text-xs">Удалить</span>
           <Image
             src={"/icons/Icon/Trash.svg"}

@@ -51,7 +51,6 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params, searchParams 
   const brand = await getBrands(params.brandSlug);
 
   const brandAttributes = await getAttributes(4);
-  console.log('brandAttributes: ', brandAttributes);
 
   const currentTerm = brandAttributes.find(term => term.slug === params.brandSlug);
 

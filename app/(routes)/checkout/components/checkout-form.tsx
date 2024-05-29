@@ -1,18 +1,18 @@
 'use client'
-import { User } from '@/types'
-import { wooApi } from '@/lib/wc-rest-api'
+import { Address, User } from '@/types'
 import { FormEvent, FormEventHandler, SetStateAction, useEffect, useState } from 'react'
+import { wooApi } from '@/lib/wc-rest-api'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 import useUser from '@/hooks/use-user'
 import useShoppingCart from '@/hooks/use-cart'
 import getUser from '@/actions/get-user'
 
+import Loader from '@/components/ui/loader/loader'
 import Button from '@/components/ui/button/button'
 import Input from '@/components/ui/input/input'
 import Radio from '@/components/ui/radio/radio'
-import Loader from '@/components/ui/loader/loader'
-import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
 
 interface IDelivery {
     settings: { cost?: { value: string } };
@@ -33,11 +33,13 @@ interface CheckoutFormData {
 }
 const CheckoutForm = () => {
     const [user, setUser] = useState<User | null>(null);
+    const [addresses, setAddresses] = useState<Address[]>([])
     const [deliveryMethods, setDeliveryMethods] = useState<IDelivery[]>([]);
     const [payments, setPayments] = useState<IPayments[]>([]);
     const [loading, setLoading] = useState(true);
+    const [showAddForm, setShowAddForm] = useState(false);
     const { jwtToken } = useUser();
-    const { items, clearCart } = useShoppingCart();
+    const { items, clearCart, coupon } = useShoppingCart();
     const router = useRouter();
 
     useEffect(() => {
@@ -45,7 +47,17 @@ const CheckoutForm = () => {
             setLoading(true);
             try {
                 const userData = jwtToken ? await getUser(jwtToken) : null;
+
+                if (userData === null) {
+                    localStorage.setItem('fromCheckout', 'true');
+                    router.push('/auth');
+                }
+
                 setUser(userData);
+
+                if (userData) {
+                    setAddresses(userData.acf.addresses)
+                }
 
                 const [paymentsData, shippingZones] = await Promise.all([
                     wooApi.get('payment_gateways'),
@@ -92,13 +104,15 @@ const CheckoutForm = () => {
                     quantity: item.quantity,
                     variation_id: item.entrySize?.id,
                 })),
+                coupon_lines: [{
+                    code: coupon?.code,
+                }],
                 shipping_lines: [{
                     method_id: deliveryMethods[deliveryIndex]?.method_id,
                     method_title: deliveryMethods[deliveryIndex]?.method_title,
                     total: deliveryMethods[deliveryIndex]?.settings.cost?.value,
-                }]
+                }],
             });
-
             toast.success('Заказ успешно оформлен');
             clearCart();
             router.push('/');
@@ -108,8 +122,50 @@ const CheckoutForm = () => {
         }
     };
 
+    const updateAddresses = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const newAddress = {
+            'city': e.currentTarget.city.value,
+            'street': e.currentTarget.street.value,
+            'build': e.currentTarget.build.value,
+            'apartment_number': e.currentTarget.apartment_number.value,
+        };
+
+        const form = e.currentTarget;
+
+
+        const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/update-user/${user?.id}`, {
+
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`, // Если требуется авторизация
+            },
+            body: JSON.stringify({
+                acf: {
+                    addresses: [...addresses, newAddress]
+                }
+            }),
+        });
+
+        form.reset();
+
+        if (!response.ok) {
+            throw new Error('Ошибка добавления адреса');
+            toast.error('Ошибка добавления адреса');
+        }
+        if (response.ok) {
+            toast.success('Адрес добавлен');
+            setAddresses(prevAddresses => [...prevAddresses, newAddress]);
+            setShowAddForm(false);
+        }
+
+        return response.json();
+    };
+
     return (
-        <form action="#" className="relative lg:col-span-3 2xl:col-span-4 min-h-[100vh] row-start-2 lg:row-start-1" onSubmit={handleCheckout}>
+        <form className="relative lg:col-span-3 2xl:col-span-4 min-h-[100vh] row-start-2 lg:row-start-1" onSubmit={handleCheckout}>
             {loading ? <Loader /> : (
                 <div>
                     <div className="mb-6 lg:mb-11">
@@ -136,7 +192,7 @@ const CheckoutForm = () => {
                     <div className="mb-6 lg:mb-11">
                         <h2 className="mb-3 lg:mb-7 max-md:text-base">2. Адрес доставки</h2>
                         <div className="grid gap-2 md:gap-4 mb-4 md:mb-7">
-                            {user?.acf.addresses.map((item, index) => (
+                            {addresses.length ? (addresses.map((item, index) => (
                                 <Radio
                                     key={index + '-user'}
                                     label={`${item.city}, ул.${item.street}, д. ${item.build} ${!!item.apartment_number && `, кв. ${item.apartment_number}`}`}
@@ -146,11 +202,18 @@ const CheckoutForm = () => {
                                     value={`${item.city}, ул.${item.street}, д. ${item.build} ${!!item.apartment_number && `, кв. ${item.apartment_number}`}`}
 
                                 />
-                            ))}
+                            ))) : <p>Адреса еще не добавлены</p>}
                         </div>
-                        <Button styled="filled" type="button">
-                            Добавить новый адрес
-                        </Button>
+                        {showAddForm && <form className="mt-6" onSubmit={updateAddresses}>
+                            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-2 ">
+                                <Input type="text" name="city" placeholder="Город" />
+                                <Input type="text" name="street" placeholder="Улица" />
+                                <Input type="text" name="build" placeholder="Дом" />
+                                <Input type="text" name="apartment_number" placeholder="Квартира" />
+                            </div>
+                            <Button type="submit" styled="filled" className='mt-3'>Сохранить</Button>
+                        </form>}
+                        {!showAddForm && <Button type="button" styled={"filled"} className={'w-full mt-4 xs:w-fit'} onClick={() => setShowAddForm(true)}>Добавить новый адрес</Button>}
                     </div>
                     <div className="mb-6 lg:mb-11">
                         <h2 className="mb-3 lg:mb-7 max-md:text-base">3. Способ доставки</h2>

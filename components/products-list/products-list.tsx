@@ -12,7 +12,6 @@ interface IProductList {
 }
 
 const ProductsList: React.FC<IProductList> = async ({ searchParams, categoryId }) => {
-    console.log('categoryId: ', categoryId);
     const products = await getProducts({
         category: categoryId,
         ...searchParams

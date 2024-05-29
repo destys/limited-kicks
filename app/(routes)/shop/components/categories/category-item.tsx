@@ -26,7 +26,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ data }) => {
                 height={100}
                 className=" max-md:max-w-[50px] max-md:max-h-[50px]"
             />) : (
-                "Картинки нет"
+                data.name
             )}
 
         </Link>

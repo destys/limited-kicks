@@ -22,7 +22,7 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                 )}
                 <div className={styles.image}>
                     <Image
-                        src={data.images[0].src}
+                        src={data.images[0]?.src || '/images/image-placeholder.png'}
                         width={400}
                         height={240}
                         alt={data.name}

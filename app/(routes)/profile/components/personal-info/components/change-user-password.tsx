@@ -18,7 +18,7 @@ const ChangeUserPassword: React.FC<IChangeUserPassword> = ({ user }) => {
         const formData = new FormData(e.currentTarget);
         const currentPassword = formData.get('current-password');
         const newPassword = formData.get('new-password');
-        const confirmPassword = formData.get('confirm-password');
+        const confirmPassword = formData.get('confirm-password'); 
 
         // Проверка совпадения нового пароля и его подтверждения
         if (newPassword !== confirmPassword) {

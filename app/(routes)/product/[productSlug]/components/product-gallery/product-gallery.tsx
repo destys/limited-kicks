@@ -17,9 +17,11 @@ import useFavoriteStore from "@/hooks/use-favorite";
 interface ProductGalleryProps {
   productId: number;
   data: SingleImage[];
+  flag?: string;
+  flag_2?: string;
 }
 
-const ProductGallery: React.FC<ProductGalleryProps> = ({ data, productId }) => {
+const ProductGallery: React.FC<ProductGalleryProps> = ({ data, productId, flag, flag_2 }) => {
   const swiperRef = useRef<any>(null);
 
   const { favorites, addFavorite, removeFavorite } = useFavoriteStore();
@@ -94,7 +96,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data, productId }) => {
             </svg>
           </button>
         </div>
-        <FlagItem title="new" />
+        <FlagItem title={flag} />
+        <FlagItem title={flag_2} />
       </div>
       <Swiper ref={swiperRef} resizeObserver={false} className="">
         {data.map((image) => (

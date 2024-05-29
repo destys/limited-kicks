@@ -52,6 +52,10 @@ export interface IListing {
 }
 
 export interface Product {
+  acf: {
+    flag_1: string;
+    flag_2: string;
+  };
   attributes: Attribute[];
   stock_status: string;
   type: string;
@@ -182,7 +186,7 @@ export interface User {
 }
 
 export interface Address {
-  id: number;
+  id?: number;
   city: string;
   street: string;
   build: string;
@@ -242,4 +246,14 @@ export interface IMenuItem {
   title: string;
   slug: string;
   children?: IMenuItem[];
+}
+
+export interface ICoupon {
+  discount_type: string;
+  amount: string;
+  id: number;
+  code: string;
+  discount: string;
+  discount_tax: string;
+  meta_data: [];
 }

@@ -1,19 +1,27 @@
 'use client'
 
-import { ICartItem } from "@/types";
+import { ICartItem, ICoupon } from "@/types";
 import { create } from "zustand";
 
 interface ShoppingCartState {
     items: ICartItem[];
+    coupon: ICoupon | null;
     addItem: (item: ICartItem) => void;
     removeItem: (id: number) => void;
     clearCart: () => void;
     updateItemQuantity: (id: number, quantity: number) => void;
+    addCoupon: (coupon: ICoupon) => void;
+    removeCoupon: () => void;
 }
 
 const useShoppingCart = create<ShoppingCartState>((set) => {
     const storedCart = typeof localStorage !== 'undefined' ? localStorage.getItem('shoppingCart') : null;
-    const initialState = storedCart ? JSON.parse(storedCart) : { items: [] };
+    const storedCartObject = storedCart ? JSON.parse(storedCart) : null;
+    const storedCoupon = storedCartObject && storedCartObject.coupon !== undefined ? storedCartObject.coupon : null;
+
+    const initialState = storedCart
+        ? { ...storedCartObject, coupon: storedCoupon }
+        : { items: [], coupon: null };
 
     return {
         ...initialState,
@@ -29,7 +37,12 @@ const useShoppingCart = create<ShoppingCartState>((set) => {
                 localStorage.setItem('shoppingCart', JSON.stringify({ items: updatedItems }));
                 return { items: updatedItems };
             }),
-
+        addCoupon: (coupon: ICoupon) => {
+            set({ coupon: coupon })
+        },
+        removeCoupon: () => {
+            set({ coupon: null })
+        },
         removeItem: (id) =>
             set((state) => {
                 const newItems = state.items.filter((item) => item.id !== id);

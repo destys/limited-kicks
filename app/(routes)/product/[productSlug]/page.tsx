@@ -37,7 +37,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                 <Crumbs type={"product"} data={data} />
                 <div className={styles.product}>
                     <div className={styles.gallery}>
-                        <ProductGallery productId={data.id} data={data.images} />
+                        <ProductGallery productId={data.id} data={data.images} flag={data.acf.flag_1} flag_2={data.acf.flag_2} />
                     </div>
                     <div className={styles.info}>
                         <h1 className="mb-2 sm:mb-3 lg:mb-4">{data.name}</h1>

@@ -18,13 +18,14 @@ import Loader from "@/components/ui/loader/loader";
 const Profile = () => {
     const router = useRouter()
     const [user, setUser] = useState<User | null>(null);
+    
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const { jwtToken, logout } = useUser();
 
     useEffect(() => {
         const FetchData = async () => {
-            if (jwtToken) {
+            if (jwtToken !== null) {
                 try {
                     setLoading(true);
                     setError(false);
@@ -38,6 +39,8 @@ const Profile = () => {
                 } finally {
                     setLoading(false);
                 }
+            } else {
+                router.push('/auth');
             }
         }
         FetchData();
@@ -59,8 +62,8 @@ const Profile = () => {
                     {activeIndex === 0 && <PersonalInfo user={user} />}
                     {activeIndex === 1 && <OrderHistory userId={user?.id} />}
                     {activeIndex === 2 && <Addresses user={user} />}
-                    {activeIndex === 3 && <Payments />}
-                    {activeIndex === 4 && <Discount totalAmount={37568 || 0} />}
+                    {activeIndex === 3 && <Discount totalAmount={37568 || 0} />}
+                   {/*  {activeIndex === 3 && <Payments />} */}
                 </div>}
             </div>
         </section>

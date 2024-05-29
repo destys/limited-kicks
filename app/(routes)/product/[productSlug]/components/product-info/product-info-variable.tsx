@@ -34,6 +34,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   }
   const variationsData = data.variationsData;
 
+
   // Объединение массивов
   const combinedData = variationsData.map(variation => {
     const brandData = brandsData[0]?.acf.tablicza_razmerov_obuvi.find(data => data.eur === variation.name.replace(',', '.'));

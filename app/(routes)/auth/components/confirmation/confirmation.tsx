@@ -73,7 +73,13 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
       const data = await response.json();
       if (response.ok) {
         login(data.data.data.token)
-        router.push("/profile");
+        if (localStorage.getItem('fromCheckout')) {
+          localStorage.removeItem('fromCheckout');
+          router.push("/checkout");
+        } else {
+          router.push("/profile");
+        }
+
       } else {
         setMessage(`Error: ${data.message}`);
       }

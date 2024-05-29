@@ -9,6 +9,7 @@ interface IMainMenuItem {
 }
 
 const MainMenuItem: React.FC<IMainMenuItem> = ({ data, onClose }) => {
+    const formattedUrl = data.url.replace('https://admin.limited-kicks.ru', '');
     const [open, setOpen] = useState(false);
 
     return (
@@ -29,7 +30,7 @@ const MainMenuItem: React.FC<IMainMenuItem> = ({ data, onClose }) => {
                         </div>
                     </button>
                 ) : (
-                    <Link href={data.url} className="block flex-auto py-4 hover:text-main" onClick={onClose}>{data.title}</Link>
+                    <Link href={formattedUrl} className="block flex-auto py-4 hover:text-main" onClick={onClose}>{data.title}</Link>
                 )}
             </div>
             <div className={`relative pl-8 ${open ? "z-10 h-auto opacity-100" : "z-[-1] h-0 opacity-0"}`}>

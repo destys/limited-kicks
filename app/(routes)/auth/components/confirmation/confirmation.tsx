@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Button from "@/components/ui/button/button";
 import useUser from "@/hooks/use-user";
 import Loader from "@/components/ui/loader/loader";
-import Input from "@/components/ui/input/input";
 
 interface ConfirmationProps {
   userPhone: string;
@@ -17,18 +16,21 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
   const [secondsRemaining, setSecondsRemaining] = useState(60);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [send, setSend] = useState(false);
   const { login } = useUser();
   const router = useRouter();
 
   const handleSetCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newCode = e.target.value.substring(0, 4); // Ограничение длины кода до 4 символов
-    setCode((prevCode) => {
-      if (newCode.length === 4) {
-        confirmationSubmit(newCode); // Вызов функции с актуальным кодом
-      }
-      return newCode;
-    });
+    const newCode = e.target.value.replace(/\D/g, '').substring(0, 4);
+    console.log('newCode: ', newCode);
+
+    setCode(newCode);
+
+    if (newCode.length === 4) {
+      confirmationSubmit(newCode);
+    }
   };
+
 
 
   const buttonReset = () => {
@@ -73,8 +75,8 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
       const data = await response.json();
       console.log('data: ', data);
       console.log('response: ', response);
+      console.log('data.data.data.token: ', data.data.data.token);
       if (response.ok) {
-        console.log('data.data.data.token: ', data.data.data.token);
         login(data.data.data.token)
         if (localStorage.getItem('fromCheckout')) {
           localStorage.removeItem('fromCheckout');
@@ -88,6 +90,7 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
       }
     } catch (error: any) {
       console.error('error: ', error);
+      return null;
       setMessage(`Error: ${error.message}`);
     } finally {
       setLoading(false)
@@ -96,14 +99,25 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
   };
 
   return (
-    <form action="#">
+    <div>
       <p className="mb-4 sm:mb-6 lg:mb-10 text-xs xs:text-sm md:text-base text-center">
         Мы отправили Вам четырехзначный код на номер телефона {" "}
         <strong>{userPhone}</strong>
       </p>
       <div className="relative mb-4">
         {loading && <Loader size={18} />}
-        <input onChange={handleSetCode} inputMode="numeric" pattern="[0-9]*" autoComplete="one-time-code" placeholder="0000" type="number" name="code" max="9999" value={code} className="border-b rounded-none tracking-[30px] py-3 px-4 md:py-4 md:px-6 w-full bg-white text-center text-xs xs:text-sm lg:text-base" />
+        <input
+          onChange={handleSetCode}
+          inputMode="numeric"
+          pattern="[0-9]*"
+          autoComplete="one-time-code"
+          placeholder="0000"
+          type="text"
+          name="code"
+          maxLength={4}
+          value={code}
+          className="border-b rounded-none tracking-[30px] py-3 px-4 md:py-4 md:px-6 w-full bg-white text-center text-xs xs:text-sm lg:text-base"
+        />
       </div>
 
       {message && (
@@ -135,6 +149,6 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
           ? `Отправить код еще раз`
           : `Отправить код еще раз (${secondsRemaining})`}
       </Button>
-    </form>
+    </div>
   );
 }

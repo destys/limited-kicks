@@ -11,14 +11,13 @@ import Sidebar from "./components/sidebar/sidebar";
 import PersonalInfo from "./components/personal-info/personal-info";
 import OrderHistory from "./components/order-history/order-history";
 import Addresses from "./components/addresses/addresses";
-import Payments from "./components/payments/payments";
 import Discount from "./components/discount/discount";
 import Loader from "@/components/ui/loader/loader";
 
 const Profile = () => {
     const router = useRouter()
     const [user, setUser] = useState<User | null>(null);
-    
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const { jwtToken, logout } = useUser();
@@ -63,7 +62,7 @@ const Profile = () => {
                     {activeIndex === 1 && <OrderHistory userId={user?.id} />}
                     {activeIndex === 2 && <Addresses user={user} />}
                     {activeIndex === 3 && <Discount totalAmount={37568 || 0} />}
-                   {/*  {activeIndex === 3 && <Payments />} */}
+                    {/*  {activeIndex === 3 && <Payments />} */}
                 </div>}
             </div>
         </section>

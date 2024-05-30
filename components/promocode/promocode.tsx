@@ -24,7 +24,7 @@ const Promocode = () => {
 
             const coupons = response.data;
             if (!coupons.length) {
-                setError('Купон не найден');
+                setError('Промокод не найден');
             }
             const singleCoupon = coupons.length > 0 ? coupons[0] : null;
             setCoupon(singleCoupon);

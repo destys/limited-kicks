@@ -57,13 +57,17 @@ const Brands: React.FC<IBrands> = ({ data }) => {
         {data.map((item, index) => (
           <SwiperSlide key={item.id}>
             <Link href={`brand/${item.slug}`} className={styles.slide}>
-              <Image
-                src={item.acf?.logotip.url}
-                width={200}
-                height={200}
-                alt={item.name}
-                className="w-full h-full object-contain"
-              />
+              {item.acf?.logotip?.url ? (
+                <Image
+                  src={item.acf?.logotip.url}
+                  width={200}
+                  height={200}
+                  alt={item.name}
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <p>{item.name}</p>
+              )}
             </Link>
           </SwiperSlide>
         ))}

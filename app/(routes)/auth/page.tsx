@@ -17,27 +17,31 @@ export default function Cabinet() {
 
   const { jwtToken, logout } = useUser();
 
-  useEffect(() => {
-    const FetchData = async () => {
-      if (jwtToken) {
-        router.push('/profile')
-        try {
-          setLoading(true);
-          setError(false);
-          const userData = await getUser(jwtToken);
-          setUser(userData);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-          setUser(null);
-          logout();
-          router.push('/auth');
-        } finally {
-          setLoading(false);
+  if (jwtToken) {
+    router.push('/profile')
+  }
+
+  /*   useEffect(() => {
+      const FetchData = async () => {
+        if (jwtToken) {
+          router.push('/profile')
+          try {
+            setLoading(true);
+            setError(false);
+            const userData = await getUser(jwtToken);
+            setUser(userData);
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+            setUser(null);
+            logout();
+            router.push('/auth');
+          } finally {
+            setLoading(false);
+          }
         }
       }
-    }
-    FetchData();
-  }, [jwtToken, logout, router]);
+      FetchData();
+    }, [jwtToken, logout, router]); */
 
   const handleFormSubmit = (e: SetStateAction<string>) => {
     setUserPhone(e);

@@ -73,9 +73,6 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
         body: JSON.stringify({ phone, code }),
       });
       const data = await response.json();
-      console.log('data: ', data);
-      console.log('response: ', response);
-      console.log('data.data.data.token: ', data.data.data.token);
       if (response.ok) {
         login(data.data.data.token)
         if (localStorage.getItem('fromCheckout')) {

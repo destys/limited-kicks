@@ -1,6 +1,6 @@
 'use client'
 import { Address, User } from '@/types'
-import { FormEvent, FormEventHandler, SetStateAction, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { wooApi } from '@/lib/wc-rest-api'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
@@ -32,6 +32,11 @@ interface CheckoutFormData {
     deivery_methods: { value: string };
 }
 const CheckoutForm = () => {
+    const [city, setCity] = useState('');
+    const [street, setStreet] = useState('');
+    const [build, setBuild] = useState('');
+    const [apartmentNumber, setApartmentNumber] = useState('');
+
     const [user, setUser] = useState<User | null>(null);
     const [addresses, setAddresses] = useState<Address[]>([])
     const [deliveryMethods, setDeliveryMethods] = useState<IDelivery[]>([]);
@@ -56,7 +61,7 @@ const CheckoutForm = () => {
                 setUser(userData);
 
                 if (userData) {
-                    setAddresses(userData.acf.addresses)
+                    setAddresses(userData.acf.addresses || [])
                 }
 
                 const [paymentsData, shippingZones] = await Promise.all([
@@ -77,6 +82,7 @@ const CheckoutForm = () => {
             }
         };
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [jwtToken]);
 
     const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
@@ -122,18 +128,14 @@ const CheckoutForm = () => {
         }
     };
 
-    const updateAddresses = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const updateAddresses = async () => {
 
         const newAddress = {
-            'city': e.currentTarget.city.value,
-            'street': e.currentTarget.street.value,
-            'build': e.currentTarget.build.value,
-            'apartment_number': e.currentTarget.apartment_number.value,
+            'city': city,
+            'street': street,
+            'build': build,
+            'apartment_number': apartmentNumber,
         };
-
-        const form = e.currentTarget;
-
 
         const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/update-user/${user?.id}`, {
 
@@ -149,11 +151,9 @@ const CheckoutForm = () => {
             }),
         });
 
-        form.reset();
-
         if (!response.ok) {
-            throw new Error('Ошибка добавления адреса');
             toast.error('Ошибка добавления адреса');
+            throw new Error('Ошибка добавления адреса');
         }
         if (response.ok) {
             toast.success('Адрес добавлен');
@@ -204,15 +204,15 @@ const CheckoutForm = () => {
                                 />
                             ))) : <p>Адреса еще не добавлены</p>}
                         </div>
-                        {showAddForm && <form className="mt-6" onSubmit={updateAddresses}>
-                            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-2 ">
-                                <Input type="text" name="city" placeholder="Город" />
-                                <Input type="text" name="street" placeholder="Улица" />
-                                <Input type="text" name="build" placeholder="Дом" />
-                                <Input type="text" name="apartment_number" placeholder="Квартира" />
+                        {showAddForm && <div className="mt-6">
+                            <div className="grid grid-cols-1 xs:grid-cols-2 2xl:grid-cols-4 gap-2 ">
+                                <input className="py-3 px-4 md:py-4 md:px-6 w-full bg-white rounded-[10px] border border-add_4 text-xs xs:text-sm lg:text-base" type="text" name="city" placeholder="Город" value={city} onChange={(e) => setCity(e.target.value)} />
+                                <input className="py-3 px-4 md:py-4 md:px-6 w-full bg-white rounded-[10px] border border-add_4 text-xs xs:text-sm lg:text-base" type="text" name="street" placeholder="Улица" value={street} onChange={(e) => setStreet(e.target.value)} />
+                                <input className="py-3 px-4 md:py-4 md:px-6 w-full bg-white rounded-[10px] border border-add_4 text-xs xs:text-sm lg:text-base" type="text" name="build" placeholder="Дом" value={build} onChange={(e) => setBuild(e.target.value)} />
+                                <input className="py-3 px-4 md:py-4 md:px-6 w-full bg-white rounded-[10px] border border-add_4 text-xs xs:text-sm lg:text-base" type="text" name="apartment_number" placeholder="Квартира" value={apartmentNumber} onChange={(e) => setApartmentNumber(e.target.value)} />
                             </div>
-                            <Button type="submit" styled="filled" className='mt-3'>Сохранить</Button>
-                        </form>}
+                            <Button type="button" styled="filled" className='mt-3' onClick={updateAddresses}>Сохранить</Button>
+                        </div>}
                         {!showAddForm && <Button type="button" styled={"filled"} className={'w-full mt-4 xs:w-fit'} onClick={() => setShowAddForm(true)}>Добавить новый адрес</Button>}
                     </div>
                     <div className="mb-6 lg:mb-11">

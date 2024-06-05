@@ -22,7 +22,6 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
 
   const handleSetCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCode = e.target.value.replace(/\D/g, '').substring(0, 4);
-    console.log('newCode: ', newCode);
 
     setCode(newCode);
 

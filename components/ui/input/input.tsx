@@ -54,6 +54,7 @@ const Input: React.FC<InputProps> = ({
       ) : (
         <input
           {...props}
+          onChange={onChange}
           type={type}
           className={twMerge(classes, className)}
           name={name}

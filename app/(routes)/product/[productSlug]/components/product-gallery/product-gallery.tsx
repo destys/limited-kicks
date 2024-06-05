@@ -96,8 +96,10 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data, productId, flag, 
             </svg>
           </button>
         </div>
-        <FlagItem title={flag} />
-        <FlagItem title={flag_2} />
+        <div className="flex gap-2">
+          <FlagItem title={flag} />
+          <FlagItem title={flag_2} />
+        </div>
       </div>
       <Swiper ref={swiperRef} resizeObserver={false} className="">
         {data.map((image) => (

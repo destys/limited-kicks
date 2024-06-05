@@ -20,6 +20,7 @@ interface ProductInfoProps {
 }
 
 const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
+  console.log('data: ', data);
   const oneClickModal = useOneClickModal();
   const cart = useShoppingCart();
 
@@ -239,18 +240,18 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
         <div className={styles.attributes}>
           <div className={styles.item}>
             <strong className="text-lg">SKU</strong>
-            <span>DN3253-500</span>
+            <span>{data.sku}</span>
           </div>
+          {data.acf.data_reliza && <div className={styles.item}>
+            <strong className="text-lg">Дата релиза</strong>
+            <span>{data.acf.data_reliza}</span>
+          </div>}
           <div className={styles.item}>
-            <strong className="text-lg">Release date</strong>
-            <span>August 2023</span>
-          </div>
-          <div className={styles.item}>
-            <strong className="text-lg">Colorway</strong>
+            <strong className="text-lg">Цвет</strong>
             <span>Titanium/Dark Smoke Gray-Sail</span>
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 }

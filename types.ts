@@ -52,7 +52,9 @@ export interface IListing {
 }
 
 export interface Product {
+  sku: ReactNode;
   acf: {
+    data_reliza: any;
     flag_1: string;
     flag_2: string;
   };

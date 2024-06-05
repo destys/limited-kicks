@@ -1,11 +1,6 @@
-'use client';
+import Button from "@/components/ui/button/button";
 
-import Button from "../ui/button/button";
-import styles from "./favorites-item.module.scss";
-
-type Props = {}
-
-const FavoritesActions = (props: Props) => {
+const FavoritesActions = () => {
     return (
         <div className="grid gap-4">
             <Button styled="filled" className="w-full">Купить в 1 клик</Button>

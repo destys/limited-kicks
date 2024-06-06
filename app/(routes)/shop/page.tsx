@@ -10,6 +10,7 @@ import BannerCatalog from "@/components/banner-catalog/banner-catalog";
 import Categories from "./components/categories/categories";
 import BrandsCatalog from "./components/brands-catalog/brands-catalog";
 import NotFound from "@/app/not-found";
+import ScrollElement from "@/components/scroll-element/scroll-element";
 
 interface IShopPage {
     searchParams: {}
@@ -41,12 +42,12 @@ export async function generateMetadata() {
 }
 const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
     const shop = await getPage("shop");
-    
+
     if (!shop.length) {
         return <NotFound />
     }
 
-    const products = await getProducts({ ...searchParams });
+    const products = await getProducts({ per_page: 24, page: 1, ...searchParams });
 
     const attributesMap = new Map();
 
@@ -95,6 +96,7 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
                             : (<ProductItem key={item.id} data={item} />)
                     ))}
                 </div>
+                <ScrollElement />
             </section>
         </>
     );

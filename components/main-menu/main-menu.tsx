@@ -1,5 +1,5 @@
 "use client";
-import { IMenu, IMenuItem } from "@/types";
+import { IMenuItem } from "@/types";
 
 import { useEffect, useState } from "react"
 import Image from "next/image";
@@ -31,7 +31,7 @@ const MainMenu = () => {
             <div className={`absolute inset-0 max-w-[412px] h-full z-50  ${isOpen ? "!translate-x-0" : "translate-x-[-100%]"}`}>
                 <div className="relative">
                     <div className="h-[250px]">
-                        <Image src={"/images/best-sellers.png"} fill alt="menu" objectFit="cover" />
+                        <Image src={"/images/best-sellers.png"} width={412} height={250} alt="menu" className="w-full h-full object-cover" />
                     </div>
                     <button onClick={onClose} className="absolute top-4 right-4">
                         <Image src={"/icons/Icon/Close.svg"} width={30} height={30} alt="close" />

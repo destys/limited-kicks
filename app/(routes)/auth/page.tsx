@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 
 import useUser from "@/hooks/use-user";
 
@@ -13,10 +13,16 @@ export default function Cabinet() {
   const [userPhone, setUserPhone] = useState("");
 
   const { jwtToken } = useUser();
+  console.log('jwtToken: ', jwtToken);
 
-  if (jwtToken) {
-    router.push('/profile')
-  }
+  useEffect(() => {
+    // Перенос обновления маршрутизации в useEffect
+    if (jwtToken) {
+      router.push('/profile')
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jwtToken]);
+
 
   const handleFormSubmit = (e: SetStateAction<string>) => {
     setUserPhone(e);

@@ -25,7 +25,7 @@ const Header = () => {
               alt="logotype"
               width={151}
               height={68}
-              className="max-w-[64px] sm:max-w-[128px] lg:max-w-none "
+              className="max-w-[64px] sm:max-w-[128px] lg:max-w-none"
             />
           </Link>
           <div className={styles.menu}>

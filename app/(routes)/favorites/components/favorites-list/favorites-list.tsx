@@ -19,7 +19,6 @@ const FavoritesList = () => {
             if (favorites.length) {
                 setLoading(true);
                 const products = await getProducts({ include: favorites.join() });
-                console.log('favorites: ', favorites);
                 setProductsList(products);
                 setLoading(false);
             } else {

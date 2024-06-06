@@ -20,7 +20,7 @@ export default function AppBar() {
                 src={"/icons/Icon/Address.svg"}
                 width={20}
                 height={20}
-                alt="menu burger"
+                alt="home page"
                 className="text-black"
               />
             </Link>

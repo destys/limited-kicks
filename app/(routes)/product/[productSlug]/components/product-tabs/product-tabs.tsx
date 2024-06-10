@@ -1,49 +1,55 @@
 import { useState } from "react";
 
+import { Product } from "@/types";
 
 import styles from "./product-tabs.module.scss";
 import Button from "@/components/ui/button/button";
+import PaymentText from "./payment-text";
+import DeliveryText from "./delivery-text";
 
-export default function ProductTabs() {
+interface IProductTabs {
+  data: Product;
+}
+
+const ProductTabs: React.FC<IProductTabs> = ({ data }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = [
     {
       id: 0,
       title: "Описание",
-      content:
-        "There Elevate High Light Lilac Black Toe consists of an upper in white leather broken to which zips are added to the inner part. She also has overlays and a swoosh in black leather, as well as encroachments in Daim LilasOn the flap and the heel. THE design Complete with its signature element, namely its imposing two -color platform sole while the ankle is adorned by outline of a Wings logo.",
+      content: data.description
     },
     {
       id: 1,
       title: "Оплата",
-      content: "",
+      content: <PaymentText />,
     },
     {
       id: 2,
       title: "Доставка",
-      content: "",
+      content: <DeliveryText />,
     },
     {
       id: 3,
       title: "100% Оригинал",
-      content: "",
+      content: "Каждый товар проходит тщательную проверку в несколько этапов. Мы применяем наш опыт и ИИ технологии для исследования каждого заказа. Приобретая товар в нашем магазине, Вы можете быть уверенными в его аутентичности на 100%.",
     },
     {
       id: 4,
       title: "Гарантия",
-      content: "",
+      content: "Вы можете вернуть или обменять товар в течение 14 дней с момента получения заказа. Товар должен быть в оригинальном состоянии и упаковке без следов использования.",
     },
     {
       id: 5,
+      title: "Подбор размера",
+      content: "Мы оказываем сервис подбора размера для всех клиентов. Вам больше не стоит переживать! Подобрать размер можно в Telegram или WhatsApp (ссылки)",
+    },
+    /* {
+      id: 6,
       title: "Отзывы",
       content: "",
-    },
-    {
-      id: 6,
-      title: "Подбор размера",
-      content: "",
-    },
+    }, */
   ];
   return (
     <div className={styles.tabs}>
@@ -54,10 +60,9 @@ export default function ProductTabs() {
             type="button"
             styled={"filled"}
             className={`whitespace-nowrap
-              ${
-                activeTab !== index
-                  ? "bg-add_1 text-black"
-                  : "hover:bg-black hover:text-white"
+              ${activeTab !== index
+                ? "bg-add_1 text-black"
+                : "hover:bg-black hover:text-white"
               }
             `}
             onClick={() => setActiveTab(item.id)}
@@ -79,3 +84,5 @@ export default function ProductTabs() {
     </div>
   );
 }
+
+export default ProductTabs;

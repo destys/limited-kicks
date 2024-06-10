@@ -52,12 +52,13 @@ export interface IListing {
 }
 
 export interface Product {
-  sku: ReactNode;
+  sku: string;
   acf: {
     data_reliza: any;
     flag_1: string;
     flag_2: string;
   };
+  description: string;
   attributes: Attribute[];
   stock_status: string;
   type: string;

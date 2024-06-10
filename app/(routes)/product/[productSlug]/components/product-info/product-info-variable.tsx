@@ -236,7 +236,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
         </div>
         <Dolayme />
         <div className="mb-5 md:mb-7 lg:mb-11 h-[1px] bg-add_1"></div>
-        <ProductTabs />
+        <ProductTabs data={data} />
         <div className={styles.attributes}>
           <div className={styles.item}>
             <strong className="text-lg">SKU</strong>

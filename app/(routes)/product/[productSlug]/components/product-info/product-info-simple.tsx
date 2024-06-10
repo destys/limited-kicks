@@ -73,18 +73,18 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
         </div>
         <Dolayme />
         <div className="mb-5 md:mb-7 lg:mb-11 h-[1px] bg-add_1"></div>
-        <ProductTabs />
+        <ProductTabs data={data} />
         <div className={styles.attributes}>
           <div className={styles.item}>
             <strong className="text-lg">SKU</strong>
-            <span>DN3253-500</span>
+            <span>{data.sku}</span>
           </div>
           <div className={styles.item}>
-            <strong className="text-lg">Release date</strong>
-            <span>August 2023</span>
+            <strong className="text-lg">Дата релиза</strong>
+            <span>{data.acf.data_reliza}</span>
           </div>
           <div className={styles.item}>
-            <strong className="text-lg">Colorway</strong>
+            <strong className="text-lg">Цвет</strong>
             <span>Titanium/Dark Smoke Gray-Sail</span>
           </div>
         </div>

@@ -14,7 +14,7 @@ export interface Page {
   template: string;
   acf: {
     bannery: [];
-    faq: FaqItem[];
+    faq: IFaqItem[];
   };
 }
 

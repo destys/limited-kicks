@@ -14,17 +14,6 @@ export default function AppBar() {
     <div className={styles.appBar}>
       <nav className={styles.appBar__nav}>
         <ul className={styles.appBar__list}>
-          <li>
-            <Link href={"/"}>
-              <Image
-                src={"/icons/Icon/Address.svg"}
-                width={20}
-                height={20}
-                alt="home page"
-                className="text-black"
-              />
-            </Link>
-          </li>
           <li onClick={onOpen}>
             <Image
               src={"/icons/Icon/menu-burger.svg"}
@@ -53,17 +42,6 @@ export default function AppBar() {
               alt="Search"
               className="text-black"
             />
-          </li>
-          <li>
-            <Link href={"/cart"}>
-              <Image
-                src={"/icons/Icon/Find Card.svg"}
-                width={20}
-                height={20}
-                alt="Bag"
-                className="text-black"
-              />
-            </Link>
           </li>
           <li>
             <Link href={"/cart"}>

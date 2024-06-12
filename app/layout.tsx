@@ -31,7 +31,7 @@ export default function RootLayout({
         <div className={styles.wrapper}>
           <Header />
           <AppBar />
-          <main className="flex-auto pt-[72px]">
+          <main className="flex-auto pt-[72px] lg:pt-0">
             {children}
           </main>
           <Subscribe />

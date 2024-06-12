@@ -37,11 +37,13 @@ export async function generateMetadata({ params }: Params) {
 
 export default async function HomePage({ params }: Params) {
   const pageData = await getPage(params.pageSlug);
-  const templateName = pageData[0].template;
 
   if (!pageData.length) {
     return <NotFound />
   }
+
+  const templateName = pageData[0].template;
+
 
   const siteOptions = await getAcfOptions();
 

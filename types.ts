@@ -11,8 +11,10 @@ export interface Page {
   title: {
     rendered: string;
   };
+  template: string;
   acf: {
     bannery: [];
+    faq: FaqItem[];
   };
 }
 
@@ -52,6 +54,7 @@ export interface IListing {
 }
 
 export interface Product {
+  yoast_head_json: any;
   sku: string;
   acf: {
     data_reliza: any;
@@ -259,4 +262,9 @@ export interface ICoupon {
   discount: string;
   discount_tax: string;
   meta_data: [];
+}
+
+export interface IFaqItem {
+  vopros: string;
+  otvet: string;
 }

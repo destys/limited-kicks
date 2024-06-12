@@ -20,7 +20,6 @@ interface ProductInfoProps {
 }
 
 const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
-  console.log('data: ', data);
   const oneClickModal = useOneClickModal();
   const cart = useShoppingCart();
 

@@ -1,5 +1,10 @@
 import NotFound from "@/app/not-found";
 
+
+import getAcfOptions from "@/actions/get-acf-options";
+import getProducts from "@/actions/get-products";
+import getProduct from "@/actions/get-product";
+
 import Banner from "@/components/banner/banner";
 import Listing from "@/components/listing/listing";
 import Price from "@/components/price/price";
@@ -7,19 +12,42 @@ import Ticker from "@/components/ticker/ticker";
 import ProductGallery from "./components/product-gallery/product-gallery";
 import ProductInfoVariable from "./components/product-info/product-info-variable";
 import ProductInfoSimple from "./components/product-info/product-info-simple";
-
-import getAcfOptions from "@/actions/get-acf-options";
-import getProducts from "@/actions/get-products";
+import AddToRecently from "./components/add-to-recently/add-to-recently";
+import Crumbs from "@/components/crumbs/crumbs";
+import TagCloud from "@/components/tag-cloud/tag-cloud";
 
 import styles from './product.module.scss';
-import TagCloud from "@/components/tag-cloud/tag-cloud";
-import Crumbs from "@/components/crumbs/crumbs";
-import getProduct from "@/actions/get-product";
+
 
 interface ProductPageProps {
     params: {
         productSlug: string;
     },
+}
+
+export async function generateMetadata({ params }: ProductPageProps) {
+    const data = await getProduct({ slug: params.productSlug });
+    if (!data) {
+        return <NotFound />
+    }
+    const yoast_head_json = data.yoast_head_json;
+
+    return {
+        title: yoast_head_json.title, // Если у продукта есть свое собственное название, используйте его, в противном случае используйте название из yoast_head_json
+        description: yoast_head_json.description,
+        canonical: yoast_head_json.canonical,
+        openGraph: {
+            type: yoast_head_json.og_type,
+            locale: yoast_head_json.og_locale,
+            url: yoast_head_json.og_url,
+            title: yoast_head_json.og_title,
+            description: yoast_head_json.og_description,
+            site_name: yoast_head_json.og_site_name,
+        },
+        twitter: {
+            cardType: yoast_head_json.twitter_card,
+        },
+    }
 }
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
@@ -34,10 +62,11 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     return (
         <>
             <section>
+                <AddToRecently id={data.id} />
                 <Crumbs type={"product"} data={data} />
                 <div className={styles.product}>
                     <div className={styles.gallery}>
-                        <ProductGallery productId={data.id} data={data.images} flag={data.acf.flag_1} flag_2={data.acf.flag_2} />
+                        <ProductGallery productId={data.id} data={data} />
                     </div>
                     <div className={styles.info}>
                         <h1 className="mb-2 sm:mb-3 lg:mb-4">{data.name}</h1>

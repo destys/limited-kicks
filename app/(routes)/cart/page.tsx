@@ -26,7 +26,7 @@ export default function Cart() {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-80">
-      <h1 className="mb-10 text-center">Корзина</h1>
+      <h1 className="mb-10 text-center uppercase  ">Корзина</h1>
       {cart.items.length ? (
         <div>
           {
@@ -44,8 +44,8 @@ export default function Cart() {
           >
             Оформить заказ
           </Link>
-        </div>) : (<div>
-          <p>В данный момент корзина пуста!</p>
+        </div>) : (<div className="text-center">
+          <p className="mb-12">Пусто.. Время это исправить!</p>
           <Button type="button" styled="filled" className="mx-auto"><Link href='/shop'>В каталог</Link></Button>
         </div>)}
     </div>

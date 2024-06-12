@@ -8,6 +8,7 @@ import useFavoriteStore from "@/hooks/use-favorite";
 
 import Loader from "@/components/ui/loader/loader";
 import FavoritesItem from "../favorites-item/favorites-item";
+import RecentlyViewed from "@/components/recently-viewed/recently-viewed";
 
 const FavoritesList = () => {
     const [loading, setLoading] = useState(true);
@@ -31,11 +32,12 @@ const FavoritesList = () => {
     return (
         <div className='relative'>
             {loading && <Loader />}
-            <div className={`grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-6 gap-3 lg:gap-x-4 lg:gap-y-5 relative min-h-[320px]`}>
+            <div className={`grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-6 gap-3 lg:gap-x-4 lg:gap-y-5 mb-16 relative`}>
                 {productsList.length ? productsList?.map(item => (
                     <FavoritesItem key={item.id} data={item} />
-                )) : <p>Нет товаров в избранном</p>}
+                )) : <p className="col-span-2 text-center lg:text-left">В избранном пусто. Добавляйте товары с помощью ❤️</p>}
             </div>
+            <RecentlyViewed />
         </div>
     )
 }

@@ -7,6 +7,7 @@ import Banner from "@/components/banner/banner";
 import Listing from "@/components/listing/listing";
 import Ticker from "@/components/ticker/ticker";
 import TagCloud from "@/components/tag-cloud/tag-cloud";
+import RecentlyViewed from "@/components/recently-viewed/recently-viewed";
 
 type Props = {
     children: ReactNode;
@@ -20,6 +21,7 @@ const CartLayout = async (props: Props) => {
             <section className="max-w-[1070px] mx-auto">
                 {props.children}
             </section>
+            <RecentlyViewed />
             <Ticker />
             <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} />
             <Banner data={siteOptions?.acf?.bannery} />

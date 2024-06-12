@@ -1,6 +1,6 @@
 'use client'
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,15 +13,38 @@ import SlideNextButton from "../ui/slider-navigations/slider-next-button";
 import { Product } from "@/types";
 
 import "swiper/css";
-import styles from "./listing.module.scss";
+import styles from "./recently-viewed.module.scss";
+import getProducts from "@/actions/get-products";
+import Loader from "../ui/loader/loader";
 
-interface ListingProps {
-    data: Product[];
-    title: string;
-    titleTag?: string;
-}
+const RecentlyViewed = () => {
+    const [loading, setLoading] = useState(true);
+    const [productsList, setProductsList] = useState<Product[]>([]);
 
-const Listing: React.FC<ListingProps> = ({ data, title, titleTag }) => {
+
+    useEffect(() => {
+        const productsId = localStorage.getItem('recently') || '';
+        const fetchData = async () => {
+            console.log('first')
+            if (productsId) {
+                setLoading(true);
+                const products = await getProducts({ include: productsId, orderby: 'include' });
+                setProductsList(products);
+                setLoading(false);
+            } else {
+                setLoading(false);
+                return null;
+            }
+        }
+        fetchData();
+    }, [])
+
+    if (!productsList.length) {
+        return null;
+    }
+
+
+
     return (
         <section>
             <Swiper
@@ -46,7 +69,7 @@ const Listing: React.FC<ListingProps> = ({ data, title, titleTag }) => {
                 }}
             >
                 <div className={styles.listing__top}>
-                    {title && React.createElement(titleTag || 'h2', { className: styles.listing__title }, title)}
+                    <h2 className={styles.listing__title}>Недавно посмотренные</h2>
                     <div className="flex items-center gap-10">
                         <Link href={"/products"} className={styles.listing__showMore}>
                             Смотреть все
@@ -57,14 +80,15 @@ const Listing: React.FC<ListingProps> = ({ data, title, titleTag }) => {
                         </div>
                     </div>
                 </div>
-                {data?.map((item) => (
+                {productsList?.map((item) => (
                     <SwiperSlide key={item.id}>
                         <ProductItem data={item} />
                     </SwiperSlide>
                 ))}
             </Swiper>
+
         </section>
     );
 }
 
-export default Listing
+export default RecentlyViewed

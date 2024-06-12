@@ -2,6 +2,7 @@ import getPage from "@/actions/get-page";
 import getAcfOptions from "@/actions/get-acf-options";
 import NotFound from "@/app/not-found";
 import Crumbs from "@/components/crumbs/crumbs";
+import Faq from "@/components/pages/faq/faq";
 
 type Params = {
   params: {
@@ -36,10 +37,17 @@ export async function generateMetadata({ params }: Params) {
 
 export default async function HomePage({ params }: Params) {
   const pageData = await getPage(params.pageSlug);
+  const templateName = pageData[0].template;
+
   if (!pageData.length) {
     return <NotFound />
   }
+
   const siteOptions = await getAcfOptions();
+
+  if (templateName === 'page-faq.php') {
+    return <Faq data={pageData[0]} />
+  }
 
   return (
     <>

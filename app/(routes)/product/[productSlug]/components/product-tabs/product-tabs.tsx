@@ -18,7 +18,7 @@ const ProductTabs: React.FC<IProductTabs> = ({ data }) => {
     {
       id: 0,
       title: "Описание",
-      content: data.description
+      content: <div dangerouslySetInnerHTML={{ __html: data.description }} className={styles.description} />
     },
     {
       id: 1,

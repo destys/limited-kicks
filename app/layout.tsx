@@ -10,12 +10,12 @@ import Subscribe from '@/components/subscribe/subscribe'
 
 import './globals.scss'
 import styles from './layout.module.scss'
+import Head from 'next/head'
 
 const font = Unbounded({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'LimitedKicks',
-  description: 'LimitedKicks - The place for all your purchases.',
+  robots: "noindex, nofollow"
 }
 
 export default function RootLayout({
@@ -31,7 +31,7 @@ export default function RootLayout({
         <div className={styles.wrapper}>
           <Header />
           <AppBar />
-          <main className="flex-auto">
+          <main className="flex-auto pt-[72px]">
             {children}
           </main>
           <Subscribe />

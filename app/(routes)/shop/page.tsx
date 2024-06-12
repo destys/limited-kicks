@@ -40,6 +40,7 @@ export async function generateMetadata() {
         },
     }
 }
+
 const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
     const shop = await getPage("shop");
 

@@ -9,6 +9,7 @@ import Actions from "./components/actions";
 
 import styles from "./header.module.scss";
 import MenuButton from "./components/menu-button";
+import MobileLogo from "./components/mobile-logo";
 
 const Header = () => {
   return (
@@ -90,6 +91,7 @@ const Header = () => {
         <Search />
         <Actions />
       </div>
+      <MobileLogo />
       <Offer />
     </header>
   );

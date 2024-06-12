@@ -8,24 +8,24 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 import styles from "./product-gallery.module.scss";
-import FlagItem from "@/components/flag-item/flag-item";
 import SlidePrevButton from "@/components/ui/slider-navigations/slider-prev-button";
 import SlideNextButton from "@/components/ui/slider-navigations/slider-next-button";
-import { SingleImage } from "@/types";
+import { Product } from "@/types";
 import useFavoriteStore from "@/hooks/use-favorite";
+import FlagList from "@/components/flag-list/flag-list";
 
 interface ProductGalleryProps {
   productId: number;
-  data: SingleImage[];
+  data: Product;
   flag?: string;
   flag_2?: string;
 }
 
-const ProductGallery: React.FC<ProductGalleryProps> = ({ data, productId, flag, flag_2 }) => {
+const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
   const swiperRef = useRef<any>(null);
 
   const { favorites, addFavorite, removeFavorite } = useFavoriteStore();
-  const isFavorite = favorites.includes(productId);
+  const isFavorite = favorites.includes(data.id);
 
   const toggleFavorite = (id: number) => {
     if (isFavorite) {
@@ -73,7 +73,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data, productId, flag, 
               />
             </svg>
           </button>
-          <button title="favorite" className="max-md:max-w-[38px]" onClick={() => toggleFavorite(productId)}>
+          <button title="favorite" className="max-md:max-w-[38px]" onClick={() => toggleFavorite(data.id)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="28"
@@ -96,13 +96,10 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data, productId, flag, 
             </svg>
           </button>
         </div>
-        <div className="flex gap-2">
-          <FlagItem title={flag} />
-          <FlagItem title={flag_2} />
-        </div>
+        <FlagList data={data} className="flex gap-2" />
       </div>
       <Swiper ref={swiperRef} resizeObserver={false} className="">
-        {data.map((image) => (
+        {data.images.map((image) => (
           <SwiperSlide key={image.id}>
             <Image
               src={image.src}
@@ -116,9 +113,9 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data, productId, flag, 
           <SlidePrevButton />
           <SlideNextButton />
         </div>
-        {data.length > 1 && (
+        {data.images.length > 1 && (
           <div className={styles.thumbs}>
-            {data.map((image, index) => (
+            {data.images.map((image, index) => (
               <div key={image.id} className={styles.item}>
                 <Image
                   src={image.src}

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import FlagItem from "../flag-item/flag-item";
 import Price from "../price/price";
 
 import styles from "./product-item.module.scss";
 import { Product } from "@/types";
+import FlagList from "../flag-list/flag-list";
 
 interface IProductItem {
     data: Product;
@@ -15,11 +15,7 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
     return (
         <article className={styles.product}>
             <Link href={`/product/${data.slug}`}>
-                {data?.new && (
-                    <div className={styles.flags}>
-                        <FlagItem title="new" />
-                    </div>
-                )}
+                {data?.acf.flag_1 && <FlagList data={data} className={styles.flags} />}
                 <div className={styles.image}>
                     <Image
                         src={data.images[0]?.src || '/images/image-placeholder.png'}

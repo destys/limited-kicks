@@ -2,4 +2,14 @@
     .navigation {
         @apply flex overflow-x-scroll py-5 lg:flex-wrap gap-2 mb-3 lg:overflow-visible;
     }
+
+    .description {
+        p,h2,h3,h4, ul {
+            @apply mb-2;
+        }
+
+        ul {
+            @apply list-inside list-disc;
+        }
+    }
 }

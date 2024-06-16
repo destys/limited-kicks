@@ -11,7 +11,6 @@ import Categories from "./components/categories/categories";
 import BrandsCatalog from "./components/brands-catalog/brands-catalog";
 import NotFound from "@/app/not-found";
 import ScrollElement from "@/components/scroll-element/scroll-element";
-import ProductGrid from "@/components/products-grid/products-grid";
 
 interface IShopPage {
     searchParams: {}
@@ -43,19 +42,17 @@ export async function generateMetadata() {
 }
 
 const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
-    console.log('searchParams: ', searchParams);
     const shop = await getPage("shop");
 
     if (!shop.length) {
         return <NotFound />
     }
 
-    const initialProducts = await getProducts({ per_page: 12, page: 1, ...searchParams });
-    
+    const products = await getProducts({ per_page: 24, page: 1, ...searchParams });
 
     const attributesMap = new Map();
 
-    initialProducts.forEach(product => {
+    products.forEach(product => {
         product.attributes.forEach(attribute => {
             if (!attributesMap.has(attribute.id)) {
                 attributesMap.set(attribute.id, {
@@ -86,12 +83,25 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
                 <h1 className="mb-10">{shop[0].title.rendered}</h1>
                 <Categories />
                 <BrandsCatalog />
-                <TopBar count={initialProducts.length} filters={filters} />
+                <TopBar count={products.length} filters={filters} />
 
-                <ProductGrid initialProducts={initialProducts} searchParams={searchParams} />
+                <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5">
+                    {products?.map((item, index) => (
+                        (index + 1 === 9 || index + 1 === 22) ?
+                            (<>
+                                <div key={index + '-banner'} className="col-span-2 row-span-2">
+                                    <BannerCatalog banner={null} />
+                                </div>
+                                <ProductItem key={item.id} data={item} />
+                            </>)
+                            : (<ProductItem key={item.id} data={item} />)
+                    ))}
+                </div>
+                <ScrollElement />
             </section>
         </>
     );
 }
 
 export default ShopPage;
+

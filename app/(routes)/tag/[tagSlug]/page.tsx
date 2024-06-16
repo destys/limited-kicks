@@ -1,36 +1,34 @@
 import getProducts from "@/actions/get-products";
 import { ResolvingMetadata } from "next";
-import TagCloud from "@/components/tag-cloud/tag-cloud";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import getTags from "@/actions/get-tags";
 import NotFound from "@/app/not-found";
 
-interface CategoryPageProps {
+interface ITagPage {
   params: {
-    tagSlug: any;
+    tagSlug: string;
     categorySlug: string;
   },
-  searchParams?: {
-    colorId?: string;
-    sizeId?: string;
-  }
+  searchParams: {}
 }
 
 type MetaProps = {
   params: { tagSlug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata(
-  { params, searchParams }: MetaProps,
+  { params }: MetaProps,
   parent: ResolvingMetadata
 ) {
   const tag = await getTags({ slug: params.tagSlug });
+  if (!tag.length) {
+    return {};
+  }
   const yoast_head_json = tag[0].yoast_head_json;
 
   return {
-    title: yoast_head_json.title, // Если у продукта есть свое собственное название, используйте его, в противном случае используйте название из yoast_head_json
+    title: yoast_head_json.title,
     description: yoast_head_json.description,
     canonical: yoast_head_json.canonical,
     openGraph: {
@@ -47,7 +45,7 @@ export async function generateMetadata(
   }
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
+const TagPage: React.FC<ITagPage> = async ({ params, searchParams }) => {
   const tag = await getTags({ slug: params.tagSlug });
 
   if (!tag.length) {
@@ -55,13 +53,24 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
   }
 
   const siteOptions = await getAcfOptions();
-  const products = await getProducts({ tag: tag[0].id });
+  const initialProducts = await getProducts({
+    tag: tag[0].id,
+    per_page: 24,
+    page: 1,
+    ...searchParams
+  });
 
   return (
-    <>
-      <CatalogContent category={tag[0]} products={products} title={tag[0].name} excerpt={tag[0].acf?.korotkoe_opisanie} description={tag[0].acf?.description} tagCloud={siteOptions?.acf.oblako_metok} />
-    </>
+    <CatalogContent
+      category={tag[0]}
+      initialProducts={initialProducts}
+      title={tag[0].name}
+      excerpt={tag[0].acf?.korotkoe_opisanie}
+      description={tag[0].acf?.description}
+      tagCloud={siteOptions?.acf.oblako_metok}
+      searchParams={searchParams}
+    />
   );
 }
 
-export default CategoryPage;
+export default TagPage;

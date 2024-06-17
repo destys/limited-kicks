@@ -1,6 +1,5 @@
 import getPage from "@/actions/get-page";
 import getAcfOptions from "@/actions/get-acf-options";
-import getProducts from "@/actions/get-products";
 import getPosts from "@/actions/get-posts";
 import getBrands from "@/actions/get-brands";
 
@@ -12,6 +11,7 @@ import Banner from "@/components/banner/banner";
 
 import BlogSlider from "@/components/blog-slider/blog-slider";
 import ProductsOnRequest from "@/components/products-on-request/products-on-request";
+import getProductsListing from "@/actions/get-products-listing";
 
 export async function generateMetadata() {
   const page = await getPage('glavnaya-stranicza');
@@ -38,9 +38,9 @@ export async function generateMetadata() {
 export default async function HomePage() {
   const pageData = await getPage('glavnaya-stranicza');
   const siteOptions = await getAcfOptions();
-  const listing_1 = await getProducts({ include: siteOptions?.acf?.listing_1?.products?.join() });
-  const listing_2 = await getProducts({ include: siteOptions?.acf?.listing_2?.products?.join() });
-  const listing_3 = await getProducts({ include: siteOptions?.acf?.listing_3?.products?.join() });
+  const listing_1 = await getProductsListing({ include: siteOptions?.acf?.listing_1?.products?.join() });
+  const listing_2 = await getProductsListing({ include: siteOptions?.acf?.listing_2?.products?.join() });
+  const listing_3 = await getProductsListing({ include: siteOptions?.acf?.listing_3?.products?.join() });
   const posts = await getPosts('?per_page=8&orderby=date&_embed=true');
   const brands = await getBrands();
 

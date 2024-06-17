@@ -1,16 +1,16 @@
-import { Attribute } from "@/types";
+import { Attribute, IProductsQuery } from "@/types";
 import FiltersList from "./filters-list";
 
 interface ITopbar {
+  query: IProductsQuery;
   count: number;
-  filters: Attribute[];
 }
 
-const TopBar: React.FC<ITopbar> = ({ count, filters }) => {
+const TopBar: React.FC<ITopbar> = ({ query, count }) => {
 
   return (
     <>
-      <FiltersList count={count} filters={filters} />
+      <FiltersList query={query} count={count} />
     </>
   );
 }

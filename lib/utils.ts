@@ -50,3 +50,32 @@ export async function fetchWooCommerce(
     throw error;
   }
 }
+
+export const mergeParams = (
+  query: Record<string, any>,
+  searchParams: Record<string, any>
+): Record<string, any> => {
+  const merged: Record<string, any> = { ...query };
+
+  Object.keys(searchParams).forEach((key) => {
+    if (Array.isArray(searchParams[key])) {
+      if (Array.isArray(merged[key])) {
+        merged[key] = merged[key].concat(searchParams[key]);
+      } else if (merged[key] !== undefined) {
+        merged[key] = [merged[key]].concat(searchParams[key]);
+      } else {
+        merged[key] = searchParams[key];
+      }
+    } else {
+      if (Array.isArray(merged[key])) {
+        merged[key] = merged[key].concat(searchParams[key]);
+      } else if (merged[key] !== undefined) {
+        merged[key] = [merged[key], searchParams[key]];
+      } else {
+        merged[key] = searchParams[key];
+      }
+    }
+  });
+
+  return merged;
+};

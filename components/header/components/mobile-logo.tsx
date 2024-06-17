@@ -7,7 +7,6 @@ import { usePathname, useRouter } from "next/navigation";
 const MobileLogo = () => {
     const router = useRouter();
     const pathname = usePathname();
-    console.log('pathname: ', pathname);
 
     const handleBack = () => {
         router.back();

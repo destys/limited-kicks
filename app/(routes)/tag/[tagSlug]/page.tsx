@@ -39,21 +39,24 @@ const TagPage: React.FC<ITagPage> = async ({ params, searchParams }) => {
   }
 
   const siteOptions = await getAcfOptions();
-  const initialProducts = await getProducts({
+
+  const query = {
     tag: tag[0].id,
-    per_page: 24,
+    per_page: 12,
     page: 1,
     ...searchParams
-  });
+  }
 
   return (
     <CatalogContent
+      count={tag[0].count}
+      query={query}
       category={tag[0]}
-      initialProducts={initialProducts}
       title={tag[0].name}
       excerpt={tag[0].acf?.korotkoe_opisanie}
-      description={tag[0].acf?.description}
-      tagCloud={siteOptions?.acf.oblako_metok}
+      description={tag[0].description}
+      tagCloud={siteOptions?.acf?.oblako_metok}
+      categoryTags={tag[0].acf?.metki_pod_zagolovkom}
       searchParams={searchParams}
     />
   );

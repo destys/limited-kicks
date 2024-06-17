@@ -2,7 +2,6 @@ import NotFound from "@/app/not-found";
 
 
 import getAcfOptions from "@/actions/get-acf-options";
-import getProducts from "@/actions/get-products";
 import getProduct from "@/actions/get-product";
 
 import Banner from "@/components/banner/banner";
@@ -18,6 +17,7 @@ import TagCloud from "@/components/tag-cloud/tag-cloud";
 
 import styles from './product.module.scss';
 import { generateYoastMetadata } from "@/utils/meta-data";
+import getProductsListing from "@/actions/get-products-listing";
 
 
 interface ProductPageProps {
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     const data = await getProduct({ slug: params.productSlug });
     const siteOptions = await getAcfOptions();
-    const listing_1 = await getProducts({ include: [siteOptions?.acf?.listing_1?.products] });
+    const listing_1 = await getProductsListing({ include: [siteOptions?.acf?.listing_1?.products] });
 
     if (!data) {
         return <NotFound />;

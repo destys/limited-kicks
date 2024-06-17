@@ -25,7 +25,6 @@ const RecentlyViewed = () => {
     useEffect(() => {
         const productsId = localStorage.getItem('recently') || '';
         const fetchData = async () => {
-            console.log('first')
             if (productsId) {
                 setLoading(true);
                 const products = await getProducts({ include: productsId, orderby: 'include' });

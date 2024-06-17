@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 
 import getAcfOptions from "@/actions/get-acf-options";
-import getProducts from "@/actions/get-products";
 
 import Banner from "@/components/banner/banner";
 import Listing from "@/components/listing/listing";
 import Ticker from "@/components/ticker/ticker";
 import TagCloud from "@/components/tag-cloud/tag-cloud";
 import RecentlyViewed from "@/components/recently-viewed/recently-viewed";
+import getProductsListing from "@/actions/get-products-listing";
 
 type Props = {
     children: ReactNode;
@@ -15,7 +15,7 @@ type Props = {
 
 const CartLayout = async (props: Props) => {
     const siteOptions = await getAcfOptions();
-    const listing_1 = await getProducts({ include: [siteOptions?.acf?.listing_1?.products] });
+    const listing_1 = await getProductsListing({ include: [siteOptions?.acf?.listing_1?.products] });
     return (
         <>
             <section className="max-w-[1070px] mx-auto">

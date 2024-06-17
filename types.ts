@@ -80,7 +80,7 @@ export interface Attribute {
   id: number;
   name: string;
   slug: string;
-  options: string[];
+  options: number[];
 }
 export interface Products extends Omit<Product, "data"> {
   data: Product[];
@@ -137,12 +137,14 @@ export interface Category {
 }
 
 export interface Brand {
+  count: number;
   description: string;
   yoast_head_json: any;
   id: number;
   name: string;
   slug: string;
   acf: {
+    metki_pod_zagolovkom: Tag[] | undefined;
     logotip: {
       url: string;
     };
@@ -267,4 +269,13 @@ export interface ICoupon {
 export interface IFaqItem {
   vopros: string;
   otvet: string;
+}
+
+export interface IProductsQuery {
+  category?: string;
+  attribute?: string;
+  attribute_term?: number;
+  tag?: string;
+  per_page?: number;
+  page?: number;
 }

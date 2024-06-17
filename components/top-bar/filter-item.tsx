@@ -17,7 +17,7 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
   useEffect(() => {
     const fetchData = async () => {
       const attributesList = await getAttributes(data.id);
-      const filteredAttributesList = attributesList.filter(attribute => data.options.includes(attribute.name));
+      const filteredAttributesList = attributesList.filter(attribute => data.options.includes(attribute.id));
       setAttributes(filteredAttributesList);
     }
 

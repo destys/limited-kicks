@@ -13,7 +13,6 @@ export default function Cabinet() {
   const [userPhone, setUserPhone] = useState("");
 
   const { jwtToken } = useUser();
-  console.log('jwtToken: ', jwtToken);
 
   useEffect(() => {
     // Перенос обновления маршрутизации в useEffect

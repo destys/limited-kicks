@@ -1,6 +1,5 @@
 import { ResolvingMetadata } from "next";
 import { generateYoastMetadata } from "@/utils/meta-data";
-import getProducts from "@/actions/get-products";
 import getCategories from "@/actions/get-categories";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
@@ -30,16 +29,17 @@ const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) =
   const siteOptions = await getAcfOptions();
   const category = await getCategories({ slug: params.categorySlug });
 
-  const initialProducts = await getProducts({
+  const query = {
     category: category[0].id,
-    per_page: 24,
+    per_page: 12,
     page: 1,
     ...searchParams
-  });
+  }
 
   return (
     <CatalogContent
-      initialProducts={initialProducts}
+      count={category[0].count}
+      query={query}
       category={category[0]}
       title={category[0].name}
       excerpt={category[0].acf?.korotkoe_opisanie}

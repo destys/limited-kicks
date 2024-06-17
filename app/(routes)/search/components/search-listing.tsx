@@ -4,12 +4,11 @@ import { Products } from "@/types";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import getProducts from "@/actions/get-products";
-
 import ProductItem from "@/components/product-item/product-item";
 import Loader from "@/components/ui/loader/loader";
 
 import styles from "./search-listing.module.scss";
+import getProductsListing from "@/actions/get-products-listing";
 
 interface ListingProps {
 }
@@ -25,7 +24,7 @@ const SearchListing: React.FC<ListingProps> = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            const res = await getProducts({ search: search });
+            const res = await getProductsListing({ search: search });
             setSearchResuts(res)
             setLoading(false);
         }

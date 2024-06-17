@@ -1,4 +1,3 @@
-import getProducts from "@/actions/get-products";
 import getAcfOptions from "@/actions/get-acf-options";
 import getAttributes from "@/actions/get-attributes";
 
@@ -34,25 +33,26 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
   const brandAttributes = await getAttributes(4);
   const currentTerm = brandAttributes.find(term => term.slug === params.brandSlug);
 
-  const initialProducts = await getProducts({
+  const query = {
     attribute: "pa_brand",
     attribute_term: currentTerm?.id,
-    per_page: 24,
+    per_page: 12,
     page: 1,
-    ...searchParams
-  });
+  }
 
   return (
     <CatalogContent
+      count={brand[0].count}
+      query={query}
       category={brand[0]}
-      initialProducts={initialProducts}
       title={brand[0].name}
       excerpt={brand[0].acf?.korotkoe_opisanie}
       description={brand[0].description}
-      tagCloud={siteOptions?.acf.oblako_metok}
+      tagCloud={siteOptions?.acf?.oblako_metok}
+      categoryTags={brand[0].acf?.metki_pod_zagolovkom}
       searchParams={searchParams}
     />
   );
 }
 
-export default BrandPage;
+export default BrandPage; 

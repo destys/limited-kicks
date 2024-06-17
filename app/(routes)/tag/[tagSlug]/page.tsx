@@ -4,6 +4,7 @@ import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import getTags from "@/actions/get-tags";
 import NotFound from "@/app/not-found";
+import { generateYoastMetadata } from "@/utils/meta-data";
 
 interface ITagPage {
   params: {
@@ -27,22 +28,7 @@ export async function generateMetadata(
   }
   const yoast_head_json = tag[0].yoast_head_json;
 
-  return {
-    title: yoast_head_json.title,
-    description: yoast_head_json.description,
-    canonical: yoast_head_json.canonical,
-    openGraph: {
-      type: yoast_head_json.og_type,
-      locale: yoast_head_json.og_locale,
-      url: yoast_head_json.og_url,
-      title: yoast_head_json.og_title,
-      description: yoast_head_json.og_description,
-      site_name: yoast_head_json.og_site_name,
-    },
-    twitter: {
-      cardType: yoast_head_json.twitter_card,
-    },
-  }
+  return generateYoastMetadata(yoast_head_json);
 }
 
 const TagPage: React.FC<ITagPage> = async ({ params, searchParams }) => {

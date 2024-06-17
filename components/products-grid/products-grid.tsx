@@ -6,6 +6,7 @@ import getProducts from "@/actions/get-products";
 import ProductItem from "@/components/product-item/product-item";
 import BannerCatalog from "@/components/banner-catalog/banner-catalog";
 import ScrollElement from "@/components/scroll-element/scroll-element";
+import { PacmanLoader } from "react-spinners";
 
 interface ProductGridProps {
     initialProducts: Product[];
@@ -13,7 +14,6 @@ interface ProductGridProps {
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({ initialProducts, searchParams }) => {
-    console.log('searchParams: ', searchParams);
     const [products, setProducts] = useState<Product[]>(initialProducts);
     const [page, setPage] = useState(2); // Начинаем со второй страницы
     const [loading, setLoading] = useState(false);
@@ -66,10 +66,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({ initialProducts, searchParams
                         : (<ProductItem key={item.id} data={item} />)
                 ))}
             </div>
-            <div ref={scrollElement}>
-                <ScrollElement />
+            <div className="flex justify-center mt-6" ref={scrollElement}>
+                {loading && <PacmanLoader color="#2972FF" />}
             </div>
-            {loading && <p>Loading...</p>}
         </>
     );
 };

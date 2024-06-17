@@ -3,6 +3,7 @@ import getAcfOptions from "@/actions/get-acf-options";
 import NotFound from "@/app/not-found";
 import Crumbs from "@/components/crumbs/crumbs";
 import Faq from "@/components/pages/faq/faq";
+import { generateYoastMetadata } from "@/utils/meta-data";
 
 type Params = {
   params: {
@@ -17,22 +18,7 @@ export async function generateMetadata({ params }: Params) {
   }
   const yoast_head_json = page[0].yoast_head_json;
 
-  return {
-    title: yoast_head_json.title,
-    description: yoast_head_json.description,
-    canonical: yoast_head_json.canonical,
-    openGraph: {
-      type: yoast_head_json.og_type,
-      locale: yoast_head_json.og_locale,
-      url: yoast_head_json.og_url,
-      title: yoast_head_json.og_title,
-      description: yoast_head_json.og_description,
-      site_name: yoast_head_json.og_site_name,
-    },
-    twitter: {
-      cardType: yoast_head_json.twitter_card,
-    },
-  }
+  return generateYoastMetadata(yoast_head_json);
 }
 
 export default async function HomePage({ params }: Params) {

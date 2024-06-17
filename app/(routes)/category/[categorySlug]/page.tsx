@@ -1,4 +1,5 @@
 import { ResolvingMetadata } from "next";
+import { generateYoastMetadata } from "@/utils/meta-data";
 import getProducts from "@/actions/get-products";
 import getCategories from "@/actions/get-categories";
 import getAcfOptions from "@/actions/get-acf-options";
@@ -22,22 +23,7 @@ export async function generateMetadata(
   const category = await getCategories({ slug: params.categorySlug });
   const yoast_head_json = category[0].yoast_head_json;
 
-  return {
-    title: yoast_head_json.title,
-    description: yoast_head_json.description,
-    canonical: yoast_head_json.canonical,
-    openGraph: {
-      type: yoast_head_json.og_type,
-      locale: yoast_head_json.og_locale,
-      url: yoast_head_json.og_url,
-      title: yoast_head_json.og_title,
-      description: yoast_head_json.og_description,
-      site_name: yoast_head_json.og_site_name,
-    },
-    twitter: {
-      cardType: yoast_head_json.twitter_card,
-    },
-  };
+  return generateYoastMetadata(yoast_head_json);
 }
 
 const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) => {

@@ -12,6 +12,7 @@ import BrandsCatalog from "./components/brands-catalog/brands-catalog";
 import NotFound from "@/app/not-found";
 import ScrollElement from "@/components/scroll-element/scroll-element";
 import ProductGrid from "@/components/products-grid/products-grid";
+import { generateYoastMetadata } from "@/utils/meta-data";
 
 interface IShopPage {
     searchParams: {}
@@ -24,22 +25,7 @@ export async function generateMetadata() {
     }
     const yoast_head_json = shop[0].yoast_head_json;
 
-    return {
-        title: yoast_head_json.title, // Если у продукта есть свое собственное название, используйте его, в противном случае используйте название из yoast_head_json
-        description: yoast_head_json.description,
-        canonical: yoast_head_json.canonical,
-        openGraph: {
-            type: yoast_head_json.og_type,
-            locale: yoast_head_json.og_locale,
-            url: yoast_head_json.og_url,
-            title: yoast_head_json.og_title,
-            description: yoast_head_json.og_description,
-            site_name: yoast_head_json.og_site_name,
-        },
-        twitter: {
-            cardType: yoast_head_json.twitter_card,
-        },
-    }
+    return generateYoastMetadata(yoast_head_json);
 }
 
 const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
@@ -51,7 +37,7 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
     }
 
     const initialProducts = await getProducts({ per_page: 12, page: 1, ...searchParams });
-    
+
 
     const attributesMap = new Map();
 
@@ -87,7 +73,6 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
                 <Categories />
                 <BrandsCatalog />
                 <TopBar count={initialProducts.length} filters={filters} />
-
                 <ProductGrid initialProducts={initialProducts} searchParams={searchParams} />
             </section>
         </>

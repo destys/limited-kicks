@@ -4,6 +4,7 @@ import getAttributes from "@/actions/get-attributes";
 
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import getBrand from "@/actions/get-brand";
+import { generateYoastMetadata } from "@/utils/meta-data";
 
 interface IBrandsPage {
   params: {
@@ -23,22 +24,7 @@ export async function generateMetadata(
   const brand = await getBrand(params.brandSlug);
   const yoast_head_json = brand[0].yoast_head_json;
 
-  return {
-    title: yoast_head_json.title,
-    description: yoast_head_json.description,
-    canonical: yoast_head_json.canonical,
-    openGraph: {
-      type: yoast_head_json.og_type,
-      locale: yoast_head_json.og_locale,
-      url: yoast_head_json.og_url,
-      title: yoast_head_json.og_title,
-      description: yoast_head_json.og_description,
-      site_name: yoast_head_json.og_site_name,
-    },
-    twitter: {
-      cardType: yoast_head_json.twitter_card,
-    },
-  }
+  return generateYoastMetadata(yoast_head_json);
 }
 
 const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {

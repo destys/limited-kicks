@@ -17,6 +17,7 @@ import Crumbs from "@/components/crumbs/crumbs";
 import TagCloud from "@/components/tag-cloud/tag-cloud";
 
 import styles from './product.module.scss';
+import { generateYoastMetadata } from "@/utils/meta-data";
 
 
 interface ProductPageProps {
@@ -32,22 +33,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
     }
     const yoast_head_json = data.yoast_head_json;
 
-    return {
-        title: yoast_head_json.title, // Если у продукта есть свое собственное название, используйте его, в противном случае используйте название из yoast_head_json
-        description: yoast_head_json.description,
-        canonical: yoast_head_json.canonical,
-        openGraph: {
-            type: yoast_head_json.og_type,
-            locale: yoast_head_json.og_locale,
-            url: yoast_head_json.og_url,
-            title: yoast_head_json.og_title,
-            description: yoast_head_json.og_description,
-            site_name: yoast_head_json.og_site_name,
-        },
-        twitter: {
-            cardType: yoast_head_json.twitter_card,
-        },
-    }
+    return generateYoastMetadata(yoast_head_json);
 }
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {

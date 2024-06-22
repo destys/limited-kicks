@@ -98,7 +98,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams }) => {
 
     return (
         <div className="relative">
-            <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5">
+            <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5 mb-10">
                 {products.map((item, index) => (
                     (index + 1 === 9 || index + 1 === 22) ?
                         (<React.Fragment key={index + '-fragment'}>

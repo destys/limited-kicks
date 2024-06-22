@@ -1,5 +1,9 @@
 .product {
-    @apply relative py-3 md:py-5 lg:py-10 rounded-lg lg:hover:bg-add_1 transition-colors;
+    @apply relative;
+
+    .wrapper {
+        @apply py-3 md:py-5 lg:py-10 rounded-lg lg:hover:bg-add_1 transition-colors hover:absolute hover:top-0  hover:left-0 z-50;
+    }
 
     .flags {
         @apply absolute top-2 right-2 z-10 flex justify-end gap-2;
@@ -10,10 +14,25 @@
         img {
             width: 100%;
             max-height: 100%;
-            object-fit: cover
+            object-fit: cover;
         }
     }
     .content {
         @apply px-5;
+    }
+    .sizes {
+        @apply hidden px-5 mt-5;
+    }
+
+    .sizeTitle {
+        @apply mb-3 font-semibold text-sm text-center;
+    }
+
+    .sizeList {
+        @apply grid grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2;
+    }
+
+    .sizeItem {
+        @apply p-1 bg-white;
     }
 }

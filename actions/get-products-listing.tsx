@@ -1,8 +1,9 @@
 import { fetchWooCommerce } from "@/lib/utils";
-import { Products } from "@/types";
+import { Product, Products } from "@/types";
 
 const getProductsListing = async (query: {}): Promise<Products[]> => {
     const res = await fetchWooCommerce('products', query);
+
     return res;
 };
 

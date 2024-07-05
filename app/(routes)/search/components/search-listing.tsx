@@ -9,6 +9,7 @@ import Loader from "@/components/ui/loader/loader";
 
 import styles from "./search-listing.module.scss";
 import getProductsListing from "@/actions/get-products-listing";
+import getSearchResults from "@/actions/get-search-results";
 
 interface ListingProps {
 }
@@ -24,8 +25,10 @@ const SearchListing: React.FC<ListingProps> = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            const res = await getProductsListing({ search: search });
-            setSearchResuts(res)
+            if (search) {
+                const res = await getSearchResults({ search: search, per_page: 100 });
+                setSearchResuts(res)
+            }
             setLoading(false);
         }
         fetchData();

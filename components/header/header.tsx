@@ -92,7 +92,7 @@ const Header = () => {
         <Actions />
       </div>
       <MobileLogo />
-      <Offer />
+      {/* <Offer /> */}
     </header>
   );
 }

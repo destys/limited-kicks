@@ -1,19 +1,76 @@
 "use client";
 
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "./search.module.scss";
 import useMobileSearch from "@/hooks/use-mobile-search";
+import { Product } from "@/types";
+import getSearchResults from "@/actions/get-search-results";
+import { PacmanLoader } from "react-spinners";
+import Link from "next/link";
+
+// Реализация собственной функции debounce
+function debounce<T extends (...args: any[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void {
+  let timeout: ReturnType<typeof setTimeout>;
+  return function (...args: Parameters<T>) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+}
 
 export default function Search() {
   const router = useRouter();
   const mobileSearch = useMobileSearch();
+  const [results, setResults] = useState<Product[] | null>(null);
+  const [searchText, setSearchText] = useState('');
+  const [error, setError] = useState('');
+  const [isActive, setIsActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/search?s=${e.currentTarget.search.value}`);
-    mobileSearch.onClose();
+    if (searchText.length >= 3) {
+      setError('');
+      router.push(`/search?s=${searchText}`);
+      mobileSearch.onClose();
+      setIsActive(false);
+    } else {
+      setError('Введите более 3-х символов');
+    }
+  };
+
+  const fetchProducts = async (searchText: string) => {
+    setIsLoading(true)
+    try {
+      const response = await getSearchResults({ search: searchText, per_page: 10 });
+      setResults(response);
+    } catch (error) {
+      setError('Ошибка поиска товаров');
+    } finally {
+      setIsLoading(false)
+    }
+  };
+
+  // Используем debounce для функции fetchProducts
+  const debouncedFetchProducts = useCallback(debounce(fetchProducts, 1000), []);
+
+  const handleChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchText(value);
+    debouncedFetchProducts(value);
+  };
+
+  const handleFocus = () => {
+    setIsActive(true);
+  };
+
+  const handleBlur = (e: { currentTarget: { contains: (arg0: any) => any }; relatedTarget: any }) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setTimeout(() => {
+        setIsActive(false);
+      }, 1000)
+    }
   };
 
   return (
@@ -40,7 +97,56 @@ export default function Search() {
           />
         </svg>
       </button>
-      <input type="search" name="search" placeholder="Поиск" />
-    </form>
+      <div className="relative flex-auto">
+        <input
+          type="search"
+          name="search"
+          placeholder="Поиск"
+          value={searchText}
+          onChange={handleChangeSearchText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          className="w-full"
+          autoComplete="off"
+        />
+        <div className="absolute top-1/2 right-14 -translate-y-1/2 text-main">
+          {isLoading && <PacmanLoader size={15} color="#2972ff" />}
+        </div>
+      </div>
+
+      {isActive && (
+        <div className={styles.searchResults}>
+          {results && (
+            <div className="mb-5">
+              <h5>Результаты поиска</h5>
+              <ul className="mb-3">
+                {results.map((item: Product) => (
+                  <li key={item.id}>
+                    <button type="button" onClick={() => router.push(`/product/${item.slug}`)}>{item.name}</button>
+                  </li>
+                ))}
+              </ul>
+              {!results.length && <p>Ничего не найдено</p>}
+              {!!results.length && <button onClick={() => {
+                router.push(`/search?s=${searchText}`);
+                mobileSearch.onClose()
+              }} className="text-main">Показать все результаты</button>}
+            </div>
+          )}
+          <div className="mb-5">
+            <h5>Недавно искали</h5>
+            <ul>
+              <li>
+                <button type="button">Adidas</button>
+              </li>
+              <li>
+                <button type="button">Nike</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )
+      }
+    </form >
   );
 }

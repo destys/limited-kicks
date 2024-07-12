@@ -9,17 +9,13 @@ import TagCloud from "@/components/tag-cloud/tag-cloud";
 import RecentlyViewed from "@/components/recently-viewed/recently-viewed";
 import getProductsListing from "@/actions/get-products-listing";
 
-type Props = {
-    children: ReactNode;
-}
-
-const CartLayout = async (props: Props) => {
+const CartLayout = async ({ children }: { children: ReactNode }) => {
     const siteOptions = await getAcfOptions();
     const listing_1 = await getProductsListing({ include: [siteOptions?.acf?.listing_1?.products] });
     return (
         <>
             <section className="max-w-[1070px] mx-auto">
-                {props.children}
+                {children}
             </section>
             <RecentlyViewed />
             <Ticker />

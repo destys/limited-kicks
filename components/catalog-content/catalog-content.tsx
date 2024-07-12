@@ -28,7 +28,7 @@ const CatalogContent: React.FC<ICatalogContent> = ({ count, category, query, tit
         <TopBar count={count} query={query} />
         <ProductsGrid query={query} searchParams={searchParams} />
       </section>
-      <TagCloud data={tagCloud} className="lg:hidden" />
+      {tagCloud && <TagCloud data={tagCloud} className="lg:hidden" />}
       {description && <div dangerouslySetInnerHTML={{ __html: description }} className="grid gap-3 py-10 px-2 lg:px-[60px] bg-main text-white" />}
     </>
   );

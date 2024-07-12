@@ -33,6 +33,8 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
   const brandAttributes = await getAttributes(4);
   const currentTerm = brandAttributes.find(term => term.slug === params.brandSlug);
 
+  console.log('siteOptions?.acf?.oblako_metok: ', siteOptions?.acf?.oblako_metok);
+
   const query = {
     attribute: "pa_brand",
     attribute_term: currentTerm?.id,

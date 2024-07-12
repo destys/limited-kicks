@@ -49,7 +49,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   });
 
 
-  const [sizeType, setSizeType] = useState(sizeNames[0][0] || 'test');
+  const [sizeType, setSizeType] = useState(sizeNames[0] ? sizeNames[0][0] : 'test');
 
   const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
   const [entrySize, setEntrySize] = useState(combinedData[0]);
@@ -104,7 +104,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
       <div>
         <div className={styles.sizes_type}>
           <div className="flex items-center gap-2">
-            {sizeNames[0].map((sizeName: string, index: number) => (
+            {sizeNames[0]?.map((sizeName: string, index: number) => (
               <div key={`${sizeName}-${index}`}>
                 <input
                   type="radio"

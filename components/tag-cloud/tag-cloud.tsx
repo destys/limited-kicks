@@ -9,6 +9,10 @@ interface ITagCloud {
 }
 
 const TagCloud: React.FC<ITagCloud> = ({ data, wrapper, className }) => {
+    if (!data) {
+        return null;
+    }
+
     const Wrapper = wrapper || 'section';
     return (
         <Wrapper className={className}>

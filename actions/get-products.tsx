@@ -23,9 +23,7 @@ const buildUrlWithParams = (params: QueryParams): string => {
 };
 
 const getProducts = async (query: QueryParams = {}): Promise<Products[]> => {
-    console.log('query: ', query);
     const queryString = buildUrlWithParams(query);
-    console.log('queryString: ', queryString);
     const res = await fetchWooCommerce(`products?${queryString}`);
     return res;
 };

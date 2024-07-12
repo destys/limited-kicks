@@ -30,7 +30,7 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
   };
 
   return (
-    <div className="border-b border-b-add_1 lg:rounded-lg lg:bg-add_1 transition-colors lg:hover:bg-add_1_hv">
+    <div className={`border-b border-b-add_1 lg:rounded-lg lg:bg-add_1 transition-colors ${!open && " lg:hover:bg-add_1_hv"}`}>
       <div className="flex items-center justify-between gap-3 py-3 px-2.5 md:py-3 md:px-5 lg:py-5 lg:px-7 cursor-pointer" onClick={() => setOpen(!open)}>
         <p className="text-xs xs:text-sm md:text-base">{data.name}</p>
         <svg
@@ -50,8 +50,8 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
           />
         </svg>
       </div>
-      <div className={open ? 'block' : 'hidden'}>
-        <div className="flex lg:grid grid-cols-2 gap-2 mb-4 p-2">
+      <div className={open ? 'block relative' : 'hidden'}>
+        <div className="lg:absolute lg:-top-1 lg:w-full lg:z-[1000] bg-add_1 grid grid-cols-2 gap-2 mb-4 p-2 pt-3 overflow-y-auto max-h-[300px]">
           {attributes?.map((option) => (
             <CheckBox
               key={option.id}

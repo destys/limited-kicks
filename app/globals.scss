@@ -57,3 +57,25 @@ h5 {
     height: 2px !important;
   }
 }
+
+/* width */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  @apply bg-add_1_hv transition-colors rounded-md;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  @apply bg-add_4;
+}

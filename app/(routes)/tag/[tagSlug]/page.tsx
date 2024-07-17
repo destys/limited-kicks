@@ -1,5 +1,3 @@
-import getProducts from "@/actions/get-products";
-import { ResolvingMetadata } from "next";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import getTags from "@/actions/get-tags";
@@ -19,12 +17,17 @@ type MetaProps = {
 }
 
 export async function generateMetadata(
-  { params }: MetaProps,
-  parent: ResolvingMetadata
+  { params }: MetaProps
 ) {
   const tag = await getTags({ slug: params.tagSlug });
   if (!tag.length) {
-    return {};
+    return {
+      title: '404',
+      description: '404',
+      image: '',
+      url: '',
+      type: 'website',
+    };
   }
   const yoast_head_json = tag[0].yoast_head_json;
 

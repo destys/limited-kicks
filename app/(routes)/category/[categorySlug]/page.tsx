@@ -3,6 +3,7 @@ import { generateYoastMetadata } from "@/utils/meta-data";
 import getCategories from "@/actions/get-categories";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
+import NotFound from "@/app/not-found";
 
 interface ICategoryPage {
   params: {
@@ -20,6 +21,17 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ) {
   const category = await getCategories({ slug: params.categorySlug });
+
+  if (!category.length) {
+    return {
+      title: '404',
+      description: '404',
+      image: '',
+      url: '',
+      type: 'website',
+    };
+  }
+  
   const yoast_head_json = category[0].yoast_head_json;
 
   return generateYoastMetadata(yoast_head_json);
@@ -28,6 +40,10 @@ export async function generateMetadata(
 const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) => {
   const siteOptions = await getAcfOptions();
   const category = await getCategories({ slug: params.categorySlug });
+
+  if (!category.length) {
+    return <NotFound />;
+  }
 
   const query = {
     category: category[0].id,

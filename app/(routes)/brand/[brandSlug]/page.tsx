@@ -4,6 +4,8 @@ import getAttributes from "@/actions/get-attributes";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import getBrand from "@/actions/get-brand";
 import { generateYoastMetadata } from "@/utils/meta-data";
+import getTagsCloud from "@/actions/get-tags-cloud";
+import NotFound from "@/app/not-found";
 
 interface IBrandsPage {
   params: {
@@ -21,17 +23,31 @@ export async function generateMetadata(
   { params }: MetaProps
 ) {
   const brand = await getBrand(params.brandSlug);
+
+  if (!brand.length) {
+    return {
+      title: '404',
+      description: '404',
+      image: '',
+      url: '',
+      type: 'website',
+    };
+  }
+
   const yoast_head_json = brand[0].yoast_head_json;
 
   return generateYoastMetadata(yoast_head_json);
 }
 
 const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
-  console.log('params: ', params);
   const siteOptions = await getAcfOptions();
   const brand = await getBrand(params.brandSlug);
 
-  const brandAttributes = await getAttributes(4);
+  if (!brand.length) {
+    return <NotFound />;
+  }
+
+  const brandAttributes = await getAttributes(9);
   const currentTerm = brandAttributes.find(term => term.slug === params.brandSlug);
 
   const query = {
@@ -40,8 +56,8 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
     per_page: 12,
     page: 1,
   }
-  
-  console.log('query: ', query);
+
+  const tagsCloud = await getTagsCloud('brand', currentTerm?.id);
 
   return (
     <CatalogContent
@@ -52,7 +68,7 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
       excerpt={brand[0].acf?.korotkoe_opisanie}
       description={brand[0].description}
       tagCloud={siteOptions?.acf?.oblako_metok}
-      categoryTags={brand[0].acf?.metki_pod_zagolovkom}
+      categoryTags={tagsCloud}
       searchParams={searchParams}
     />
   );

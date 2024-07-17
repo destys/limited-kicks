@@ -15,6 +15,7 @@ interface IFiltersList {
 const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     const [showFilters, setShowFilters] = useState(false);
     const [filters, setFilters] = useState<Attribute[]>([]);
+    console.log('filters: ', filters);
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -154,7 +155,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                 </button>
             </div>
             <div className={`fixed top-0 left-0 w-full h-full z-[1000] ${showFilters ? "block lg:hidden" : "hidden"}`} onClick={() => setShowFilters(!showFilters)}></div>
-            <div className={`fixed top-0 right-0 z-[1001] w-full h-full max-w-96 shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:static lg:grid-cols-6 gap-3 items-baseline flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
+            <div className={`fixed top-0 right-0 z-[1001] w-full h-full max-w-96 shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:static lg:grid-cols-5 gap-3 items-baseline flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
                 <div className="flex justify-end pr-5  h-[70px] lg:hidden" onClick={() => setShowFilters(!showFilters)}>
                     <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
                 </div>

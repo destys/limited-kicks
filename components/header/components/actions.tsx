@@ -5,11 +5,15 @@ import React from 'react'
 import useUser from '@/hooks/use-user';
 
 import styles from "../header.module.scss";
+import useShoppingCart from '@/hooks/use-cart';
+import useFavoriteStore from '@/hooks/use-favorite';
 
 const Actions = () => {
+    const { favorites } = useFavoriteStore();
+    const { items } = useShoppingCart();
     return (
         <div className={styles.actions}>
-            <Link href={"/favorites"}>
+            <Link href={"/favorites"} className="relative">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="28"
@@ -29,8 +33,12 @@ const Actions = () => {
                         fill="#060F2F"
                     />
                 </svg>
+                {!!favorites.length && (
+                    <span className="absolute -right-1 -bottom-1 flex justify-center items-center w-4 h-4 rounded-full bg-main text-white text-xs">{favorites.length}</span>
+                )}
+
             </Link>
-            <Link href={"/cart"}>
+            <Link href={"/cart"} className="relative">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="28"
@@ -61,6 +69,9 @@ const Actions = () => {
                         strokeLinecap="round"
                     />
                 </svg>
+                {!!items.length && (
+                    <span className="absolute -right-1 -bottom-1 flex justify-center items-center w-4 h-4 rounded-full bg-main text-white text-xs">{items.length}</span>
+                )}
             </Link>
             <Link href={"/auth"}>
                 <svg

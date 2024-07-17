@@ -40,7 +40,6 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                             {data.attributes[0].options.map(item => (
                                 <button key={item} className={styles.sizeItem}>{item}</button>
                             ))}
-
                         </div>
                     </Link>
                 )}

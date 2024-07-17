@@ -32,9 +32,10 @@ export default function Login({ onFormSubmit }: LoginProps) {
         body: JSON.stringify({ phone }),
       });
       const data = await response.json();
+      console.log('data: ', data);
       if (response.ok) {
         onFormSubmit(phone);
-        setMessage('Email sent successfully.');
+        setMessage('SMS sent successfully.');
       } else {
         setMessage(`Error: ${data.message}`);
       }

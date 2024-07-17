@@ -2,7 +2,7 @@
     @apply relative;
 
     .wrapper {
-        @apply py-3 md:py-5 lg:py-10 rounded-lg lg:hover:bg-add_1 transition-colors hover:absolute hover:top-0  hover:left-0 z-50;
+        @apply py-3 md:py-5 lg:py-10 rounded-lg lg:hover:bg-add_1 hover:shadow transition-colors hover:absolute hover:top-0  hover:left-0 z-50 group-hover:shadow;
     }
 
     .flags {
@@ -29,7 +29,7 @@
     }
 
     .sizeList {
-        @apply grid grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2;
+        @apply grid grid-cols-3 xl:grid-cols-4 gap-2;
     }
 
     .sizeItem {

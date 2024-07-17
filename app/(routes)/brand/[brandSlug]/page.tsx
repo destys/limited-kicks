@@ -27,13 +27,12 @@ export async function generateMetadata(
 }
 
 const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
+  console.log('params: ', params);
   const siteOptions = await getAcfOptions();
   const brand = await getBrand(params.brandSlug);
 
   const brandAttributes = await getAttributes(4);
   const currentTerm = brandAttributes.find(term => term.slug === params.brandSlug);
-
-  console.log('siteOptions?.acf?.oblako_metok: ', siteOptions?.acf?.oblako_metok);
 
   const query = {
     attribute: "pa_brand",
@@ -41,6 +40,8 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
     per_page: 12,
     page: 1,
   }
+  
+  console.log('query: ', query);
 
   return (
     <CatalogContent

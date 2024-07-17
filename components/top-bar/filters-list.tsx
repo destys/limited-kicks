@@ -5,6 +5,7 @@ import FilterItem from './filter-item';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Attribute, IProductsQuery } from '@/types';
 import getFilters from '@/actions/get-filters';
+import Image from 'next/image';
 
 interface IFiltersList {
     query: IProductsQuery;
@@ -152,12 +153,16 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                     </span>
                 </button>
             </div>
-            <div className={`fixed top-[70px] right-0 z-[1001] w-full h-full max-w-96 lg:max-w-none bg-white lg:bg-transparent lg:static lg:grid-cols-6 gap-3 items-baseline flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
+            <div className={`fixed top-0 left-0 w-full h-full z-[1000] ${showFilters ? "block lg:hidden" : "hidden"}`} onClick={() => setShowFilters(!showFilters)}></div>
+            <div className={`fixed top-0 right-0 z-[1001] w-full h-full max-w-96 shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:static lg:grid-cols-6 gap-3 items-baseline flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
+                <div className="flex justify-end pr-5  h-[70px] lg:hidden" onClick={() => setShowFilters(!showFilters)}>
+                    <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
+                </div>
                 {filters.map(item => (
                     <FilterItem key={item.id} data={item} onChange={(attributeName, termValue, isActive) => updateFilters(attributeName, termValue, isActive)} />
                 ))}
             </div>
-        </div>
+        </div >
     );
 }
 

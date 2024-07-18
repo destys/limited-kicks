@@ -5,9 +5,11 @@ import Link from "next/link";
 import styles from "./app-bar.module.scss";
 import useMobileSearch from "@/hooks/use-mobile-search";
 import useMainMenu from "@/hooks/use-main-menu";
+import useShoppingCart from "@/hooks/use-cart";
 
 export default function AppBar() {
   const mobileSearch = useMobileSearch();
+  const { items } = useShoppingCart();
   const { onOpen } = useMainMenu();
 
   return (
@@ -44,7 +46,7 @@ export default function AppBar() {
             />
           </li>
           <li>
-            <Link href={"/cart"}>
+            <Link href={"/cart"} className="relative">
               <Image
                 src={"/icons/Icon/Bag.svg"}
                 width={20}
@@ -52,6 +54,9 @@ export default function AppBar() {
                 alt="Bag"
                 className="text-black"
               />
+              {!!items.length && (
+                <span className="absolute -right-1 -bottom-1 flex justify-center items-center w-3 h-3 rounded-full bg-main text-white text-[8px]">{items.length}</span>
+              )}
             </Link>
           </li>
           <li>

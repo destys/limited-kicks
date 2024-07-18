@@ -57,7 +57,7 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
     page: 1,
   }
 
-  const tagsCloud = await getTagsCloud('brand', currentTerm?.id);
+  const tagsCloud = await getTagsCloud('pa_brand', currentTerm?.id);
 
   return (
     <CatalogContent

@@ -17,7 +17,6 @@ interface ICatalogContent {
 }
 
 const CatalogContent: React.FC<ICatalogContent> = ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams }) => {
-  console.log('tagCloud: ', tagCloud);
 
   return (
     <>

@@ -15,7 +15,6 @@ interface IFiltersList {
 const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     const [showFilters, setShowFilters] = useState(false);
     const [filters, setFilters] = useState<Attribute[]>([]);
-    console.log('filters: ', filters);
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -40,7 +39,14 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                 };
 
                 const filtersList = await getFilters(params);
-                setFilters(filtersList);
+
+                const customOrder = ['Бренд', 'Модель', 'Размер', 'Коллекция']; // Задайте желаемый порядок фильтров
+
+                // Сортировка фильтров согласно customOrder
+                const sortedFiltersList = filtersList.sort((a: { name: string; }, b: { name: string; }) => {
+                    return customOrder.indexOf(a.name) - customOrder.indexOf(b.name);
+                });
+                setFilters(sortedFiltersList);
             } catch (error) {
                 console.error('Failed to fetch filters:', error);
             }

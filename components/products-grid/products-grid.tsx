@@ -49,6 +49,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams }) => {
 
     useEffect(() => {
         const combinedParams = mergeParams(query, searchParams);
+        console.log('combinedParams: ', combinedParams);
         const fetchInitialProducts = async () => {
             try {
                 setIsLoading(true);

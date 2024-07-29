@@ -57,6 +57,7 @@ export interface Product {
   yoast_head_json: any;
   sku: string;
   acf: {
+    h2_zagolovok: string;
     data_reliza: any;
     flag_1: string;
     flag_2: string;
@@ -74,6 +75,7 @@ export interface Product {
   price: number;
   variations?: [];
   brand?: BrandDataItem[];
+  tags: Tag[];
 }
 
 export interface Attribute {
@@ -241,6 +243,7 @@ export interface IProductsOnRequest {
 
 export interface Tag {
   term_id: number;
+  id: number;
   name: string;
   slug: string;
 }

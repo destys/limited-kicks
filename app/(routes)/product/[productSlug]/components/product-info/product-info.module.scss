@@ -41,18 +41,31 @@
     }
 }
 
-.attributes {
-    @apply mt-5;
+.toCartLink {
+    @apply p-0 bg-main text-white border-main relative overflow-hidden;
+    &:hover {
+        @apply bg-main text-white;
+    }
 
-    .item {
-        @apply flex items-center gap-3 mb-4;
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        height: 120%;
+        width: 45px;
+        transform: skewX(-45deg); // Наклон
+        animation: flareAnimation;
+        left: -150%;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4));
+        animation: flareAnimation 3s infinite linear; // Время и тип анимации можно менять
+    }
+}
 
-        strong {
-            @apply font-medium text-lg;
-        }
-
-        span {
-            @apply text-sm;
-        }
+@keyframes flareAnimation {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 150%;
     }
 }

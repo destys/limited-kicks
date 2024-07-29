@@ -3,6 +3,7 @@ import Crumbs from '@/components/crumbs/crumbs';
 import TopBar from '@/components/top-bar/top-bar';
 import TagCloud from '@/components/tag-cloud/tag-cloud';
 import ProductsGrid from '@/components/products-grid/products-grid';
+import BrandsCatalog from '@/app/(routes)/shop/components/brands-catalog/brands-catalog';
 
 interface ICatalogContent {
   count: number;
@@ -24,6 +25,7 @@ const CatalogContent: React.FC<ICatalogContent> = ({ count, category, query, tit
         <Crumbs data={category} type="category" />
         <h1 className="mb-10">{title}</h1>
         {excerpt && <div dangerouslySetInnerHTML={{ __html: excerpt }} className="mb-10" />}
+        <BrandsCatalog />
         {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}
         <TopBar count={count} query={query} />
         <ProductsGrid query={query} searchParams={searchParams} />

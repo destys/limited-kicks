@@ -27,7 +27,7 @@ const MainMenu = () => {
     }, [])
 
     return (
-        <div className={`fixed top-0 left-0 w-full h-[100vh] ${isOpen ? "opacity-100 z-[30]" : "opacity-0 z-[-1]"}`}>
+        <div className={`fixed top-0 left-0 w-full h-[100vh] ${isOpen ? "opacity-100 z-[10000]" : "opacity-0 z-[-1]"}`}>
             <div className={`absolute inset-0 max-w-[412px] h-full z-50  ${isOpen ? "!translate-x-0" : "translate-x-[-100%]"}`}>
                 <div className="relative">
                     <div className="h-[250px]">
@@ -40,7 +40,7 @@ const MainMenu = () => {
                 <nav className="bg-white h-[calc(100vh-250px)] overflow-y-auto pb-10">
                     <div className="flex justify-between items-center gap-3 px-3 py-4 border-b border-add_1">
                         <h3>Каталог</h3>
-                        <Link href="/shop" className="text-xs text-add_4">Посмотреть все</Link>
+                        <Link href="/shop" className="text-xs text-add_4" onClick={onClose}>Посмотреть все</Link>
                     </div>
                     {menu?.items?.map(item => (
                         <MainMenuItem key={item.id} data={item} onClose={onClose} />

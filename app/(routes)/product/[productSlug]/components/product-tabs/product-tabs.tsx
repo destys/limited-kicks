@@ -6,6 +6,8 @@ import styles from "./product-tabs.module.scss";
 import Button from "@/components/ui/button/button";
 import PaymentText from "./payment-text";
 import DeliveryText from "./delivery-text";
+import Details from "./details";
+import Description from "./description";
 
 interface IProductTabs {
   data: Product;
@@ -18,35 +20,40 @@ const ProductTabs: React.FC<IProductTabs> = ({ data }) => {
     {
       id: 0,
       title: "Описание",
-      content: <div dangerouslySetInnerHTML={{ __html: data.description }} className={styles.description} />
+      content: <Description data={data} />,
     },
     {
       id: 1,
+      title: "Детали",
+      content: <Details data={data} />,
+    },
+    {
+      id: 2,
       title: "Оплата",
       content: <PaymentText />,
     },
     {
-      id: 2,
+      id: 3,
       title: "Доставка",
       content: <DeliveryText />,
     },
     {
-      id: 3,
+      id: 4,
       title: "100% Оригинал",
       content: "Каждый товар проходит тщательную проверку в несколько этапов. Мы применяем наш опыт и ИИ технологии для исследования каждого заказа. Приобретая товар в нашем магазине, Вы можете быть уверенными в его аутентичности на 100%.",
     },
     {
-      id: 4,
+      id: 5,
       title: "Гарантия",
       content: "Вы можете вернуть или обменять товар в течение 14 дней с момента получения заказа. Товар должен быть в оригинальном состоянии и упаковке без следов использования.",
     },
     {
-      id: 5,
+      id: 6,
       title: "Подбор размера",
       content: "Мы оказываем сервис подбора размера для всех клиентов. Вам больше не стоит переживать! Подобрать размер можно в Telegram или WhatsApp (ссылки)",
     },
     /* {
-      id: 6,
+      id: 7,
       title: "Отзывы",
       content: "",
     }, */

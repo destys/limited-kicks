@@ -18,6 +18,7 @@ import TagCloud from "@/components/tag-cloud/tag-cloud";
 import styles from './product.module.scss';
 import { generateYoastMetadata } from "@/utils/meta-data";
 import getProductsListing from "@/actions/get-products-listing";
+import getProducts from "@/actions/get-products";
 
 
 interface ProductPageProps {
@@ -28,9 +29,11 @@ interface ProductPageProps {
 
 export async function generateMetadata({ params }: ProductPageProps) {
     const data = await getProduct({ slug: params.productSlug });
+    console.log('data: ', data);
     if (!data) {
         return <NotFound />
     }
+
     const yoast_head_json = data.yoast_head_json;
 
     return generateYoastMetadata(yoast_head_json);
@@ -44,6 +47,12 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     if (!data) {
         return <NotFound />;
     }
+
+
+    const likes = await getProducts({
+        tag: data.tags[0].id,
+        per_page: 12,
+    });
 
     return (
         <>
@@ -66,8 +75,9 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                 </div>
             </section>
             <Ticker />
-            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
+            <Listing data={likes} title={"Вам может понравится"} titleTag="h2" />
             <Banner data={siteOptions?.acf?.bannery} />
+            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
             <TagCloud data={siteOptions?.acf?.oblako_metok} />
         </>
     );

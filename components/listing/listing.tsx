@@ -23,13 +23,13 @@ interface ListingProps {
 
 const Listing: React.FC<ListingProps> = ({ data, title, titleTag }) => {
     return (
-        <section>
+        <section className={styles.listing}>
             <Swiper
                 spaceBetween={16}
                 slidesPerView={1}
                 speed={700}
                 modules={[Navigation]}
-                className="!flex flex-col-reverse !pr-20 lg:!pr-0"
+                className="!flex flex-col-reverse !pr-20 lg:!pr-0 !overflow-visible"
                 breakpoints={{
                     474: {
                         slidesPerView: 2,

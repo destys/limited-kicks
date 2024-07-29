@@ -1,12 +1,12 @@
 .product {
-    @apply relative;
+    @apply relative z-30 hover:z-40;
 
     .wrapper {
         @apply py-3 md:py-5 lg:py-10 rounded-lg lg:hover:bg-add_1 hover:shadow transition-colors hover:absolute hover:top-0  hover:left-0 z-50 group-hover:shadow;
     }
 
     .flags {
-        @apply absolute top-2 right-2 z-10 flex justify-end gap-2;
+        @apply absolute top-2 right-2 z-50 flex justify-end gap-2;
     }
     .image {
         @apply flex m-5 bg-white rounded-lg max-h-[240px] max-md:max-h-[181px];
@@ -33,6 +33,6 @@
     }
 
     .sizeItem {
-        @apply p-1 bg-white;
+        @apply p-1 bg-white rounded transition-colors cursor-pointer hover:bg-main hover:text-white ;
     }
 }

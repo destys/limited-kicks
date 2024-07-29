@@ -96,7 +96,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
       );
     }
 
-    setTimeout(() => setIsAdding(false), 2000)
+    setTimeout(() => setIsAdding(false), 10000)
   };
 
   return (
@@ -223,34 +223,32 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
           >
             В один клик
           </Button>
-          <Button
-            type="button"
-            styled={"filled"}
-            className={"py-5 px-10 bg-add_1 text-black"}
-            onClick={handleAddToCart}
-            disabled={isAdding}
-          >
-            {isAdding ? 'Товар в корзине' : 'В корзину'}
-          </Button>
+          {!isAdding ? (
+            <Button
+              type="button"
+              styled={"filled"}
+              className={`py-5 px-10 bg-add_1 text-black`}
+              onClick={handleAddToCart}
+            >
+              В корзину
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              styled={"filled"}
+              className={styles.toCartLink}
+              onClick={handleAddToCart}
+            >
+              <Link href={'/cart'} className="block py-4 px-8">Перейти в корзину</Link>
+            </Button>
+          )}
+
         </div>
         <Dolayme />
         <div className="mb-5 md:mb-7 lg:mb-11 h-[1px] bg-add_1"></div>
         <ProductTabs data={data} />
-        <div className={styles.attributes}>
-          <div className={styles.item}>
-            <strong className="text-lg">SKU</strong>
-            <span>{data.sku}</span>
-          </div>
-          {data.acf.data_reliza && <div className={styles.item}>
-            <strong className="text-lg">Дата релиза</strong>
-            <span>{data.acf.data_reliza}</span>
-          </div>}
-          <div className={styles.item}>
-            <strong className="text-lg">Цвет</strong>
-            <span>Titanium/Dark Smoke Gray-Sail</span>
-          </div>
-        </div>
-      </div >
+
+      </div>
     </>
   );
 }

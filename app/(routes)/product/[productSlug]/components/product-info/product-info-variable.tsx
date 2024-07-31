@@ -31,25 +31,25 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const [isInStock, setIsInStock] = useState(data.variationsData[0].stock_status === 'instock');
 
   const brandsData = data?.brand ? data.brand : [];
-  const sizesHeader = brandsData[0].acf.tablicza_razmerov_obuvi.header;
-  const sizesBody = brandsData[0].acf.tablicza_razmerov_obuvi.body;
+  const sizesHeader = brandsData[0].acf.tablicza_razmerov_obuvi?.header;
+  const sizesBody = brandsData[0].acf.tablicza_razmerov_obuvi?.body;
 
   const sizeMap = new Map<string, string[]>();
-  sizesBody.forEach(row => {
-    const key = row[0]?.c;
+  sizesBody?.forEach(row => {
+    const key = row[0]?.c; // Используем первый элемент для ключа
     if (key) {
-      const sizes = row.map(item => item.c);
+      const sizes = row.map(item => item.c); // Создаем массив всех значений
       sizeMap.set(key, sizes);
     }
   });
 
   const variationsData = data.variationsData.map(variation => {
     const normalizedName = variation.name.replace(',', '.');
-    const sizeArray = sizeMap.get(normalizedName) || [];
+    const sizeArray = sizeMap.get(normalizedName);
 
     return {
       ...variation,
-      name: sizeArray
+      name: sizeArray || [variation.name]
     };
   });
 
@@ -88,7 +88,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
       <div>
         <div className={styles.sizes_type}>
           <div className="flex items-center gap-2">
-            {sizesHeader.map((item: { c: string }, index: number) => (
+            {sizesHeader?.map((item: { c: string }, index: number) => (
               <div key={`${item.c}-${index}`}>
                 <input
                   type="radio"

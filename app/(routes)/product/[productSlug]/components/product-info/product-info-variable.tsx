@@ -125,7 +125,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
                     <Image src="/icons/Icon/Calendar.svg" width={15} height={15} alt="calendar" />
                   }
                 </span>
-                <div className="font-medium text-xs xs:text-sm sm:text-base md:text-xl lg:text-2xl whitespace-nowrap">
+                <div className="font-medium text-xs xs:text-sm sm:text-base md:text-xl whitespace-nowrap">
                   {item.name[activeSizeIndex]}
                 </div>
                 <Price

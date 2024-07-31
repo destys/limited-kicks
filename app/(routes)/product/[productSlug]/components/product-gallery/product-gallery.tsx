@@ -13,6 +13,7 @@ import SlideNextButton from "@/components/ui/slider-navigations/slider-next-butt
 import { Product } from "@/types";
 import useFavoriteStore from "@/hooks/use-favorite";
 import FlagList from "@/components/flag-list/flag-list";
+import useProductGalleryModal from "@/hooks/use-product-gallery-modal";
 
 interface ProductGalleryProps {
   productId: number;
@@ -23,6 +24,7 @@ interface ProductGalleryProps {
 
 const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
   const swiperRef = useRef<any>(null);
+  const { onOpen } = useProductGalleryModal();
 
   const { favorites, addFavorite, removeFavorite } = useFavoriteStore();
   const isFavorite = favorites.includes(data.id);
@@ -41,11 +43,15 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
     }
   };
 
+  const handleOpenGallery = () => {
+    onOpen(data.images);
+  }
+
   return (
     <div className={styles.gallery}>
       <div className={styles.top}>
         <div className="flex items-center gap-2">
-          <button title="gallery" className="max-md:max-w-[38px]">
+          <button title="gallery" className="max-md:max-w-[38px]" onClick={handleOpenGallery}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="28"

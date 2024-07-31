@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge";
 interface ModalProps {
   isOpen: boolean
   onChange: (open:boolean) => void;
-  title: string;
+  title?: string;
   children: React.ReactNode;
   contentClassNames?:string;
 }

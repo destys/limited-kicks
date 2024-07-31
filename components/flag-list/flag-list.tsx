@@ -12,8 +12,8 @@ const FlagList: React.FC<IFlagList> = ({ data, className }) => {
 
     return (
         <div className={className}>
-            {flagValues.map(flag => (
-                <FlagItem key={flag} title={flag} />
+            {flagValues.map((flag, index) => (
+                <FlagItem key={flag + index} title={flag} />
             ))}
         </div>
     )

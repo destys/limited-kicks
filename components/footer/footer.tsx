@@ -50,11 +50,11 @@ export default async function Footer() {
                         </li>
                         <li>
                             Позвоните нам {" "}
-                            <Link href="#" className="font-medium hover:text-main whitespace-nowrap">+7 (995) 600-95-75</Link>
+                            <Link href="tel:+79951508080" className="font-medium hover:text-main whitespace-nowrap">+7 (995) 150-80-80</Link>
                         </li>
                         <li>
                             Наша почта  {" "}
-                            <Link href="#" className="font-medium hover:text-main">hello@yeezysales.ru</Link>
+                            <Link href="mailto:hello@limited-kicks.ru" className="font-medium hover:text-main">hello@limited-kicks.ru</Link>
                         </li>
                     </ul>
                 </div>

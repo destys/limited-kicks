@@ -5,6 +5,7 @@ import MainMenu from "@/components/main-menu/main-menu";
 import MobileSearch from "@/components/modals/mobile-search";
 import OneClickModal from "@/components/modals/one-click-modal";
 import ProductsOnRequestModal from "@/components/modals/products-on-request-modal";
+import ProductGalleryModal from "@/components/modals/product-gallery-modal";
 
 const ModalProvider = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -23,6 +24,7 @@ const ModalProvider = () => {
             <ProductsOnRequestModal />
             <MobileSearch />
             <MainMenu />
+            <ProductGalleryModal />
         </>
     );
 };

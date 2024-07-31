@@ -95,7 +95,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                     <strong className="font-medium"> {count} </strong>
                 </div>
                 <button
-                    className="flex items-center gap-1.5 md:gap-3 py-3 px-5"
+                    className="flex items-center gap-1.5 md:gap-3 py-3 px-5 pr-0 md:pr-5"
                     onClick={() => setShowFilters(!showFilters)}
                 >
                     {showFilters ? (

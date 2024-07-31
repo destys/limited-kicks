@@ -18,7 +18,7 @@
     }
 }
 .sizes {
-    @apply grid grid-cols-3 gap-2 xs:grid-cols-4 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mb-4 lg:mb-7;
+    @apply flex overflow-x-auto md:grid grid-cols-3 gap-2 xs:grid-cols-4 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mb-4 lg:mb-7;
 
     .item {
         input {

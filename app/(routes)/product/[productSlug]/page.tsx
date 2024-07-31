@@ -29,7 +29,7 @@ interface ProductPageProps {
 
 export async function generateMetadata({ params }: ProductPageProps) {
     const data = await getProduct({ slug: params.productSlug });
-    console.log('data: ', data);
+    
     if (!data) {
         return <NotFound />
     }

@@ -1,33 +1,37 @@
-import { Product } from "@/types";
+import { Product, SingleImage } from "@/types";
 import { create } from "zustand";
 
 interface useOneClickModalProps {
   isOpen: boolean;
   product?: Product;
-  sizeType: string;
+  sizeValue: string;
   entrySize: { [key: string]: any; };
-  onOpen: (productData: Product, size: string, entrySize: { [key: string]: any; }) => void;
+  image: SingleImage | null;
+  onOpen: (productData: Product, size: string, entrySize: { [key: string]: any; }, image: SingleImage) => void;
   onClose: () => void
 }
 
 const useOneClickModal = create<useOneClickModalProps>((set) => ({
   isOpen: false,
   product: undefined,
-  sizeType: '',
+  sizeValue: '',
   entrySize: {},
-  onOpen: (productData, sizeType, entrySize) =>
+  image: null,
+  onOpen: (productData, sizeValue, entrySize, image) =>
     set({
       isOpen: true,
       product: productData,
-      sizeType: sizeType,
+      sizeValue: sizeValue,
       entrySize: entrySize,
+      image: image,
     }),
   onClose: () =>
     set({
       isOpen: false,
       product: undefined,
-      sizeType: '',
+      sizeValue: '',
       entrySize: {},
+      image: null,
     }),
 }));
 

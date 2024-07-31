@@ -27,7 +27,7 @@ const MainMenu = () => {
     }, [])
 
     return (
-        <div className={`fixed top-0 left-0 w-full h-[100vh] ${isOpen ? "opacity-100 z-[10000]" : "opacity-0 z-[-1]"}`}>
+        <div className={`hidden fixed top-0 left-0 w-full h-[100vh] opacity-100 z-[10000]`}>
             <div className={`absolute inset-0 max-w-[412px] h-full z-50  ${isOpen ? "!translate-x-0" : "translate-x-[-100%]"}`}>
                 <div className="relative">
                     <div className="h-[250px]">

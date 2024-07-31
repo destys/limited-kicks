@@ -13,7 +13,7 @@ import useOneClickModal from "@/hooks/use-one-click-modal";
 import Modal from "./modal";
 
 export default function OneClickModal() {
-    const { onClose, isOpen, product, sizeType, entrySize } = useOneClickModal();
+    const { onClose, isOpen, product, sizeValue, entrySize, image } = useOneClickModal();
 
     const [count, setCount] = useState(1);
 
@@ -37,19 +37,22 @@ export default function OneClickModal() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-7">
                     <div>
                         <div className="flex justify-center lg:block mb-4">
-                            <Image
-                                src={`/images/products/1-435.jpeg`}
-                                width={498}
-                                height={362}
-                                alt={product.name}
-                            />
+                            {image && (
+                                <Image
+                                    src={image?.src}
+                                    width={498}
+                                    height={362}
+                                    alt={product.name}
+                                    className="max-h-[362px] object-contain"
+                                />
+                            )}
                         </div>
                         <h3 className="mb-6 max-md:text-base max-xs:text-sm lg:uppercase">{product.name}</h3>
                         <div className="grid grid-cols-4 gap-2 md:gap-4">
                             <div>
                                 <p className="mb-1.5 md:mb-3 text-xs xs:text-sm sm:text-base">Размер</p>
                                 <p className="font-medium text-xs xs:text-sm sm:text-base lg:text-xl uppercase">
-                                    {entrySize[sizeType]} {sizeType}
+                                    {sizeValue}
                                 </p>
                             </div>
                             <div className="flex justify-center md:gap-2 col-span-2 items-center font-medium md:text-xl">

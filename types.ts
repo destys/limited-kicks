@@ -169,7 +169,11 @@ export interface BrandDataItem {
   count: number;
   filter: string;
   acf: {
-    tablicza_razmerov_obuvi: { [key: string]: string }[];
+    tablicza_razmerov_obuvi: {
+      map(arg0: (obj: {}) => string[]): string[][];
+      header: { c: string }[];
+      body: { c: string }[][];
+    };
   };
 }
 export interface ICartItem {

@@ -60,7 +60,7 @@ h5 {
 
 /* width */
 *::-webkit-scrollbar {
-  width: 10px;
+  @apply lg:size-1;
 }
 
 /* Track */

@@ -15,6 +15,7 @@ import styles from "./product-info.module.scss";
 import { Product } from "@/types";
 import useShoppingCart from "@/hooks/use-cart";
 import Image from "next/image";
+import useTableSizesModal from "@/hooks/use-sizes-table-modal";
 
 interface ProductInfoProps {
   data: Product;
@@ -22,6 +23,7 @@ interface ProductInfoProps {
 
 const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const oneClickModal = useOneClickModal();
+  const SizesTableModal = useTableSizesModal();
   const cart = useShoppingCart();
 
   const [isAdding, setIsAdding] = useState(false);
@@ -101,9 +103,9 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
               </div>
             ))}
           </div>
-          <Link href={"#"} className={styles.sizes_type__link}>
+          <button className={styles.sizes_type__link} onClick={()=> SizesTableModal.onOpen(brandsData[0].acf.tablicza_razmerov_obuvi)}>
             Таблица размеров
-          </Link>
+          </button>
         </div>
         <div className={styles.sizes}>
           {variationsData.map((item, index) => (

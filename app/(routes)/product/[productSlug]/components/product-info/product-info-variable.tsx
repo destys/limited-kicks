@@ -87,7 +87,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
 
   return (
     <>
-      <div>
+      <div className=" overflow-hidden">
         <div className={styles.sizes_type}>
           <div className="flex items-center gap-2">
             {sizesHeader?.map((item: { c: string }, index: number) => (

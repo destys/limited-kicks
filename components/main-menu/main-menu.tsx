@@ -21,20 +21,21 @@ const MainMenu = () => {
     useEffect(() => {
         const fetchMenu = async () => {
             const res = await getMenu(58);
+            console.log('res: ', res);
             setMenu(res);
         }
         fetchMenu();
     }, [])
 
     return (
-        <div className={`hidden fixed top-0 left-0 w-full h-[100vh] opacity-100 z-[10000]`}>
+        <div className={`fixed top-0 left-0 w-full h-[100vh] opacity-100 z-[10000] ${isOpen ? 'block' : 'hidden'}`}>
             <div className={`absolute inset-0 max-w-[412px] h-full z-50  ${isOpen ? "!translate-x-0" : "translate-x-[-100%]"}`}>
                 <div className="relative">
                     <div className="h-[250px]">
                         <Image src={"/images/best-sellers.png"} width={412} height={250} alt="menu" className="w-full h-full object-cover" />
                     </div>
-                    <button onClick={onClose} className="absolute top-4 right-4">
-                        <Image src={"/icons/Icon/Close.svg"} width={30} height={30} alt="close" />
+                    <button onClick={() => onClose()} className="absolute top-4 right-4">
+                        <Image src={"/icons/Icon/Close.svg"} width={30} height={30} alt="close" onClick={onClose} />
                     </button>
                 </div>
                 <nav className="bg-white h-[calc(100vh-250px)] overflow-y-auto pb-10">
@@ -47,7 +48,7 @@ const MainMenu = () => {
                     ))}
                 </nav>
             </div>
-            <div className="absolute inset-0 z-40 bg-black bg-opacity-35" onClick={onClose}></div>
+            <div className={`absolute inset-0 z-40 bg-black bg-opacity-35 ${!isOpen && 'w-0 h-0'}`} onClick={onClose}></div>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import { User } from "@/types";
 
-const URL = `${process.env.WP_ADMIN_REST_URL}/wp/v2/users/me`;
+const URL = `${process.env.WP_ADMIN_REST_URL}/wp/v2/users/me/`;
 
 const getUser = async (token: string): Promise<User> => {
     try {

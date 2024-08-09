@@ -18,7 +18,9 @@ const OrderHistory: React.FC<IOrderHistory> = ({ userId }) => {
   useEffect(() => {
     const fetchOrdersByCustomerId = async (customerId: number) => {
       setLoading(true);
-      const ordersList = await wooApi.get(`orders?customer=${customerId}`);
+      const ordersList = await wooApi.get(`orders?customer=${customerId}`, {
+        withCredentials: true
+      });
       //const ordersList = axios.get('https://admin.limited-kicks.ru/wp-json/wc/v3/orders?customer=11')
       //console.log('ordersList: ', ordersList);
       setOrders(ordersList.data)

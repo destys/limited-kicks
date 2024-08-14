@@ -11,9 +11,9 @@ interface IProductItem {
 }
 
 // Функция для извлечения числового значения из строки размера
-const extractNumber = (size: string): number => {
+const extractNumber = (size: string): any | 0 => {
     const match = size.match(/(\d+(\.\d+)?)/); // Регулярное выражение для чисел и дробей
-    return match ? parseFloat(match[0]) : 0;
+    return match ? match[0] : 0;
 };
 
 const ProductItem: React.FC<IProductItem> = ({ data }) => {
@@ -25,10 +25,7 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
     // Сортировка размеров по числовым значениям
     const sortedSizes = data.attributes[0].options
         .filter(option => typeof option === 'string') // Убедимся, что каждый элемент - строка
-        .sort((a, b) => {
-            console.log(typeof a, typeof b);
-            extractNumber(a) - extractNumber(b)
-        });
+        .sort((a, b) => extractNumber(a) - extractNumber(b));
 
     return (
         <article className={styles.product + " group"}>

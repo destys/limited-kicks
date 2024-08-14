@@ -1,0 +1,18 @@
+.listing {
+    @apply relative z-50;
+    &__top {
+        @apply flex justify-between items-center gap-3 mb-5 md:mb-7 lg:mb-10;
+    }
+
+    &__title {
+        @apply max-md:text-base lg:uppercase max-md:max-w-[50%];
+    }
+
+    &__showMore {
+        @apply relative text-xs md:text-base lg:text-lg decoration-dashed after:w-full after:border-b-2 after:border-dashed after:border-black after:absolute after:bottom-0 after:left-0 hover:text-main hover:after:border-main transition-colors after:transition-colors;
+    }
+
+    &__navigation {
+        @apply hidden lg:flex items-center gap-2;
+    }
+}

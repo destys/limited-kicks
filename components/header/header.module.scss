@@ -1,0 +1,59 @@
+.header {
+    @apply lg:mb-16;
+
+    .top {
+        @apply hidden lg:flex justify-between items-center gap-2 mb-2 w-full px-8 py-2.5 xl:px-16 xl:py-3.5 border-b border-b-add_1;
+
+        .menu {
+            @apply flex;
+
+            a {
+                @apply flex items-center gap-2 xl:gap-4 py-2 px-2.5 xl:py-4 xl:px-5;
+                svg {
+                    flex: 0 0 28px;
+                }
+
+                span {
+                    @apply font-medium text-lg whitespace-nowrap;
+                }
+
+                &:hover {
+                    path {
+                        @apply stroke-main;
+                    }
+
+                    span {
+                        @apply text-main transition-colors;
+                    }
+                }
+            }
+        }
+
+        .actions {
+            @apply flex items-center gap-3 xl:gap-6 text-lg;
+
+            a {
+                &:hover {
+                    path {
+                        @apply stroke-main transition-colors;
+                    }
+                }
+            }
+        }
+    }
+    .offer {
+        @apply relative flex justify-center items-center gap-3 p-2 bg-add_2 font-medium text-sm xs:text-sm md:text-xl lg:text-2xl text-white;
+
+        p {
+            @apply py-2.5 px-3;
+        }
+
+        .button {
+            @apply px-3 py-2 md:px-8 md:py-3.5 rounded-md bg-white text-black text-sm md:text-base;
+        }
+
+        .close {
+            @apply ml-auto sm:absolute sm:top-5 sm:right-5;
+        }
+    }
+}

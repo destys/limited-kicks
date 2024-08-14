@@ -1,0 +1,22 @@
+.gallery {
+    @apply relative w-full;
+    .top {
+        @apply absolute top-5 left-0 z-10 lg:px-5 w-full flex justify-between gap-4;
+
+        button {
+            @apply py-2 px-3 md:py-3 md:px-4 bg-add_1 rounded-md transition-colors hover:bg-add_1_hv;
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .thumbs {
+        @apply hidden lg:grid grid-cols-2 gap-8;
+
+        .item {
+            @apply opacity-50 transition-opacity cursor-pointer hover:opacity-100;
+        }
+    }
+} 

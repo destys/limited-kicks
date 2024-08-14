@@ -1,0 +1,12 @@
+.slider {
+    @apply pb-5;
+
+    .swiper-scrollbar {
+        margin: 0 20px;
+        @apply mx-4
+    }
+}
+
+.slide {
+    @apply flex justify-center items-center p-6 h-[102px] md:h-[150px] lg:h-[200px] rounded-[20px] relative bg-[#f8f8f8] border border-transparent hover:border-black;
+}

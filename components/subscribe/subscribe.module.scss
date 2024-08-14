@@ -1,0 +1,13 @@
+.subscribe {
+    @apply flex flex-col items-center px-2 py-[60px] bg-add_1;
+
+    &__title {
+        @apply mb-4 font-medium text-base sm:text-xl md:text-2xl lg:text-3xl text-center lg:uppercase;
+    }
+    &__subtitle {
+        @apply mb-10 max-w-[496px] text-xs xs:text-sm md:text-base lg:text-lg text-center;
+    }
+    &__form {
+        @apply flex flex-col md:flex-row justify-center gap-4 w-full max-w-[596px];
+    }
+}

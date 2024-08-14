@@ -1,0 +1,27 @@
+.search {
+    @apply flex items-center gap-6 bg-add_1 py-2.5 px-5 xl:py-5 xl:px-10 rounded-lg 2xl:min-w-[535px] relative;
+
+    input {
+        @apply bg-transparent flex-auto h-full  text-lg;
+
+        &::placeholder {
+            @apply text-lg text-black;
+        }
+    }
+}
+
+.searchResults {
+    @apply absolute top-[110%] left-0 z-50 w-full max-h-[80vh] p-5 bg-white shadow rounded-lg overflow-y-auto;
+
+    ul {
+        @apply grid gap-2;
+    }
+
+    h5 {
+        @apply mb-3 text-lg;
+    }
+
+    button {
+        @apply text-left hover:text-main;
+    }
+}

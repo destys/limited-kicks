@@ -1,0 +1,116 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "plugin:tailwindcss/recommended"
+  ],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint",
+    "formatjs",
+    "tailwindcss",
+    "unused-imports"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {},
+      {
+        "usePrettierrc": true
+      }
+    ],
+    "unused-imports/no-unused-imports": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "{@components,@layouts,@store,src,@api/endpoints}/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "{@constants,@messages,@api/model}",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "{.,..}/**/*.css",
+            "group": "unknown",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ]
+      }
+    ],
+    "import/newline-after-import": "error",
+    "import/no-useless-path-segments": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/consistent-type-imports": "error",
+    // require is used in config files
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "formatjs/no-offset": "error",
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "error",
+          "info",
+          "warn"
+        ]
+      }
+    ],
+    "tailwindcss/no-custom-classname": [
+      "error",
+      {
+        "cssFiles": [
+          "**/*.css",
+          "../../src/pages/globals.css",
+          "!**/node_modules",
+          "!**/dist",
+          "!**/build"
+        ]
+      }
+    ],
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.{ts,tsx}"],
+      "parserOptions": {
+        "project": "tsconfig.json"
+      },
+      "rules": {
+        "@typescript-eslint/prefer-nullish-coalescing": "warn",
+        "@typescript-eslint/prefer-optional-chain": "warn"
+      }
+    }
+  ]
+}

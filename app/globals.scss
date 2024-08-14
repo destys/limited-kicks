@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*:focus-visible {
+  outline: none;
+}
+
+body {
+  color: #000;
+
+  &.locked {
+    overflow-y: hidden;
+  }
+}
+
+section {
+  @apply mb-6 md:mb-10 lg:mb-20 px-2 sm:px-3 md:px-6 lg:px-12 xl:px-14 2xl:px-16;
+}
+
+a,
+path {
+  @apply transition-colors;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  @apply font-medium;
+}
+
+h1 {
+  @apply text-base xs:text-lg md:text-xl lg:text-2xl xl:text-3xl;
+}
+
+h2 {
+  @apply text-2xl;
+}
+
+h3 {
+  @apply text-xl;
+}
+
+h5 {
+  @apply text-xs;
+}
+
+.swiper-scrollbar {
+  margin: 0 10px;
+  background: transparent !important;
+  height: 2px !important;
+
+  &-drag {
+    background-color: black !important;
+    height: 2px !important;
+  }
+}
+
+/* width */
+*::-webkit-scrollbar {
+  @apply lg:size-1;
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  @apply bg-add_1_hv transition-colors rounded-md;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  @apply bg-add_4;
+}

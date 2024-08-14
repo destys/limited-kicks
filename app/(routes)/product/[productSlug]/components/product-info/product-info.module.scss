@@ -1,0 +1,71 @@
+.sizes_type {
+    @apply flex flex-col 2xl:flex-row justify-between xs:items-center gap-5 xs:gap-2 mb-7;
+
+    &__link {
+        @apply mx-auto xs:mr-0 relative decoration-dashed whitespace-nowrap max-md:text-xs after:w-full after:border-b-2 after:border-dashed after:border-black after:absolute after:bottom-0 after:left-0 hover:text-main hover:after:border-main transition-colors after:transition-colors;
+    }
+
+    input {
+        @apply absolute z-0 opacity-0;
+
+        &:checked + label {
+            @apply bg-black text-white;
+        }
+    }
+
+    label {
+        @apply block py-3 px-5 xl:px-8 xl:py-4 rounded-md border border-black cursor-pointer max-md:text-xs hover:bg-add_1 transition-colors;
+    }
+}
+.sizes {
+    @apply flex /* grid */ overflow-x-auto w-full md:grid gap-2 grid-cols-4 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mb-4 lg:mb-7;
+
+    .item {
+        input {
+            @apply absolute z-0 opacity-0;
+
+            &:checked + label {
+                @apply border-black;
+            }
+        }
+
+        label {
+            @apply block bg-add_1 border border-add_1 rounded-[10px] p-5 relative text-center cursor-pointer;
+        }
+
+        &.instock {
+            path {
+                stroke: green;
+            }
+        }
+    }
+}
+
+.toCartLink {
+    @apply p-0 bg-main text-white border-main relative overflow-hidden;
+    &:hover {
+        @apply bg-main text-white;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        height: 120%;
+        width: 45px;
+        transform: skewX(-45deg); // Наклон
+        animation: flareAnimation;
+        left: -150%;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4));
+        animation: flareAnimation 3s infinite linear; // Время и тип анимации можно менять
+    }
+}
+
+@keyframes flareAnimation {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 150%;
+    }
+}

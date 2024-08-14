@@ -1,0 +1,77 @@
+'use client';
+import Image from "next/image";
+import Link from "next/link";
+
+import styles from "./app-bar.module.scss";
+import useMobileSearch from "@/hooks/use-mobile-search";
+import useMainMenu from "@/hooks/use-main-menu";
+import useShoppingCart from "@/hooks/use-cart";
+
+export default function AppBar() {
+  const mobileSearch = useMobileSearch();
+  const { items } = useShoppingCart();
+  const { onOpen } = useMainMenu();
+
+  return (
+    <div className={styles.appBar}>
+      <nav className={styles.appBar__nav}>
+        <ul className={styles.appBar__list}>
+          <li onClick={onOpen}>
+            <Image
+              src={"/icons/Icon/menu-burger.svg"}
+              width={20}
+              height={20}
+              alt="menu burger"
+              className="text-black"
+            />
+          </li>
+          <li>
+            <Link href={"/favorites"}>
+              <Image
+                src={"/icons/Icon/Heart.svg"}
+                width={20}
+                height={20}
+                alt="heart"
+                className="text-black"
+              />
+            </Link>
+          </li>
+          <li className="flex justify-center items-center bg-main rounded-full -translate-y-[10px] w-[52px] h-[52px]" onClick={mobileSearch.onOpen}>
+            <Image
+              src={"/icons/Icon/Search_type 1.svg"}
+              width={20}
+              height={20}
+              alt="Search"
+              className="text-black"
+            />
+          </li>
+          <li>
+            <Link href={"/cart"} className="relative">
+              <Image
+                src={"/icons/Icon/Bag.svg"}
+                width={20}
+                height={20}
+                alt="Bag"
+                className="text-black"
+              />
+              {!!items.length && (
+                <span className="absolute -right-1 -bottom-1 flex justify-center items-center w-3 h-3 rounded-full bg-main text-white text-[8px]">{items.length}</span>
+              )}
+            </Link>
+          </li>
+          <li>
+            <Link href={"/auth"}>
+              <Image
+                src={"/icons/Icon/Profile.svg"}
+                width={20}
+                height={20}
+                alt="profile"
+                className="text-black"
+              />
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+}

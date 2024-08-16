@@ -6,6 +6,13 @@ import CheckoutCart from "./components/checkout-cart";
 import CheckoutForm from "./components/checkout-form";
 
 
+export async function generateMetadata() {
+  return {
+    title: "Оформление заказа",
+    description: "Страница оформления заказа",
+  }
+} 
+
 const Checkout = async () => {
   const siteOptions = await getAcfOptions();
   return (

@@ -10,7 +10,6 @@ import Subscribe from '@/components/subscribe/subscribe'
 
 import './globals.scss'
 import styles from './layout.module.scss'
-import Head from 'next/head'
 
 const font = Unbounded({ subsets: ['latin'] })
 

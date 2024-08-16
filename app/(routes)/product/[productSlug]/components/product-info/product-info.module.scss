@@ -21,8 +21,9 @@
     @apply flex /* grid */ overflow-x-auto w-full md:grid gap-2 grid-cols-4 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mb-4 lg:mb-7;
 
     .item {
+        @apply relative;
         input {
-            @apply absolute z-0 opacity-0;
+            @apply absolute top-0 left-0 z-0 opacity-0;
 
             &:checked + label {
                 @apply border-black;

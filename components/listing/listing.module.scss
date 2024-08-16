@@ -1,5 +1,5 @@
 .listing {
-    @apply relative z-50;
+    @apply relative z-50 hover:z-[10000];
     &__top {
         @apply flex justify-between items-center gap-3 mb-5 md:mb-7 lg:mb-10;
     }

@@ -90,35 +90,40 @@ const CheckoutForm = () => {
         const form = e.target as HTMLFormElement & CheckoutFormData;
         const deliveryIndex = parseInt(form.deivery_methods.value, 10);
 
+        const order = {
+            status: 'processing',
+            payment_method: form.payments.value,
+            payment_method_title: payments.find(p => p.id === form.payments.value)?.method_title,
+            customer_id: user?.id || 0,
+            set_paid: true,
+            billing: {
+                first_name: user?.first_name,
+                last_name: user?.last_name,
+                address_1: form.delivery_address.value,
+                country: "RU",
+                email: user?.email,
+                phone: user?.phone,
+            },
+            line_items: items.map(item => ({
+                product_id: item.entrySize ? item.entrySize.parent_id : item.id,
+                quantity: item.quantity,
+                variation_id: item.entrySize?.id,
+            })),
+            coupon_lines: coupon ? [{
+                code: coupon?.code,
+            }] : '',
+            shipping_lines: [{
+                method_id: deliveryMethods[deliveryIndex]?.method_id,
+                method_title: deliveryMethods[deliveryIndex]?.method_title,
+                total: deliveryMethods[deliveryIndex]?.settings.cost?.value,
+            }],
+        }
+
+        console.log(order)
+
         try {
-            const orderResponse = await wooApi.post("orders", {
-                status: 'processing',
-                payment_method: form.payments.value,
-                payment_method_title: payments.find(p => p.id === form.payments.value)?.method_title,
-                customer_id: user?.id || 0,
-                set_paid: true,
-                billing: {
-                    first_name: user?.first_name,
-                    last_name: user?.last_name,
-                    address_1: form.delivery_address.value,
-                    country: "RU",
-                    email: user?.email,
-                    phone: user?.phone,
-                },
-                line_items: items.map(item => ({
-                    product_id: item.entrySize ? item.entrySize.parent_id : item.id,
-                    quantity: item.quantity,
-                    variation_id: item.entrySize?.id,
-                })),
-                coupon_lines: [{
-                    code: coupon?.code,
-                }],
-                shipping_lines: [{
-                    method_id: deliveryMethods[deliveryIndex]?.method_id,
-                    method_title: deliveryMethods[deliveryIndex]?.method_title,
-                    total: deliveryMethods[deliveryIndex]?.settings.cost?.value,
-                }],
-            });
+            const orderResponse = await wooApi.post("orders", order);
+            console.log('orderResponse: ', orderResponse);
             toast.success('Заказ успешно оформлен');
             clearCart();
             router.push('/');

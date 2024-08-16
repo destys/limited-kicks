@@ -1,6 +1,5 @@
 import NotFound from "@/app/not-found";
 
-
 import getAcfOptions from "@/actions/get-acf-options";
 import getProduct from "@/actions/get-product";
 
@@ -14,12 +13,11 @@ import ProductInfoSimple from "./components/product-info/product-info-simple";
 import AddToRecently from "./components/add-to-recently/add-to-recently";
 import Crumbs from "@/components/crumbs/crumbs";
 import TagCloud from "@/components/tag-cloud/tag-cloud";
-
-import styles from './product.module.scss';
 import { generateYoastMetadata } from "@/utils/meta-data";
 import getProductsListing from "@/actions/get-products-listing";
 import getProducts from "@/actions/get-products";
 
+import styles from './product.module.scss';
 
 interface ProductPageProps {
     params: {
@@ -29,7 +27,7 @@ interface ProductPageProps {
 
 export async function generateMetadata({ params }: ProductPageProps) {
     const data = await getProduct({ slug: params.productSlug });
-    
+
     if (!data) {
         return <NotFound />
     }

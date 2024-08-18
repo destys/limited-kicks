@@ -19,9 +19,10 @@ interface ListingProps {
     data: Product[];
     title: string;
     titleTag?: string;
+    link?: string | undefined;
 }
 
-const Listing: React.FC<ListingProps> = ({ data, title, titleTag }) => {
+const Listing: React.FC<ListingProps> = ({ data, title, titleTag, link }) => {
     return (
         <section className={styles.listing}>
             <Swiper
@@ -48,9 +49,10 @@ const Listing: React.FC<ListingProps> = ({ data, title, titleTag }) => {
                 <div className={styles.listing__top}>
                     {title && React.createElement(titleTag || 'h2', { className: styles.listing__title }, title)}
                     <div className="flex items-center gap-10">
-                        <Link href={"/products"} className={styles.listing__showMore}>
+                        {!!link && !!link.length && <Link href={link} className={styles.listing__showMore}>
                             Смотреть все
-                        </Link>
+                        </Link>}
+
                         <div className={styles.listing__navigation}>
                             <SlidePrevButton />
                             <SlideNextButton />

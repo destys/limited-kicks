@@ -1,6 +1,12 @@
 import Crumbs from '@/components/crumbs/crumbs'
-import FavoritesList from './components/favorites-list/favorites-list'
-import RecentlyViewed from '@/components/recently-viewed/recently-viewed'
+import FavoritesList from './components/favorites-list/favorites-list';
+
+export async function generateMetadata() {
+    return {
+        title: "Избранное",
+        description: "Страница избранного",
+    }
+}
 
 const FavoritesPage = () => {
     return (

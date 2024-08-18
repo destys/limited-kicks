@@ -70,6 +70,7 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
       tagCloud={siteOptions?.acf?.oblako_metok}
       categoryTags={tagsCloud}
       searchParams={searchParams}
+      hiddenBrands={true}
     />
   );
 }

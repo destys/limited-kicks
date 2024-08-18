@@ -1,6 +1,6 @@
 .listing {
     &__top {
-        @apply flex justify-between items-center gap-3 mb-5 md:mb-7 lg:mb-10;
+        @apply absolute lg:static top-0 left-0 z-30 w-full flex justify-between items-center gap-3 mb-5 md:mb-7 lg:mb-10;
     }
 
     &__title {

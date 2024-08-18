@@ -48,10 +48,10 @@ export default async function HomePage() {
     <>
       <MainBanner data={pageData[0]?.acf?.bannery} />
       <Ticker />
-      <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" />
+      <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" link={siteOptions?.acf?.listing_1.ssylka} />
       <Brands data={brands} />
-      <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" />
-      <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" />
+      <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" link={siteOptions?.acf?.listing_2.ssylka} />
+      <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" link={siteOptions?.acf?.listing_3.ssylka} />
       <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} />
       <BlogSlider data={posts} />
       <Banner data={siteOptions?.acf?.bannery} />

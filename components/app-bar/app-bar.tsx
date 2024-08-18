@@ -6,10 +6,13 @@ import styles from "./app-bar.module.scss";
 import useMobileSearch from "@/hooks/use-mobile-search";
 import useMainMenu from "@/hooks/use-main-menu";
 import useShoppingCart from "@/hooks/use-cart";
+import useFavoriteStore from "@/hooks/use-favorite";
 
 export default function AppBar() {
   const mobileSearch = useMobileSearch();
   const { items } = useShoppingCart();
+  const { favorites } = useFavoriteStore();
+  console.log('favorites: ', favorites);
   const { onOpen } = useMainMenu();
 
   return (
@@ -26,7 +29,7 @@ export default function AppBar() {
             />
           </li>
           <li>
-            <Link href={"/favorites"}>
+            <Link href={"/favorites"} className="relative">
               <Image
                 src={"/icons/Icon/Heart.svg"}
                 width={20}
@@ -34,6 +37,9 @@ export default function AppBar() {
                 alt="heart"
                 className="text-black"
               />
+              {!!favorites.length && (
+                <span className={styles.badge}>{favorites.length}</span>
+              )}
             </Link>
           </li>
           <li className="flex justify-center items-center bg-main rounded-full -translate-y-[10px] w-[52px] h-[52px]" onClick={mobileSearch.onOpen}>
@@ -55,7 +61,7 @@ export default function AppBar() {
                 className="text-black"
               />
               {!!items.length && (
-                <span className="absolute -right-1 -bottom-1 flex justify-center items-center w-3 h-3 rounded-full bg-main text-white text-[8px]">{items.length}</span>
+                <span className={styles.badge}>{items.length}</span>
               )}
             </Link>
           </li>

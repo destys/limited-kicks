@@ -51,6 +51,7 @@ export interface IListing {
   title: string;
   titleTag: string;
   data: Product[];
+  ssylka: string;
 }
 
 export interface Product {

@@ -45,13 +45,13 @@ const RecentlyViewed = () => {
 
 
     return (
-        <section>
+        <section className="relative">
             <Swiper
                 spaceBetween={16}
                 slidesPerView={1}
                 speed={700}
                 modules={[Navigation]}
-                className="!flex flex-col-reverse !pr-20 lg:!pr-0"
+                className="!flex flex-col-reverse !pt-12 !pr-20 lg:!pr-0"
                 breakpoints={{
                     474: {
                         slidesPerView: 2,
@@ -70,9 +70,6 @@ const RecentlyViewed = () => {
                 <div className={styles.listing__top}>
                     <h2 className={styles.listing__title}>Недавно посмотренные</h2>
                     <div className="flex items-center gap-10">
-                        <Link href={"/products"} className={styles.listing__showMore}>
-                            Смотреть все
-                        </Link>
                         <div className={styles.listing__navigation}>
                             <SlidePrevButton />
                             <SlideNextButton />

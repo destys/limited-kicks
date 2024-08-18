@@ -1,5 +1,5 @@
 import { Attribute } from "@/types";
-import { SetStateAction, useState, useEffect } from "react";
+import { SetStateAction, useState, useEffect, useRef } from "react";
 
 import getAttributes from "@/actions/get-attributes";
 import CheckBox from "../ui/checkbox/checkbox";
@@ -10,28 +10,55 @@ interface IFilterItem {
 }
 
 const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
-
   const [open, setOpen] = useState(false);
   const [attributes, setAttributes] = useState<Attribute[] | null>(null);
+
+  // Create a ref to track the component wrapper
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const attributesList = await getAttributes(data.id);
-      const filteredAttributesList = attributesList.filter(attribute => data.options.includes(attribute.id));
+      const filteredAttributesList = attributesList.filter(attribute =>
+        data.options.includes(attribute.id)
+      );
       setAttributes(filteredAttributesList);
-    }
+    };
 
     fetchData();
-  }, [data])
+  }, [data]);
 
-  const handleInputChange = (event: { target: { value: string, checked: boolean }; }) => {
-    // Отправляем ID фильтра, выбранное значение и состояние активности
+  useEffect(() => {
+    // Function to handle click outside the component
+    const handleClickOutside = (event: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    // Add event listener to detect clicks outside
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleInputChange = (event: { target: { value: string; checked: boolean } }) => {
     onChange(data.slug, event.target.value, event.target.checked);
   };
 
   return (
-    <div className={`border-b border-b-add_1 lg:rounded-lg lg:bg-add_1 transition-colors ${!open && " lg:hover:bg-add_1_hv"}`}>
-      <div className="flex items-center justify-between gap-3 py-3 px-2.5 md:py-3 md:px-5 lg:py-5 lg:px-7 cursor-pointer" onClick={() => setOpen(!open)}>
+    <div
+      ref={wrapperRef}
+      className={`border-b border-b-add_1 lg:rounded-lg lg:bg-add_1 transition-colors ${!open && " lg:hover:bg-add_1_hv"
+        }`}
+    >
+      <div
+        className="flex items-center justify-between gap-3 py-3 px-2.5 md:py-3 md:px-5 lg:py-5 lg:px-7 cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
         <p className="text-xs xs:text-sm md:text-base">{data.name}</p>
         <svg
           width="28"
@@ -69,4 +96,4 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
   );
 }
 
-export default FilterItem
+export default FilterItem;

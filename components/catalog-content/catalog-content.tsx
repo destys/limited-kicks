@@ -14,10 +14,11 @@ interface ICatalogContent {
   categoryTags?: Tag[];
   category: Category | Brand;
   searchParams: {};
-  query: IProductsQuery
+  query: IProductsQuery,
+  hiddenBrands?: boolean,
 }
 
-const CatalogContent: React.FC<ICatalogContent> = ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams }) => {
+const CatalogContent: React.FC<ICatalogContent> = ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams, hiddenBrands }) => {
 
   return (
     <>
@@ -25,7 +26,7 @@ const CatalogContent: React.FC<ICatalogContent> = ({ count, category, query, tit
         <Crumbs data={category} type="category" />
         <h1 className="mb-10">{title}</h1>
         {excerpt && <div dangerouslySetInnerHTML={{ __html: excerpt }} className="mb-10" />}
-        <BrandsCatalog />
+        {!hiddenBrands && <BrandsCatalog />}
         {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}
         <TopBar count={count} query={query} />
         <ProductsGrid query={query} searchParams={searchParams} />

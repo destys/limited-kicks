@@ -13,6 +13,7 @@ import NotFound from "@/app/not-found";
 import ScrollElement from "@/components/scroll-element/scroll-element";
 import ProductGrid from "@/components/products-grid/products-grid";
 import { generateYoastMetadata } from "@/utils/meta-data";
+import getAcfOptions from "@/actions/get-acf-options";
 
 interface IShopPage {
     searchParams: {}
@@ -30,7 +31,7 @@ export async function generateMetadata() {
 
 const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
     const shop = await getPage("shop");
-
+    const siteOptions = await getAcfOptions();
     if (!shop.length) {
         return <NotFound />
     }
@@ -49,7 +50,7 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
                 <Categories />
                 <BrandsCatalog />
                 <TopBar count={1250} query={query} />
-                <ProductGrid query={query} searchParams={searchParams} />
+                <ProductGrid query={query} searchParams={searchParams} banners={siteOptions.acf.bannery_v_kataloge} />
             </section>
         </>
     );

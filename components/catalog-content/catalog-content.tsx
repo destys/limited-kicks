@@ -1,9 +1,10 @@
-import { Attribute, Brand, Category, IProductsQuery, Product, Tag } from '@/types';
+import { Brand, Category, IProductsQuery, Tag } from '@/types';
 import Crumbs from '@/components/crumbs/crumbs';
 import TopBar from '@/components/top-bar/top-bar';
 import TagCloud from '@/components/tag-cloud/tag-cloud';
 import ProductsGrid from '@/components/products-grid/products-grid';
 import BrandsCatalog from '@/app/(routes)/shop/components/brands-catalog/brands-catalog';
+import getAcfOptions from '@/actions/get-acf-options';
 
 interface ICatalogContent {
   count: number;
@@ -18,7 +19,8 @@ interface ICatalogContent {
   hiddenBrands?: boolean,
 }
 
-const CatalogContent: React.FC<ICatalogContent> = ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams, hiddenBrands }) => {
+const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams, hiddenBrands }) => {
+  const siteOptions = await getAcfOptions();
 
   return (
     <>
@@ -29,7 +31,7 @@ const CatalogContent: React.FC<ICatalogContent> = ({ count, category, query, tit
         {!hiddenBrands && <BrandsCatalog />}
         {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}
         <TopBar count={count} query={query} />
-        <ProductsGrid query={query} searchParams={searchParams} />
+        <ProductsGrid query={query} searchParams={searchParams} banners={siteOptions?.acf?.bannery_v_kataloge} />
       </section>
       {tagCloud && <TagCloud data={tagCloud} className="lg:hidden" />}
       {description && <div dangerouslySetInnerHTML={{ __html: description }} className="grid gap-3 py-10 px-2 lg:px-[60px] bg-main text-white" />}

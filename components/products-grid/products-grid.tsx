@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Product } from "@/types";
+import { Product, SingleImage } from "@/types";
 import getProducts from "@/actions/get-products";
 import ProductItem from "@/components/product-item/product-item";
 import BannerCatalog from "@/components/banner-catalog/banner-catalog";
@@ -10,9 +10,13 @@ import { PacmanLoader } from "react-spinners";
 interface ProductGridProps {
     query: {};
     searchParams: {};
+    banners: {
+        banner_1?: SingleImage;
+        banner_2?: SingleImage;
+    }
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners }) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [page, setPage] = useState(2); // Начинаем со второй страницы
     const [loading, setLoading] = useState(false);
@@ -76,7 +80,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams }) => {
         if (!loading) {
             loadMoreProducts();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, loadMoreProducts]);
 
     useEffect(() => {
@@ -99,16 +102,26 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams }) => {
     return (
         <div className="relative">
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5 mb-10">
-                {products.map((item, index) => (
-                    (index + 1 === 9 || index + 1 === 22) ?
-                        (<React.Fragment key={index + '-fragment'}>
-                            <div className="col-span-2 row-span-2">
-                                <BannerCatalog banner={null} />
-                            </div>
+                {products.map((item, index) => {
+                    const showBanner1 = index + 1 === 9 && banners.banner_1;
+                    const showBanner2 = index + 1 === 22 && banners.banner_2;
+
+                    return (
+                        <React.Fragment key={index + '-fragment'}>
+                            {showBanner1 && (
+                                <div className="col-span-2 row-span-2">
+                                    <BannerCatalog banner={banners.banner_1} />
+                                </div>
+                            )}
+                            {showBanner2 && (
+                                <div className="col-span-2 row-span-2">
+                                    <BannerCatalog banner={banners.banner_2} />
+                                </div>
+                            )}
                             <ProductItem key={item.id} data={item} />
-                        </React.Fragment>)
-                        : (<ProductItem key={item.id} data={item} />)
-                ))}
+                        </React.Fragment>
+                    );
+                })}
             </div>
             <div className="flex justify-center mt-6" ref={scrollElement}>
                 {loading && <PacmanLoader color="#2972FF" />}

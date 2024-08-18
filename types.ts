@@ -39,6 +39,7 @@ export interface AcfOptions {
       banner_dlya_pk: CommonBanner;
       banner_dlya_telefonov: CommonBanner;
     };
+    bannery_v_kataloge: { banner_1: SingleImage; banner_2: SingleImage };
     tovary_po_zaprosu: IProductsOnRequest;
     listing_2: IListing;
     listing_3: IListing;

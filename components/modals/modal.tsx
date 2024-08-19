@@ -34,7 +34,7 @@ const Modal:React.FC<ModalProps> = ({
         />
         <Dialog.Content
           className={twMerge(
-            "fixed drop-shadow-md top-[50%] left-[50%] w-full h-full max-h-full md:h-auto md:max-w-[95vw] md:max-h-[92vh] lg:max-w-[1196px] translate-x-[-50%] translate-y-[-50%] md:rounded-[20px] py-6 px-2 md:p-8 overflow-y-auto scrollbar-hide focus:outline-none z-[3000] bg-white",
+            "fixed drop-shadow-md top-[50%] left-[50%] w-full h-full max-h-full md:h-auto md:max-w-[95vw] md:max-h-[92vh] lg:max-w-[1196px] translate-x-[-50%] translate-y-[-50%] md:rounded-[20px] py-6 px-2 md:p-8 overflow-y-auto scrollbar-hide focus:outline-none z-[10000] bg-white",
             contentClassNames
           )}
         >
@@ -58,7 +58,7 @@ const Modal:React.FC<ModalProps> = ({
             </Dialog.Title>
           )}
 
-          <div>{children}</div>
+          <div className="relative">{children}</div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

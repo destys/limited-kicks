@@ -109,12 +109,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
                     return (
                         <React.Fragment key={index + '-fragment'}>
                             {showBanner1 && (
-                                <div className="col-span-2 row-span-2">
+                                <div className="flex justify-center items-center lg:col-span-2 lg:row-span-2">
                                     <BannerCatalog banner={banners.banner_1} />
                                 </div>
                             )}
                             {showBanner2 && (
-                                <div className="col-span-2 row-span-2">
+                                <div className="flex justify-center items-center lg:col-span-2 lg:row-span-2">
                                     <BannerCatalog banner={banners.banner_2} />
                                 </div>
                             )}

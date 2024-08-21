@@ -23,6 +23,7 @@
     "react-hot-toast": "^2.4.1",
     "react-input-mask": "^2.0.4",
     "react-spinners": "^0.13.8",
+    "react-yandex-metrika": "^2.6.0",
     "sass": "^1.72.0",
     "swiper": "^11.0.7",
     "swr": "^2.2.5",

@@ -10,11 +10,16 @@ import Subscribe from '@/components/subscribe/subscribe'
 
 import './globals.scss'
 import styles from './layout.module.scss'
+import { Suspense } from 'react'
+import YandexMetrikaContainer from '@/components/metrika/metrika'
 
 const font = Unbounded({ subsets: ['latin'] })
 
 export const metadata = {
-  robots: "noindex, nofollow"
+  robots: "noindex, nofollow",
+  other: {
+    ['yandex-verification']: '9669c0dc0d5afc0a',
+  },
 }
 
 export default function RootLayout({
@@ -25,6 +30,9 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={font.className}>
+        <Suspense>
+          <YandexMetrikaContainer enabled={true} />
+        </Suspense>
         <ToastProvider />
         <ModalProvider />
         <div className={styles.wrapper}>

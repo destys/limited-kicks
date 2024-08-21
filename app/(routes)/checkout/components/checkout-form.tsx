@@ -129,7 +129,9 @@ const CheckoutForm = () => {
         }
 
         try {
-            const orderResponse = await fetchWooCommerce("orders", order, 'post');
+            const orderResponse = await fetchWooCommerce("orders", {
+                withCredentials: true
+            }, 'post', order);
             toast.success('Заказ успешно оформлен');
             clearCart();
             router.push('/');

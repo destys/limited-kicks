@@ -12,7 +12,6 @@ export default function AppBar() {
   const mobileSearch = useMobileSearch();
   const { items } = useShoppingCart();
   const { favorites } = useFavoriteStore();
-  console.log('favorites: ', favorites);
   const { onOpen } = useMainMenu();
 
   return (

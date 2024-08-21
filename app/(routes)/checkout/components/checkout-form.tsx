@@ -13,6 +13,7 @@ import Loader from '@/components/ui/loader/loader'
 import Button from '@/components/ui/button/button'
 import Input from '@/components/ui/input/input'
 import Radio from '@/components/ui/radio/radio'
+import { fetchWooCommerce } from '@/lib/utils'
 
 interface IDelivery {
     settings: { cost?: { value: string } };
@@ -65,15 +66,24 @@ const CheckoutForm = () => {
                 }
 
                 const [paymentsData, shippingZones] = await Promise.all([
-                    wooApi.get('payment_gateways'),
-                    wooApi.get('shipping/zones')
+                    fetchWooCommerce('payment_gateways',
+                        {
+                            withCredentials: true
+                        }),
+                    fetchWooCommerce('shipping/zones',
+                        {
+                            withCredentials: true
+                        })
                 ]);
 
-                setPayments(paymentsData.data.filter((gateway: { enabled: any }) => gateway.enabled));
+                setPayments(paymentsData.filter((gateway: { enabled: any }) => gateway.enabled));
 
-                if (shippingZones.data.length > 0) {
-                    const methodsData = await wooApi.get(`shipping/zones/${shippingZones.data[0].id}/methods`);
-                    setDeliveryMethods(methodsData.data);
+                if (shippingZones.length > 0) {
+                    const methodsData = await fetchWooCommerce(`shipping/zones/${shippingZones[0].id}/methods`,
+                        {
+                            withCredentials: true
+                        });
+                    setDeliveryMethods(methodsData);
                 }
             } catch (error) {
                 console.error('Error fetching checkout data:', error);
@@ -119,11 +129,8 @@ const CheckoutForm = () => {
             }],
         }
 
-        console.log(order)
-
         try {
             const orderResponse = await wooApi.post("orders", order);
-            console.log('orderResponse: ', orderResponse);
             toast.success('Заказ успешно оформлен');
             clearCart();
             router.push('/');

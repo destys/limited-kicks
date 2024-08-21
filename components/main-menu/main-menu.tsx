@@ -21,7 +21,6 @@ const MainMenu = () => {
     useEffect(() => {
         const fetchMenu = async () => {
             const res = await getMenu(58);
-            console.log('res: ', res);
             setMenu(res);
         }
         fetchMenu();

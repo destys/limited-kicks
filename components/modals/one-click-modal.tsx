@@ -28,7 +28,6 @@ export default function OneClickModal() {
     const onSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         onChange(!open);
-        router.push("/cabinet");
     };
 
     return (

@@ -1,7 +1,6 @@
 'use client'
 import { Address, User } from '@/types'
 import { FormEvent, useEffect, useState } from 'react'
-import { wooApi } from '@/lib/wc-rest-api'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
@@ -130,7 +129,7 @@ const CheckoutForm = () => {
         }
 
         try {
-            const orderResponse = await wooApi.post("orders", order);
+            const orderResponse = await fetchWooCommerce("orders", order, 'post');
             toast.success('Заказ успешно оформлен');
             clearCart();
             router.push('/');

@@ -200,6 +200,17 @@ const CheckoutForm = () => {
                                 placeholder="Введите фамилию"
                                 defaultValue={user?.last_name}
                             />
+                            <div className="sm:col-span-2 ">
+                                <Input
+                                    type="text"
+                                    className="md:py-6 md:px-10 border border-add_4"
+                                    label="Email"
+                                    name="email"
+                                    placeholder="Введите email"
+                                    defaultValue={user?.email}
+                                    required
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className="mb-6 lg:mb-11">

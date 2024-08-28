@@ -46,8 +46,18 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
 
                 const customOrder = ['Бренд', 'Модель', 'Размер', 'Коллекция']; // Задайте желаемый порядок фильтров
 
+                const filteredAttributes = filtersList.attributes.filter((attribute: { name: string; }) => {
+                    if (pathname.includes('/brand/') && attribute.name === 'Бренд') {
+                        return false; // Скрываем фильтр по бренду
+                    }
+                    if (pathname.includes('/tag/') && attribute.name === 'Модель') {
+                        return false; // Скрываем фильтр по модели
+                    }
+                    return true; // Оставляем все остальные фильтры
+                });
+
                 // Сортировка фильтров согласно customOrder
-                const sortedFiltersList = filtersList.attributes.sort((a: { name: string; }, b: { name: string; }) => {
+                const sortedFiltersList = filteredAttributes.sort((a: { name: string; }, b: { name: string; }) => {
                     return customOrder.indexOf(a.name) - customOrder.indexOf(b.name);
                 });
                 setFilters(sortedFiltersList);

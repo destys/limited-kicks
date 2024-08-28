@@ -6,18 +6,43 @@ import Button from "@/components/ui/button/button";
 import Input from "@/components/ui/input/input";
 
 import Image from "next/image";
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Price from "../price/price";
 import Radio from "../ui/radio/radio";
 import useOneClickModal from "@/hooks/use-one-click-modal";
 import Modal from "./modal";
+import useUser from "@/hooks/use-user";
+import { User } from "@/types";
+import getUser from "@/actions/get-user";
+import Link from "next/link";
+import Loader from "../ui/loader/loader";
+import toast from "react-hot-toast";
+import { fetchWooCommerce } from "@/lib/utils";
+import { PacmanLoader } from "react-spinners";
 
 export default function OneClickModal() {
     const { onClose, isOpen, product, sizeValue, entrySize, image } = useOneClickModal();
-
+    const { jwtToken, login } = useUser();
     const [count, setCount] = useState(1);
+    const [user, setUser] = useState<User | null>(null);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [phone, setPhone] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const router = useRouter();
+    useEffect(() => {
+        const FetchData = async () => {
+            if (jwtToken !== null) {
+                try {
+                    const userData = await getUser(jwtToken);
+                    setUser(userData);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                    setUser(null);
+                }
+            }
+        }
+        FetchData();
+    }, [jwtToken])
 
     const onChange = (open: boolean) => {
         if (!open) {
@@ -25,9 +50,89 @@ export default function OneClickModal() {
         }
     };
 
-    const onSubmit = (e: { preventDefault: () => void; }) => {
+    const handleAuth = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onChange(!open);
+        const form = e.target as HTMLFormElement;
+        const phone = form.phone.value;
+
+        try {
+            setLoading(true)
+            const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/send-sms-code`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ phone }),
+            });
+            if (response.ok) {
+                setShowConfirmation(true);
+                setPhone(phone);
+            }
+            console.log('response: ', response);
+        } catch (error: any) {
+            console.error('error: ', error);
+        } finally {
+            setLoading(false);
+        }
+        setShowConfirmation(true);
+    }
+
+    const handleConfirmation = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const code = form.code.value;
+        try {
+            setLoading(true)
+            const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/verify-sms-code`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ phone, code }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                login(data.data.data.token)
+                setShowConfirmation(false);
+            }
+        } catch (error: any) {
+            console.error('error: ', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        const form = e.target as HTMLFormElement;
+
+        const order = {
+            status: 'processing',
+            customer_id: user?.id || 0,
+            set_paid: true,
+            line_items: [{
+                product_id: product?.id,
+                quantity: count,
+                variation_id: entrySize?.id,
+            }],
+            shipping_lines: [{
+                method_id: form.oneClickDelivery.value,
+            }],
+        }
+
+        try {
+            const orderResponse = await fetchWooCommerce("orders", {
+                withCredentials: true
+            }, 'post', order);
+            toast.success('Заказ успешно оформлен');
+            onClose();
+        } catch (error) {
+            console.error('Failed to submit order:', error);
+            toast.error('Ошибка при оформлении заказа');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -78,37 +183,65 @@ export default function OneClickModal() {
                             </div>
                         </div>
                     </div>
-                    <form className="grid gap-4 lg:gap-6" onSubmit={onSubmit}>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Radio
-                                label={"Доставка"}
-                                name="oneClickDelivery"
-                                id="oneClickDelivery"
-                                defaultChecked
-                                className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-                                value="Доставка"
+                    {showConfirmation ? (
+                        <form className="grid gap-4 lg:gap-6" onSubmit={handleConfirmation}>
+                            <Input
+                                type="text"
+                                placeholder="Код из смс"
+                                name="code"
                             />
-                            <Radio
-                                label={"Самовывоз"}
-                                name="oneClickDelivery"
-                                id="oneClickPickup"
-                                className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-                                value="Самовывоз"
-                            />
-                        </div>
-                        <Input
-                            type="text"
-                            label="Ваше имя"
-                            name={"oneClickName"}
-                            placeholder="Введите имя"
-                        />
-                        <Input
-                            type={"tel"}
-                            name={"oneClickPhone"}
-                            label="Номер телефона"
-                            placeholder="Введите телефон"
-                        />
-                        <div className="flex items-end gap-3 w-full">
+                            <Button styled="filled" type="submit">Подтвердить номер</Button>
+                        </form>
+                    ) : (
+                        <form className="grid gap-4 lg:gap-6" onSubmit={user ? handleCheckout : handleAuth}>
+                            <div className="grid grid-cols-2 gap-2">
+                                <Radio
+                                    label={"Доставка"}
+                                    name="oneClickDelivery"
+                                    id="oneClickDelivery"
+                                    defaultChecked
+                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
+                                    value="3"
+                                />
+                                <Radio
+                                    label={"Самовывоз"}
+                                    name="oneClickDelivery"
+                                    id="oneClickPickup"
+                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
+                                    value="4"
+                                />
+                            </div>
+                            {user ? (
+                                <Link href="/profile" className="flex items-center gap-5 rounded p-5 border border-add_4">
+                                    <div className="rounded-full overflow-hidden shrink-0 basis-[50px] h-[50px] relative">
+                                        <Image src={'/images/avatar.jpg'} fill alt="user avatar" />
+                                    </div>
+                                    <div>
+                                        <div>{`${user.first_name} ${user.last_name}`}</div>
+                                        <div className="text-sm text-add_4">
+                                            {user.username.replace(/(\d)(\d{3})(\d{3})(\d{2})(\d{2})/, '+$1 ($2) $3-$4-$5')}
+                                        </div>
+                                    </div>
+                                </Link>
+                            ) : (
+                                <>
+                                    <Input
+                                        type="text"
+                                        label="Ваше имя"
+                                        name={"oneClickName"}
+                                        placeholder="Введите имя"
+                                    />
+                                    <Input
+                                        type="tel"
+                                        className="mb-2.5 md:mb-5"
+                                        placeholder="+7 999 999-99-99"
+                                        name="phone"
+                                    />
+                                </>
+
+                            )}
+
+                            {/* <div className="flex items-end gap-3 w-full">
                             <div className="flex-auto">
                                 <Input
                                     type="text"
@@ -119,30 +252,41 @@ export default function OneClickModal() {
                                 />
                             </div>
                             <Button type="button" styled={'filled'}>Применить</Button>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Radio
-                                label={"Telegram"}
-                                name="oneClickMessengers"
-                                id="oneClickTg"
-                                defaultChecked
-                                className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-                                value="Telegram"
-                            />
-                            <Radio
-                                label={"WhatsApp"}
-                                name="oneClickMessengers"
-                                id="oneClickWa"
-                                className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-                                value="WhatsApp"
-                            />
-                        </div>
-                        <Button className={"w-full font-medium md:text-lg"} type="submit" styled="filled">
-                            Оформить заказ
-                        </Button>
-                    </form>
-                </div>
+                        </div> */}
+                            <div className="grid grid-cols-2 gap-2">
+                                <Radio
+                                    label={"Telegram"}
+                                    name="oneClickMessengers"
+                                    id="oneClickTg"
+                                    defaultChecked
+                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
+                                    value="Telegram"
+                                />
+                                <Radio
+                                    label={"WhatsApp"}
+                                    name="oneClickMessengers"
+                                    id="oneClickWa"
+                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
+                                    value="WhatsApp"
+                                />
+                            </div>
+                            <Button className={"w-full font-medium md:text-lg hover:fill-main"} type="submit" styled="filled">
+                                {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : (
+                                    <>
+                                        Оформить заказ на{" "}<Price
+                                            value={count * entrySize.price}
+                                            className="font-medium text-xs xs:text-sm sm:text-base lg:text-xl"
+                                        />
+                                    </>
+                                )}
+
+                            </Button>
+                        </form>
+                    )
+                    }
+
+                </div >
             )}
-        </Modal>
+        </Modal >
     );
 }

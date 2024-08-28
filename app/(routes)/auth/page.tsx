@@ -19,7 +19,7 @@ export default function Cabinet() {
     if (jwtToken) {
       router.push('/profile')
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jwtToken]);
 
 

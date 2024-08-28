@@ -186,6 +186,7 @@ export interface ICartItem {
 }
 
 export interface User {
+  username: string;
   birthdate: any;
   id: any;
   email: string;

@@ -30,8 +30,6 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
     }
   };
 
-
-
   const buttonReset = () => {
     setIsButtonActive(false);
     setSecondsRemaining(60);

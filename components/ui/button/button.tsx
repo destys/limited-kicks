@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={twMerge(
-        "py-3 px-4 md:py-4 md:px-6 rounded-[10px] border border-black transition-colors text-xs md:text-sm lg:text-base",
+        "flex justify-center items-center gap-2 py-3 px-4 md:py-4 md:px-6 rounded-[10px] border border-black transition-colors text-xs md:text-sm lg:text-base",
         typeClasses,
         className
       )}
@@ -42,7 +42,7 @@ const Button: React.FC<ButtonProps> = ({
 function getTypeClasses(styled: string) {
   switch (styled) {
     case "filled":
-      return "bg-black text-white hover:bg-white hover:text-black disabled:bg-add_1 disabled:text-add_4 disabled:border-add_1 disabled:hover:border-add_1 disabled:hover:text-add_4 disabled:hover:bg_add_1 ";
+      return "bg-black text-white hover:bg-add_2 hover:border-add_2 disabled:bg-add_1 disabled:text-add_4 disabled:border-add_1 disabled:hover:border-add_1 disabled:hover:text-add_4 disabled:hover:bg_add_1 ";
     case "outlined":
       return "text-black  hover:bg-add_1";
     default:

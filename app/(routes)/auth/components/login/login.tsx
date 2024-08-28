@@ -8,10 +8,6 @@ interface LoginProps {
   onFormSubmit: (e: SetStateAction<string>) => void;
 }
 
-interface FormData {
-  email: string;
-}
-
 export default function Login({ onFormSubmit }: LoginProps) {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,7 +15,6 @@ export default function Login({ onFormSubmit }: LoginProps) {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const phone = e.currentTarget.phone.value;
-    // Вызов колбэк-функции из родительского компонента
 
     try {
       setMessage('')
@@ -49,7 +44,7 @@ export default function Login({ onFormSubmit }: LoginProps) {
   return (
     <form action="#" onSubmit={handleSubmit}>
       <p className="mb-4 sm:mb-6 lg:mb-10 text-xs xs:text-sm md:text-base  text-center ">
-        Введите адрес электронной почты, мы отправим Вам письмо с кодом подтверждения
+        Введите номер телефона, мы отправим Вам письмо с кодом подтверждения
       </p>
       <Input
         type="tel"

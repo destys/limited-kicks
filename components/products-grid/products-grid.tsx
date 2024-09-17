@@ -28,6 +28,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
     const mergeParams = (query: Record<string, any>, searchParams: Record<string, any>): Record<string, any> => {
         const merged: Record<string, any> = { ...query };
 
+        // Добавляем параметры сортировки по дате публикации от новых к старым
+        merged.order = 'desc';
+        merged.orderby = 'date';
+
         Object.keys(searchParams).forEach(key => {
             if (Array.isArray(searchParams[key])) {
                 if (Array.isArray(merged[key])) {
@@ -47,7 +51,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
                 }
             }
         });
-
         return merged;
     };
 
@@ -70,7 +73,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
 
     const loadMoreProducts = useCallback(async () => {
         setLoading(true);
-        const newProducts = await getProducts({ ...query, per_page: 12, page, ...searchParams });
+        const newProducts = await getProducts({ ...query, per_page: 12, page, ...searchParams, order: 'desc', orderby: 'date', });
         setProducts(prevProducts => [...prevProducts, ...newProducts]);
         setHasMore(newProducts.length > 0);
         setLoading(false);

@@ -4,6 +4,7 @@ import getCategories from "@/actions/get-categories";
 import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import NotFound from "@/app/not-found";
+import getFilters from "@/actions/get-filters";
 
 interface ICategoryPage {
   params: {
@@ -31,7 +32,7 @@ export async function generateMetadata(
       type: 'website',
     };
   }
-  
+
   const yoast_head_json = category[0].yoast_head_json;
 
   return generateYoastMetadata(yoast_head_json);
@@ -45,6 +46,7 @@ const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) =
     return <NotFound />;
   }
 
+  const filtersList = await getFilters({ categoryId: category[0].id });
   const query = {
     category: category[0].id,
     per_page: 12,
@@ -63,6 +65,7 @@ const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) =
       tagCloud={siteOptions?.acf?.oblako_metok}
       categoryTags={category[0].acf?.metki_pod_zagolovkom}
       searchParams={searchParams}
+      filtersList={filtersList}
     />
   );
 };

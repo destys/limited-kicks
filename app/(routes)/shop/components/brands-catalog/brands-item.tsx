@@ -1,12 +1,13 @@
-import { Brand } from '@/types';
+import { Attribute, Brand } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface BrandsItemProps {
-    data: Brand;
+    data: Attribute;
 }
 
 const BrandsItem: React.FC<BrandsItemProps> = ({ data }) => {
+    console.log('data: ', data);
 
     return (
         <Link

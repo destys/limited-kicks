@@ -14,6 +14,7 @@ import ScrollElement from "@/components/scroll-element/scroll-element";
 import ProductGrid from "@/components/products-grid/products-grid";
 import { generateYoastMetadata } from "@/utils/meta-data";
 import getAcfOptions from "@/actions/get-acf-options";
+import getFilters from "@/actions/get-filters";
 
 interface IShopPage {
     searchParams: {}
@@ -35,7 +36,7 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
     if (!shop.length) {
         return <NotFound />
     }
-
+    const filtersList = await getFilters({});
 
     const query = {
         per_page: 12,
@@ -48,7 +49,8 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
                 <Crumbs data={shop[0]} />
                 <h1 className="mb-10">{shop[0].title.rendered}</h1>
                 <Categories />
-                <BrandsCatalog />
+                <BrandsCatalog brandsArray={filtersList.attributes.find(
+                    (attribute: Attribute) => attribute.name === 'Бренд')} />
                 <TopBar count={1250} query={query} />
                 <ProductGrid query={query} searchParams={searchParams} banners={siteOptions.acf.bannery_v_kataloge} />
             </section>

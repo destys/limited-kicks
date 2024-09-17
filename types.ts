@@ -85,6 +85,10 @@ export interface Attribute {
   name: string;
   slug: string;
   options: number[];
+  count?: number;
+  description?: string;
+  acf: { ikonka: { url: string } };
+  yoast_head_json: {};
 }
 export interface Products extends Omit<Product, "data"> {
   data: Product[];

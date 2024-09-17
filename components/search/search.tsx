@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 
 import styles from "./search.module.scss";
 import useMobileSearch from "@/hooks/use-mobile-search";
-import { Product } from "@/types";
+import { AcfOptions, Product, SearchBanner } from "@/types";
 import getSearchResults from "@/actions/get-search-results";
 import { PacmanLoader } from "react-spinners";
 import Link from "next/link";
+import Image from "next/image";
+import getAcfOptions from "@/actions/get-acf-options";
 
 // Реализация собственной функции debounce
 function debounce<T extends (...args: any[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void {
@@ -27,6 +29,19 @@ export default function Search() {
   const [error, setError] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [popular, setPopular] = useState<AcfOptions['acf']['chastye_zaprosy']>([]);
+  const [searchBanner, setSearchBanner] = useState<SearchBanner | null>(null);
+
+  useEffect(() => {
+    const fetchPopular = async () => {
+      const response = await getAcfOptions();
+      console.log('response: ', response.acf.banner);
+      setPopular(response.acf.chastye_zaprosy)
+      setSearchBanner(response.acf.banner)
+    }
+
+    fetchPopular();
+  }, [])
 
   const onSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -134,15 +149,22 @@ export default function Search() {
             </div>
           )}
           <div className="mb-5">
-            <h5>Недавно искали</h5>
+            <h5>Популярные запросы</h5>
             <ul>
-              <li>
-                <button type="button">Adidas</button>
-              </li>
-              <li>
-                <button type="button">Nike</button>
-              </li>
+              {popular.map(item => (
+                <li key={item.zagolovok}>
+                  <Link href={item.ssylka}>{item.zagolovok}</Link>
+                </li>
+              ))}
             </ul>
+            {searchBanner !== null && (
+              <div className="mt-10 w-full max-w-96 h-52 rounded-lg overflow-hidden">
+                <Link href={searchBanner.ssylka} className="relative block w-full h-full">
+                  <Image src={searchBanner.banner.url} alt="logo" fill />
+                </Link>
+              </div>
+            )}
+
           </div>
         </div>
       )

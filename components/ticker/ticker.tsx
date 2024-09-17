@@ -5,8 +5,22 @@ import { Autoplay, Navigation } from "swiper/modules";
 
 import "swiper/css";
 import styles from "./ticker.module.scss";
+import getAcfOptions from "@/actions/get-acf-options";
+import { useEffect, useState } from "react";
+import { SingleImage } from "@/types";
 
 const Ticker = () => {
+    const [tickers, setTikers] = useState<{ ikonka: SingleImage; tekst: string }[]>([]);
+
+
+    useEffect(() => {
+        const fetchTickers = async () => {
+            const response = await getAcfOptions();
+            setTikers(response.acf.begushhaya_stroka);
+        }
+        fetchTickers();
+    }, [])
+
     const data = [
         {
             id: 1,
@@ -69,6 +83,9 @@ const Ticker = () => {
             title: "Скидка 90% на первый заказ",
         },
     ];
+
+    if (!tickers.length) return null;
+
     return (
         <section className="px-0 md:py-3 bg-add_1">
             <Swiper
@@ -83,9 +100,9 @@ const Ticker = () => {
                 modules={[Autoplay, Navigation]}
                 className={styles.slider}
             >
-                {data.map((item) => (
-                    <SwiperSlide className="px-5 py-3 !w-auto" key={item.id}>
-                        <div className=" flex items-center gap-3">
+                {tickers.map((item) => (
+                    <SwiperSlide className="px-5 py-3 !w-auto" key={item.tekst}>
+                        <div className="flex items-center gap-3">
                             <svg
                                 width="28"
                                 height="28"
@@ -105,7 +122,7 @@ const Ticker = () => {
                                     strokeWidth="2"
                                 />
                             </svg>
-                            <p className="text-sm whitespace-nowrap">{item.title}</p>
+                            <p className="text-sm whitespace-nowrap">{item.tekst}</p>
                         </div>
                     </SwiperSlide>
                 ))}

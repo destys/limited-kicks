@@ -41,10 +41,33 @@ export interface AcfOptions {
     };
     bannery_v_kataloge: { banner_1: SingleImage; banner_2: SingleImage };
     tovary_po_zaprosu: IProductsOnRequest;
+    begushhaya_stroka: {
+      ikonka: SingleImage;
+      tekst: string;
+    }[];
+    chastye_zaprosy: {
+      zagolovok: string;
+      ssylka: string;
+    }[];
+    banner: SearchBanner;
     listing_2: IListing;
     listing_3: IListing;
     listing_1: IListing;
   };
+}
+
+export interface SearchBanner {
+  banner: {
+    ID: number;
+    url: string;
+    sizes: {
+      large: string;
+      thumbnail: string;
+      medium: string;
+      [key: string]: string; // Для динамических ключей размеров
+    };
+  };
+  ssylka: string;
 }
 
 export interface IListing {

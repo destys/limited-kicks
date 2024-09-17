@@ -1,5 +1,5 @@
 .search {
-    @apply flex items-center gap-6 bg-add_1 py-2.5 px-5 xl:py-5 xl:px-10 rounded-lg 2xl:min-w-[535px] relative;
+    @apply flex items-center gap-6 bg-add_1 py-2.5 px-5 xl:py-5 xl:px-10 rounded-lg 2xl:min-w-[535px];
 
     input {
         @apply bg-transparent flex-auto h-full  text-lg;
@@ -11,7 +11,7 @@
 }
 
 .searchResults {
-    @apply absolute top-[110%] left-0 z-50 w-full max-h-[80vh] p-5 bg-white shadow rounded-lg overflow-y-auto;
+    @apply absolute top-[110%] left-0 z-50 w-full  py-5 px-8 xl:px-16 bg-white shadow rounded-lg overflow-y-auto;
 
     ul {
         @apply grid gap-2;

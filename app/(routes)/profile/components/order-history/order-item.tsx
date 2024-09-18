@@ -18,13 +18,13 @@ const OrderItem: React.FC<IOrderItem> = ({ data }) => {
       {/* Товары */}
       {data.line_items.map(item => (
         <div key={item.id} className="flex items-center gap-3 sm:gap-7 md:gap-8 lg:gap-10 2xl:gap-14 mb-4 bg-add_1 rounded-xl">
-          <div className="shrink-0 basis-[121px] md:basis-[162px] 2xl:basis-[238px]">
+          <div className="shrink-0 basis-[121px] md:basis-[162px] 2xl:basis-[238px] bg-white rounded-xl">
             <Image
               src={item.image.src || `/images/products/1-435.jpeg`}
               width={238}
               height={143}
               alt={data.name}
-              className="rounded-2xl max-h-[143px]"
+              className="rounded-2xl max-h-[143px] object-contain"
             />
           </div>
           <div>
@@ -79,7 +79,7 @@ const OrderItem: React.FC<IOrderItem> = ({ data }) => {
           <p
             className="font-medium text-sm sm:text-base lg:text-xl"
           >
-            <Price value={Number(data.shipping_lines[0].total)} />
+            <Price value={Number(data.shipping_lines[0]?.total) || 0} />
           </p>
         </div>
         <div>

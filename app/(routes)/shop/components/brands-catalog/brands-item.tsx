@@ -7,7 +7,6 @@ interface BrandsItemProps {
 }
 
 const BrandsItem: React.FC<BrandsItemProps> = ({ data }) => {
-    console.log('data: ', data);
 
     return (
         <Link

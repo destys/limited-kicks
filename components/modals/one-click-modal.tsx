@@ -68,7 +68,6 @@ export default function OneClickModal() {
                 setShowConfirmation(true);
                 setPhone(phone);
             }
-            console.log('response: ', response);
         } catch (error: any) {
             console.error('error: ', error);
         } finally {

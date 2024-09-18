@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import FilterItem from './filter-item';
 import PriceFilter from './price-filter';
+import { SortFilter } from './sort-filter';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Attribute, IProductsQuery } from '@/types';
 import getFilters from '@/actions/get-filters';
@@ -110,6 +111,24 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
         router.push(newPath, { scroll: false });
     };
 
+    // Обновление сортировки
+    const updateSortFilter = (sortValue: string) => {
+        const newQuery = new URLSearchParams(searchParams);
+
+        // Устанавливаем параметры сортировки
+        if (sortValue === 'default') {
+            newQuery.delete('orderby');
+            newQuery.delete('order');
+        } else {
+            newQuery.set('orderby', 'price'); // Сортируем по цене
+            newQuery.set('order', sortValue); // Значение может быть 'asc' или 'desc'
+        }
+
+        // Обновить URL
+        const newPath = `${pathname}?${newQuery.toString()}`;
+        router.push(newPath, { scroll: false });
+    };
+
     return (
         <div className="block mb-6 pb-2 md:mb-11 md:pb-6 border-b">
             <div className="flex justify-between items-center gap-5">
@@ -133,14 +152,17 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                 </button>
             </div>
             <div className={`fixed top-0 left-0 w-full h-full z-[1000] ${showFilters ? "block lg:hidden" : "hidden"}`} onClick={() => setShowFilters(!showFilters)}></div>
-            <div className={`fixed top-0 right-0 z-[1001] w-full h-full max-w-96 shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:static lg:grid-cols-5 gap-3 items-center flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
+            <div className={`fixed top-0 right-0 z-[10000] w-full h-full max-w-96 shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:static lg:grid-cols-5 gap-3 items-center flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
                 <div className="flex justify-end pr-5  h-[70px] lg:hidden" onClick={() => setShowFilters(!showFilters)}>
                     <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
                 </div>
 
                 {/* Добавляем фильтр по цене */}
                 {filters.length && <PriceFilter minPrice={minPrice} maxPrice={maxPrice} onChange={updatePriceFilter} />}
+                <div className="lg:col-span-3"></div>
 
+                {/* Добавляем фильтр сортировки */}
+                <SortFilter onChange={updateSortFilter} />
 
                 {/* Существующие фильтры */}
                 {filters.map(item => (

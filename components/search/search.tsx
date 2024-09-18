@@ -35,7 +35,6 @@ export default function Search() {
   useEffect(() => {
     const fetchPopular = async () => {
       const response = await getAcfOptions();
-      console.log('response: ', response.acf.banner);
       setPopular(response.acf.chastye_zaprosy)
       setSearchBanner(response.acf.banner)
     }

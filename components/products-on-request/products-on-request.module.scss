@@ -2,7 +2,7 @@
   @apply mb-20;
 
   &__wrapper {
-    @apply flex flex-col md:flex-col-reverse xs:flex-row xs:justify-between items-center gap-12 bg-[#4a66fb] md:h-[340px] overflow-hidden mx-2.5 py-4 pb-8 md:py-4 rounded-[20px];
+    @apply flex flex-col xs:flex-row xs:justify-between items-center gap-12 bg-[#4a66fb] md:h-[340px] overflow-hidden mx-2.5 py-4 pb-8 md:py-4 rounded-[20px];
   }
   &__content {
     @apply relative z-10 pl-2 xs:pl-4 sm:pl-6 md:pl-10 lg:pl-20 xl:pl-32 2xl:pl-40 text-center xs:text-left text-white;

@@ -3,6 +3,7 @@ import CatalogContent from "@/components/catalog-content/catalog-content";
 import getTags from "@/actions/get-tags";
 import NotFound from "@/app/not-found";
 import { generateYoastMetadata } from "@/utils/meta-data";
+import getFilters from "@/actions/get-filters";
 
 interface ITagPage {
   params: {
@@ -50,6 +51,8 @@ const TagPage: React.FC<ITagPage> = async ({ params, searchParams }) => {
     ...searchParams
   }
 
+  const filtersList = await getFilters({ tag: tag[0].id });
+
   return (
     <CatalogContent
       count={tag[0].count}
@@ -60,7 +63,9 @@ const TagPage: React.FC<ITagPage> = async ({ params, searchParams }) => {
       description={tag[0].description}
       tagCloud={siteOptions?.acf?.oblako_metok}
       categoryTags={tag[0].acf?.metki_pod_zagolovkom}
+      filtersList={filtersList}
       searchParams={searchParams}
+      hiddenBrands={true}
     />
   );
 }

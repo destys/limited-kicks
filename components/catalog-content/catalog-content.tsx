@@ -5,6 +5,8 @@ import TagCloud from '@/components/tag-cloud/tag-cloud';
 import ProductsGrid from '@/components/products-grid/products-grid';
 import BrandsCatalog from '@/app/(routes)/shop/components/brands-catalog/brands-catalog';
 import getAcfOptions from '@/actions/get-acf-options';
+import { versions } from 'process';
+import Versions from '../versions/versions';
 
 interface ICatalogContent {
   count: number;
@@ -27,6 +29,10 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
     (attribute: { name: string; }) => attribute.name === 'Бренд'
   )
 
+  const versions = filtersList?.attributes.find(
+    (attribute: { name: string; }) => attribute.name === 'Версия'
+  )
+
   return (
     <>
       <section>
@@ -35,6 +41,7 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
         {excerpt && <div dangerouslySetInnerHTML={{ __html: excerpt }} className="mb-10" />}
         {!hiddenBrands && brandAttribute && <BrandsCatalog brandsArray={brandAttribute} />}
         {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}
+        {versions && <Versions versionsArray={versions} />}
         <TopBar count={count} query={query} />
         <ProductsGrid query={query} searchParams={searchParams} banners={siteOptions?.acf?.bannery_v_kataloge} />
       </section>

@@ -70,7 +70,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     }, [query]);
 
     const updateFilters = (attributeName: string, termValue: any, isActive: boolean) => {
-        const newQuery = new URLSearchParams(searchParams);
+        const newQuery = new URLSearchParams(searchParams.toString());
 
         // Формирование ключей для параметров
         const attributeKey = `attribute`;
@@ -102,7 +102,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     };
 
     const updatePriceFilter = (min: number, max: number) => {
-        const newQuery = new URLSearchParams(searchParams);
+        const newQuery = new URLSearchParams(searchParams.toString());
         newQuery.set('min_price', min.toString());
         newQuery.set('max_price', max.toString());
 
@@ -113,7 +113,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
 
     // Обновление сортировки
     const updateSortFilter = (sortValue: string) => {
-        const newQuery = new URLSearchParams(searchParams);
+        const newQuery = new URLSearchParams(searchParams.toString());
 
         // Устанавливаем параметры сортировки
         if (sortValue === 'default') {
@@ -133,7 +133,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
         <div className="block mb-6 pb-2 md:mb-11 md:pb-6 border-b">
             <div className="flex justify-between items-center gap-5">
                 <div className="whitespace-nowrap text-[10px] xs:text-xs sm:text-sm md:text-base">
-                    <span className="font-light">Товаров в категории</span>{" "}
+                    <span className="font-light">Показано</span>{" "}
                     <strong className="font-medium"> {count} </strong>
                 </div>
                 <button
@@ -147,7 +147,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                     )}
 
                     <span className="text-[10px] xs:text-xs sm:text-sm md:text-base">
-                        Фильтры и сортировка
+                        Фильтры
                     </span>
                 </button>
             </div>

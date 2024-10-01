@@ -61,7 +61,7 @@ const Profile = () => {
                     {activeIndex === 0 && <PersonalInfo user={user} />}
                     {activeIndex === 1 && <OrderHistory userId={user?.id} />}
                     {activeIndex === 2 && <Addresses user={user} />}
-                    {activeIndex === 3 && <Discount totalAmount={37568 || 0} />}
+                    {activeIndex === 3 && <Discount totalAmount={37568} />}
                     {/*  {activeIndex === 3 && <Payments />} */}
                 </div>}
             </div>

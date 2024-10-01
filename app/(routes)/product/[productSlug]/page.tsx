@@ -18,6 +18,9 @@ import getProductsListing from "@/actions/get-products-listing";
 import getProducts from "@/actions/get-products";
 
 import styles from './product.module.scss';
+import RecentViewedListing from "@/components/recent-viewed-listing/recent-viewed-listing";
+import getTagsCloud from "@/actions/get-tags-cloud";
+import getAttributes from "@/actions/get-attributes";
 
 interface ProductPageProps {
     params: {
@@ -41,6 +44,11 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     const data = await getProduct({ slug: params.productSlug });
     const siteOptions = await getAcfOptions();
     const listing_1 = await getProductsListing({ include: [siteOptions?.acf?.listing_1?.products] });
+
+    const brandAttributes = await getAttributes(9);
+    const currentTerm = brandAttributes.find(term => term.slug === data?.brand[0]?.slug) || null;
+    const tagsCloud = await getTagsCloud('pa_brand', currentTerm?.id);
+
 
     if (!data) {
         return <NotFound />;
@@ -76,7 +84,8 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
             <Listing data={likes} title={"Вам может понравится"} titleTag="h2" />
             <Banner data={siteOptions?.acf?.bannery} />
             <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
-            <TagCloud data={siteOptions?.acf?.oblako_metok} />
+            <RecentViewedListing />
+            <TagCloud data={tagsCloud} />
         </>
     );
 }

@@ -7,8 +7,13 @@ const getMenu = async (id: number): Promise<IMenu> => {
         next: { revalidate: 10 }
     });
 
+    if (!res.ok) {
+        throw new Error(`Failed to fetch menu: ${res.statusText}`);
+    }
 
-    return res.json();
+    const data = await res.json(); 
+
+    return data;  
 };
 
 export default getMenu;

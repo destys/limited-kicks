@@ -99,7 +99,7 @@ export interface Product {
   name: string;
   price: number;
   variations?: [];
-  brand?: BrandDataItem[];
+  brand: BrandDataItem[];
   tags: Tag[];
 }
 
@@ -199,6 +199,7 @@ export interface BrandDataItem {
   filter: string;
   acf: {
     tablicza_razmerov_obuvi: iSizesTable;
+    tablicza_razmerov_obuvi_dlya_czen: iSizesTable;
   };
 }
 export interface ICartItem {
@@ -286,6 +287,7 @@ export interface IMenuItem {
   url: any;
   title: string;
   slug: string;
+  image?: string;
   children?: IMenuItem[];
 }
 

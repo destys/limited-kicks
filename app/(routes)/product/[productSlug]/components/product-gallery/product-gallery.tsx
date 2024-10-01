@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -14,6 +14,7 @@ import { Product } from "@/types";
 import useFavoriteStore from "@/hooks/use-favorite";
 import FlagList from "@/components/flag-list/flag-list";
 import useProductGalleryModal from "@/hooks/use-product-gallery-modal";
+import { useViewedProducts } from "@/hooks/use-viewed-products";
 
 interface ProductGalleryProps {
   productId: number;
@@ -26,8 +27,15 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
   const swiperRef = useRef<any>(null);
   const { onOpen } = useProductGalleryModal();
 
+  const addProduct = useViewedProducts((state) => state.addProduct);
+
   const { favorites, addFavorite, removeFavorite } = useFavoriteStore();
   const isFavorite = favorites.includes(data.id);
+
+  useEffect(() => {
+    // Добавляем товар в просмотренные при загрузке страницы
+    addProduct(data);
+  }, [data, addProduct]);
 
   const toggleFavorite = (id: number) => {
     if (isFavorite) {
@@ -115,7 +123,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
             />
           </SwiperSlide>
         ))}
-        <div className="flex justify-end items-center gap-2 pr-5">
+        <div className="absolute right-0 bottom-3 lg:static flex justify-end items-center gap-2 pr-5">
           <SlidePrevButton />
           <SlideNextButton />
         </div>

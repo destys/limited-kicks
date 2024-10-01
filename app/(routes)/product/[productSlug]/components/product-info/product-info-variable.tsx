@@ -33,8 +33,8 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const [isInStock, setIsInStock] = useState(data.variationsData[0].stock_status === 'instock');
 
   const brandsData = data?.brand ? data.brand : [];
-  const sizesHeader = brandsData[0].acf.tablicza_razmerov_obuvi?.header;
-  const sizesBody = brandsData[0].acf.tablicza_razmerov_obuvi?.body;
+  const sizesHeader = brandsData[0].acf.tablicza_razmerov_obuvi_dlya_czen?.header;
+  const sizesBody = brandsData[0].acf.tablicza_razmerov_obuvi_dlya_czen?.body;
 
   const sizeMap = new Map<string, string[]>();
   sizesBody?.forEach(row => {

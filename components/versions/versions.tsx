@@ -18,7 +18,7 @@ const Versions = async ({ versionsArray }: { versionsArray: Attribute }) => {
     );
 
     const handleVersionClick = (termId: number) => {
-        const newQuery = new URLSearchParams(searchParams);
+        const newQuery = new URLSearchParams(searchParams.toString());
 
         // Удаляем текущие параметры attribute и attribute_term (если они есть)
         newQuery.delete('attribute');

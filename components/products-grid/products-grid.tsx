@@ -60,6 +60,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
             try {
                 setIsLoading(true);
                 const initialProducts = await getProducts(combinedParams);
+                console.log('initialProducts: ', initialProducts);
                 setProducts(initialProducts);
             } catch (error) {
                 console.error('Failed to fetch initial products:', error);

@@ -1,5 +1,6 @@
 import { fetchWooCommerce } from "@/lib/utils";
 import { Products } from "@/types";
+import getProductsCount from "./get-products-count";
 
 // Типизация для параметров
 interface QueryParams {

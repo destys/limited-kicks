@@ -12,29 +12,33 @@ interface ViewedProductsState {
 // Ключ для хранения данных в localStorage
 const LOCAL_STORAGE_KEY = 'viewedProducts';
 
-export const useViewedProducts = create<ViewedProductsState>((set) => ({
-    viewedProducts: [],
-    
-    // Добавление продукта и сохранение в localStorage
-    addProduct: (product: Product) => 
-        set((state) => {
-            // Проверка на существование продукта
-            const existingProduct = state.viewedProducts.find((p) => p.id === product.id);
-            const updatedProducts = existingProduct
-                ? state.viewedProducts
-                : [product, ...state.viewedProducts].slice(0, 8); // Храним последние 8 товаров
+export const useViewedProducts = create<ViewedProductsState>((set) => {
+    const storedProducts = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const initialViewedProducts = storedProducts ? JSON.parse(storedProducts) : [];
 
-            // Сохранение обновленных товаров в localStorage
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedProducts));
+    return {
+        viewedProducts: initialViewedProducts,
 
-            return { viewedProducts: updatedProducts };
-        }),
-    
-    // Загрузка просмотренных товаров из localStorage
-    loadViewedProducts: () => {
-        const storedProducts = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (storedProducts) {
-            set({ viewedProducts: JSON.parse(storedProducts) });
+        // Добавление продукта и сохранение в localStorage
+        addProduct: (product: Product) =>
+            set((state) => {
+                const existingProduct = state.viewedProducts.find((p) => p.id === product.id);
+                const updatedProducts = existingProduct
+                    ? state.viewedProducts
+                    : [product, ...state.viewedProducts].slice(0, 8); // Храним последние 8 товаров
+
+                // Сохранение обновленных товаров в localStorage
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedProducts));
+
+                return { viewedProducts: updatedProducts };
+            }),
+
+        // Загрузка просмотренных товаров из localStorage
+        loadViewedProducts: () => {
+            const storedProducts = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (storedProducts) {
+                set({ viewedProducts: JSON.parse(storedProducts) });
+            }
         }
-    }
-}));
+    };
+});

@@ -1,5 +1,5 @@
 .sizes_type {
-    @apply flex flex-col 2xl:flex-row justify-between xs:items-center gap-5 xs:gap-2 mb-7;
+    @apply flex flex-col 2xl:flex-row justify-between xs:items-center gap-5 xs:gap-2 mb-5;
 
     &__link {
         @apply mx-auto xs:mr-0 relative decoration-dashed whitespace-nowrap max-md:text-xs after:w-full after:border-b-2 after:border-dashed after:border-black after:absolute after:bottom-0 after:left-0 hover:text-main hover:after:border-main transition-colors after:transition-colors;
@@ -18,7 +18,7 @@
     }
 }
 .sizes {
-    @apply flex /* grid */ overflow-x-auto w-full md:grid gap-2 grid-cols-4 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 mb-4 lg:mb-7;
+    @apply flex overflow-x-auto w-full md:grid gap-2 grid-cols-4 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mb-4 lg:mb-7;
 
     .item {
         @apply relative;

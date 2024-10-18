@@ -42,8 +42,6 @@ const RecentlyViewed = () => {
         return null;
     }
 
-
-
     return (
         <section className="relative">
             <Swiper
@@ -82,7 +80,6 @@ const RecentlyViewed = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-
         </section>
     );
 }

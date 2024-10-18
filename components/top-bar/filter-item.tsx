@@ -6,7 +6,7 @@ import CheckBox from "../ui/checkbox/checkbox";
 
 interface IFilterItem {
   data: Attribute;
-  onChange: (arg0: string, arg1: SetStateAction<string>, arg2: boolean) => void;
+  onChange: (arg0: string, arg1: SetStateAction<string>, arg2: boolean, arg3: string) => void;
 }
 
 const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
@@ -45,9 +45,12 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
     };
   }, []);
 
-  const handleInputChange = (event: { target: { value: string; checked: boolean } }) => {
-    onChange(data.slug, event.target.value, event.target.checked);
+  // Изменено: передаем текстовое значение вместо ID
+  const handleInputChange = (event: { target: { value: string; checked: boolean } }, optionName: string) => {
+    onChange(data.slug, event.target.value, event.target.checked, optionName);
   };
+
+  if (attributes && attributes.length < 2) return null;
 
   return (
     <div
@@ -85,7 +88,7 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
               label={option.name}
               name={option.slug}
               id={option.slug + '_' + option.id}
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => handleInputChange(e, option.name)}
               className="!py-2 !px-3 border border-add_4 font-medium !text-xs !max-md:text-sm justify-center before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
               value={option.id}
             />

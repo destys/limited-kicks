@@ -81,7 +81,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                 </div>
             </section>
             <Ticker />
-            <Listing data={likes} title={"Вам может понравится"} titleTag="h2" />
+            <Listing data={likes} title={"Вам может понравиться"} titleTag="h2" />
             <Banner data={siteOptions?.acf?.bannery} />
             <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
             <RecentViewedListing />

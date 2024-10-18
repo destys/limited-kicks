@@ -13,7 +13,7 @@ import styles from './layout.module.scss'
 import { Suspense } from 'react'
 import YandexMetrikaContainer from '@/components/metrika/metrika'
 
-const font = Unbounded({ subsets: ['latin'] })
+const font = Unbounded({ subsets: ['cyrillic'] })
 
 export const metadata = {
   robots: "noindex, nofollow",

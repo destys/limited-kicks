@@ -21,14 +21,42 @@ const RecentViewedListing = () => {
 
     return (
         <section className={styles.listing}>
-            <div className={styles.listing__top}>
-                <h2 className={styles.listing__title}>Недавно смотрели</h2>
-            </div>
-            <div className="grid grid-cols-4 gap-4">
-                {viewedProducts.map((product) => (
-                    <ProductItem key={product.id} data={product} />
+            <Swiper
+                spaceBetween={16}
+                slidesPerView={1}
+                speed={700}
+                modules={[Navigation]}
+                className="!flex flex-col-reverse !pr-20 lg:!pr-0 !overflow-visible"
+                breakpoints={{
+                    474: {
+                        slidesPerView: 2,
+                    },
+                    640: {
+                        slidesPerView: 3,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                    },
+                    1921: {
+                        slidesPerView: 6,
+                    },
+                }}
+            >
+                <div className={styles.listing__top}>
+                    <h2 className={styles.listing__title}>Недавно посмотренные</h2>
+                    <div className="flex items-center gap-10">
+                        <div className={styles.listing__navigation}>
+                            <SlidePrevButton />
+                            <SlideNextButton />
+                        </div>
+                    </div>
+                </div>
+                {viewedProducts?.map((item) => (
+                    <SwiperSlide key={item.id}>
+                        <ProductItem data={item} />
+                    </SwiperSlide>
                 ))}
-            </div>
+            </Swiper>
         </section>
     );
 };

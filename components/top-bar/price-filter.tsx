@@ -16,7 +16,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({ minPrice, maxPrice, onChange 
     };
 
     return (
-        <div className="relative mb-8 mx-8 lg:ml-0">
+        <div className="relative mb-2 mx-8 lg:ml-0">
             <div className="mb-3 text-sm px-3">Цена</div>
             <div>
                 <Range

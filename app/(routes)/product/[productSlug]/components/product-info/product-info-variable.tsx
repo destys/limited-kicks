@@ -89,7 +89,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
     <>
       <div className=" overflow-hidden">
         <div className={styles.sizes_type}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2">
             {sizesHeader?.map((item: { c: string }, index: number) => (
               <div key={`${item.c}-${index}`}>
                 <input
@@ -99,7 +99,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
                   defaultChecked={index === 0}
                   onChange={() => setActiveSizeIndex(index)}
                 />
-                <label htmlFor={`${item.c}-${index}`} className="uppercase">{item.c}</label>
+                <label htmlFor={`${item.c}-${index}`} className="uppercase whitespace-nowrap">{item.c}</label>
               </div>
             ))}
           </div>
@@ -127,7 +127,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
                     <Image src="/icons/Icon/Calendar.svg" width={15} height={15} alt="calendar" />
                   }
                 </span>
-                <div className="font-medium text-xs xs:text-sm sm:text-base md:text-xl whitespace-nowrap">
+                <div className="font-medium text-xs sm:text-sm md:text-base whitespace-nowrap">
                   {item.name[activeSizeIndex]}
                 </div>
                 <Price

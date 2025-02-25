@@ -71,21 +71,15 @@ export default function Confirmation({ userPhone, onChangeUserPhone }: Confirmat
       });
       const data = await response.json();
       if (response.ok) {
-        login(data.data.data.token)
-        if (localStorage.getItem('fromCheckout')) {
-          localStorage.removeItem('fromCheckout');
-          router.push("/checkout");
-        } else {
-          router.push("/profile");
-        }
+        login(data.data.data.token);
 
       } else {
         setMessage(`Error: ${data.message}`);
       }
     } catch (error: any) {
       console.error('error: ', error);
-      return null;
       setMessage(`Error: ${error.message}`);
+      return null;
     } finally {
       setLoading(false)
     }

@@ -8,8 +8,6 @@ interface PriceProps {
 
 const Price: React.FC<PriceProps> = ({ before, value, oldValue, after, className }) => {
 
-
-
   const price = parseFloat(value).toLocaleString("ru-RU", {
     style: "currency",
     currency: "RUB",
@@ -24,12 +22,19 @@ const Price: React.FC<PriceProps> = ({ before, value, oldValue, after, className
 
   return (
     <div className={className}>
-      {oldValue ? (
-        <>{before} <span className="inline mr-2 line-through text-sm">{oldPrice}</span>{price} {after}</>
+      {value > 0 ? (
+        oldValue ? (
+          <>
+            {before} <span className="inline mr-2 line-through text-sm">{oldPrice}</span> {price} {after}
+          </>
+        ) : (
+          <>
+            {before} {price} {after}
+          </>
+        )
       ) : (
-        <>{before} {price} {after}</>
+        <div>По запросу</div>
       )}
-
     </div>
   );
 }

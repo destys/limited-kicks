@@ -86,6 +86,7 @@ export interface Product {
     data_reliza: any;
     flag_1: string;
     flag_2: string;
+    tovary_pod_zakaz: boolean;
   };
   description: string;
   attributes: Attribute[];

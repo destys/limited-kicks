@@ -14,7 +14,10 @@ import ProductsOnRequest from "@/components/products-on-request/products-on-requ
 import getProductsListing from "@/actions/get-products-listing";
 
 export async function generateMetadata() {
-  const page = await getPage('glavnaya-stranicza');
+  const page = await getPage('krossovki');
+
+  if (!page.length) return null;
+
   const yoast_head_json = page[0].yoast_head_json;
 
   return {
@@ -32,11 +35,14 @@ export async function generateMetadata() {
     twitter: {
       cardType: yoast_head_json.twitter_card,
     },
+    verification: {
+      yandex: "b7d5aedbbbe984af",
+    },
   }
 }
 
 export default async function HomePage() {
-  const pageData = await getPage('glavnaya-stranicza');
+  const pageData = await getPage('krossovki');
   const siteOptions = await getAcfOptions();
   const listing_1 = await getProductsListing({ include: siteOptions?.acf?.listing_1?.products?.join() });
   const listing_2 = await getProductsListing({ include: siteOptions?.acf?.listing_2?.products?.join() });

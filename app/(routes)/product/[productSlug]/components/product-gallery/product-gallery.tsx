@@ -114,7 +114,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
       </div>
       <Swiper ref={swiperRef} resizeObserver={false} className="">
         {data.images.map((image) => (
-          <SwiperSlide key={image.id}>
+          <SwiperSlide key={image.id} className="bg-white">
             <Image
               src={image.src}
               width={892}

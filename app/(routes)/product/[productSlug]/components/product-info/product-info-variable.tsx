@@ -16,6 +16,7 @@ import { Product } from "@/types";
 import useShoppingCart from "@/hooks/use-cart";
 import Image from "next/image";
 import useTableSizesModal from "@/hooks/use-sizes-table-modal";
+import useToOrderModal from "@/hooks/use-to-order-modal";
 
 interface ProductInfoProps {
   data: Product;
@@ -23,6 +24,7 @@ interface ProductInfoProps {
 
 const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const oneClickModal = useOneClickModal();
+  const toOrderModal = useToOrderModal();
   const SizesTableModal = useTableSizesModal();
   const cart = useShoppingCart();
 
@@ -30,11 +32,14 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [activeSizeIndex, setActiveSizeIndex] = useState(0);
   const [entrySize, setEntrySize] = useState(data.variationsData[0]);
+  console.log('entrySize: ', entrySize);
   const [isInStock, setIsInStock] = useState(data.variationsData[0].stock_status === 'instock');
 
   const brandsData = data?.brand ? data.brand : [];
   const sizesHeader = brandsData[0].acf.tablicza_razmerov_obuvi_dlya_czen?.header;
   const sizesBody = brandsData[0].acf.tablicza_razmerov_obuvi_dlya_czen?.body;
+
+  const isToOrder = data.acf.tovary_pod_zakaz;
 
   const sizeMap = new Map<string, string[]>();
   sizesBody?.forEach(row => {
@@ -91,7 +96,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
         <div className={styles.sizes_type}>
           <div className="flex items-center gap-2 overflow-x-auto pb-2">
             {sizesHeader?.map((item: { c: string }, index: number) => (
-              <div key={`${item.c}-${index}`}>
+              <div key={`${item.c}-${index}`} className="min-w-0">
                 <input
                   type="radio"
                   name="size-type"
@@ -103,7 +108,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
               </div>
             ))}
           </div>
-          <button className={styles.sizes_type__link} onClick={()=> SizesTableModal.onOpen(brandsData[0].acf.tablicza_razmerov_obuvi)}>
+          <button className={styles.sizes_type__link} onClick={() => SizesTableModal.onOpen(brandsData[0].acf.tablicza_razmerov_obuvi)}>
             Таблица размеров
           </button>
         </div>
@@ -142,36 +147,50 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
           Товар будет доставлен{" "}
           <span className="text-main">{deliveryDate}</span>
         </div>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-7">
-          <Button
-            type="button"
-            styled={"filled"}
-            className={"px-10 py-5"}
-            onClick={() => oneClickModal.onOpen(data, entrySize.name[activeSizeIndex], entrySize, data.images[0])}
-          >
-            В один клик
-          </Button>
-          {!isAdding ? (
+        {isToOrder && !isInStock ? (
+          <div className="mb-7">
             <Button
               type="button"
               styled={"filled"}
-              className={`py-5 px-10 bg-add_1 text-black`}
-              onClick={handleAddToCart}
+              className={"px-10 py-5 hover:bg-main hover:border-main"}
+              onClick={() => toOrderModal.onOpen(data, entrySize.name[activeSizeIndex], entrySize, data.images[0])}
             >
-              В корзину
+              Заказать товар
             </Button>
-          ) : (
+          </div>
+        ) : (
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-7">
             <Button
               type="button"
               styled={"filled"}
-              className={styles.toCartLink}
-              onClick={handleAddToCart}
+              className={"px-10 py-5"}
+              onClick={() => oneClickModal.onOpen(data, entrySize.name[activeSizeIndex], entrySize, data.images[0])}
             >
-              <Link href={'/cart'} className="block py-4 px-8">Перейти в корзину</Link>
+              В один клик
             </Button>
-          )}
+            {!isAdding ? (
+              <Button
+                type="button"
+                styled={"filled"}
+                className={`py-5 px-10 bg-add_1 text-black hover:bg-main hover:border-main`}
+                onClick={handleAddToCart}
+              >
+                В корзину
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                styled={"filled"}
+                className={styles.toCartLink}
+                onClick={handleAddToCart}
+              >
+                <Link href={'/cart'} className="block py-4 px-8">Перейти в корзину</Link>
+              </Button>
+            )}
 
-        </div>
+          </div>
+        )}
+
         <Dolayme />
         <div className="mb-5 md:mb-7 lg:mb-11 h-[1px] bg-add_1"></div>
         <ProductTabs data={data} />

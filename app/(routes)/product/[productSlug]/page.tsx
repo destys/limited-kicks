@@ -71,11 +71,16 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                     </div>
                     <div className={styles.info}>
                         <h1 className="mb-2 sm:mb-3 lg:mb-4">{data.name}</h1>
-                        <Price
-                            before="от"
-                            value={data.price}
-                            className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
-                        />
+                        {data.price > 0 ? (
+                            <Price
+                                before="от"
+                                value={data.price}
+                                className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
+                            />
+                        ) : (
+                            <div className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg">Цена по запросу</div>
+                        )}
+
                         {data.type === 'variable' ? <ProductInfoVariable data={data} /> : <ProductInfoSimple data={data} />}
                     </div>
                 </div>

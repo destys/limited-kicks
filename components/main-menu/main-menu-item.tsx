@@ -33,7 +33,7 @@ const MainMenuItem: React.FC<IMainMenuItem> = ({ data, onClose }) => {
                         </div>
                     </button>
                 ) : (
-                    <Link href={formattedUrl} className="flex justify-between items-center gap-3 w-full p-4 border-b border-add_1 hover:bg-add_1_hv">
+                    <Link href={formattedUrl} className="flex justify-between items-center gap-3 w-full p-4 border-b border-add_1 hover:bg-add_1_hv" onClick={onClose}>
                         {data.image && (
                             <div className="w-[45px] h-[45px] overflow-hidden">
                                 <Image src={data.image} width={45} height={45} alt={data.title} className="w-full h-full object-contain" />

@@ -100,8 +100,8 @@ const Ticker = () => {
                 modules={[Autoplay, Navigation]}
                 className={styles.slider}
             >
-                {tickers.map((item) => (
-                    <SwiperSlide className="px-5 py-3 !w-auto" key={item.tekst}>
+                {tickers.map((item, index) => (
+                    <SwiperSlide className="px-5 py-3 !w-auto" key={item.tekst + '-' + index}>
                         <div className="flex items-center gap-3">
                             <svg
                                 width="28"

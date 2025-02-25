@@ -16,7 +16,7 @@ const ProductGalleryModal = () => {
 
     return (
         <Modal isOpen={isOpen} onChange={onChange} contentClassNames="!bg-transparent h-[500px]">
-            <button onClick={onClose} className="absolute top-0 right-0 z-10">
+            <button onClick={onClose} className="absolute top-0 right-0 z-10 bg-main">
                 <Image src={'/icons/Icon/Close-white.svg'} width={30} height={30} alt="close" />
             </button>
             {images.length ? (
@@ -29,8 +29,10 @@ const ProductGalleryModal = () => {
                     loop
                 >
                     {images.map((image, index) => (
-                        <SwiperSlide key={image.id}>
-                            <Image src={image.src} alt={`Slide ${index}`} layout="fill" objectFit='contain' />
+                        <SwiperSlide key={image.id} className="bg-white">
+                            <div>
+                                <Image src={image.src} alt={`Slide ${index}`} layout="fill" objectFit='contain' />
+                            </div>
                         </SwiperSlide>
                     ))}
                 </Swiper>

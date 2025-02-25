@@ -12,6 +12,7 @@ import './globals.scss'
 import styles from './layout.module.scss'
 import { Suspense } from 'react'
 import YandexMetrikaContainer from '@/components/metrika/metrika'
+import { Viewport } from 'next'
 
 const font = Unbounded({ subsets: ['cyrillic'] })
 
@@ -21,6 +22,13 @@ export const metadata = {
     ['yandex-verification']: '9669c0dc0d5afc0a',
   },
 }
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1.0,
+  maximumScale: 1.0,
+  userScalable: false,
+};
 
 export default function RootLayout({
   children,

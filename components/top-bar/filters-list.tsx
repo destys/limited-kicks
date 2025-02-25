@@ -166,63 +166,65 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     };
 
     return (
-        <div className="block mb-6 pb-2 md:mb-11 md:pb-6 border-b relative z-[1000] lg:static">
-            <div className="flex justify-between items-center gap-5">
-                <div className="whitespace-nowrap text-[10px] xs:text-xs sm:text-sm md:text-base">
-                    <span className="font-light">Показано</span>{" "}
-                    <strong className="font-medium"> {productCount} </strong>
+        <div className="relative z-[10000]">
+            <div className="block mb-6 pb-2 md:mb-11 md:pb-6 border-b relative z-[1000] lg:static">
+                <div className="flex justify-between items-center gap-5">
+                    <div className="whitespace-nowrap text-[10px] xs:text-xs sm:text-sm md:text-base">
+                        <span className="font-light">Показано</span>{" "}
+                        <strong className="font-medium"> {productCount} </strong>
+                    </div>
+                    <button
+                        className="flex items-center gap-1.5 md:gap-3 py-3 px-5 pr-0 md:pr-5"
+                        onClick={() => setShowFilters(!showFilters)}
+                    >
+                        {showFilters ? (
+                            <Image src="/icons/Icon/Filter.svg" width={28} height={28} alt="open filters" />
+                        ) : (
+                            <Image src="/icons/Icon/ClosedFilters.svg" width={28} height={28} alt="closed filters" />
+                        )}
+
+                        <span className="text-[10px] xs:text-xs sm:text-sm md:text-base">
+                            Фильтры
+                        </span>
+                    </button>
                 </div>
-                <button
-                    className="flex items-center gap-1.5 md:gap-3 py-3 px-5 pr-0 md:pr-5"
-                    onClick={() => setShowFilters(!showFilters)}
-                >
-                    {showFilters ? (
-                        <Image src="/icons/Icon/Filter.svg" width={28} height={28} alt="open filters" />
-                    ) : (
-                        <Image src="/icons/Icon/ClosedFilters.svg" width={28} height={28} alt="closed filters" />
-                    )}
+                <div className={`fixed top-0 left-0 w-full h-full z-[9500] bg-black/10 ${showFilters ? "block lg:hidden" : "hidden"}`} onClick={() => setShowFilters(!showFilters)}></div>
+                <div className={`fixed bottom-[52px] left-1/2 -translate-x-1/2 z-[10000] rounded w-full h-auto max-w-lg shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:translate-x-0 lg:static lg:grid-cols-5 gap-3 items-center flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
+                    <div className="mt-5 mb-10 p-2.5 lg:hidden">
+                        {!!activeFilters.length && (
+                            <>
+                                <p className="mb-2">Примененные фильтры</p>
+                                <ul className="flex flex-wrap gap-2">
+                                    {activeFilters.map((filter, index) => (
+                                        <li key={index} className="flex justify-center items-center gap-2 py-1 px-2 rounded-xl bg-add_1">
+                                            <span>{filter}</span>
+                                            <button>
+                                                <Image src="/icons/Icon/Close.svg" width={10} height={10} alt="close" />
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
+                    </div>
 
-                    <span className="text-[10px] xs:text-xs sm:text-sm md:text-base">
-                        Фильтры
-                    </span>
-                </button>
-            </div>
-            <div className={`fixed top-0 left-0 w-full h-full z-[9500] bg-black/10 ${showFilters ? "block lg:hidden" : "hidden"}`} onClick={() => setShowFilters(!showFilters)}></div>
-            <div className={`fixed bottom-[52px] left-1/2 -translate-x-1/2 z-[10000] rounded w-full h-auto max-w-lg shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:translate-x-0 lg:static lg:grid-cols-5 gap-3 items-center flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
-                <div className="mt-5 mb-10 p-2.5 lg:hidden">
-                    {!!activeFilters.length && (
-                        <>
-                            <p className="mb-2">Примененные фильтры</p>
-                            <ul className="flex flex-wrap gap-2">
-                                {activeFilters.map((filter, index) => (
-                                    <li key={index} className="flex justify-center items-center gap-2 py-1 px-2 rounded-xl bg-add_1">
-                                        <span>{filter}</span>
-                                        <button>
-                                            <Image src="/icons/Icon/Close.svg" width={10} height={10} alt="close" />
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </>
-                    )}
-                </div>
+                    {filters.length && <PriceFilter minPrice={minPrice} maxPrice={maxPrice} onChange={updatePriceFilter} />}
+                    <div className="lg:col-span-3"></div>
 
-                {filters.length && <PriceFilter minPrice={minPrice} maxPrice={maxPrice} onChange={updatePriceFilter} />}
-                <div className="lg:col-span-3"></div>
+                    <SortFilter onChange={updateSortFilter} />
 
-                <SortFilter onChange={updateSortFilter} />
+                    {filters.map(item => (
+                        <FilterItem key={item.id} data={item} onChange={(attributeName, termValue, isActive, termName) => updateFilters(attributeName, termValue, isActive, termName)} />
+                    ))}
+                    <div className="grid grid-cols-2 gap-4 my-5 px-2.5 lg:hidden">
+                        <Button styled="outlined" onClick={resetFilters}>Сбросить</Button>
+                        <Button styled="filled" onClick={applyFilters}>Применить {!!activeFilters.length && `(${productCount})`}</Button>
+                    </div>
 
-                {filters.map(item => (
-                    <FilterItem key={item.id} data={item} onChange={(attributeName, termValue, isActive, termName) => updateFilters(attributeName, termValue, isActive, termName)} />
-                ))}
-                <div className="grid grid-cols-2 gap-4 my-5 px-2.5 lg:hidden">
-                    <Button styled="outlined" onClick={resetFilters}>Сбросить</Button>
-                    <Button styled="filled" onClick={applyFilters}>Применить {!!activeFilters.length && `(${productCount})`}</Button>
-                </div>
-
-                <div className="relative flex justify-center lg:hidden h-[52px]">
-                    <div className="absolute top-1/2 p-3 rounded-full bg-white shadow w-[52px] h-[52px]" onClick={() => setShowFilters(!showFilters)}>
-                        <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
+                    <div className="relative flex justify-center lg:hidden h-[52px]">
+                        <div className="absolute top-1/2 p-3 rounded-full bg-white shadow w-[52px] h-[52px]" onClick={() => setShowFilters(!showFilters)}>
+                            <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
+                        </div>
                     </div>
                 </div>
             </div>

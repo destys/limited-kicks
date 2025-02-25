@@ -1,5 +1,5 @@
 .sizes_type {
-    @apply flex flex-col 2xl:flex-row justify-between xs:items-center gap-5 xs:gap-2 mb-5;
+    @apply flex flex-col-reverse justify-between gap-5 mb-5;
 
     &__link {
         @apply mx-auto xs:mr-0 relative decoration-dashed whitespace-nowrap max-md:text-xs after:w-full after:border-b-2 after:border-dashed after:border-black after:absolute after:bottom-0 after:left-0 hover:text-main hover:after:border-main transition-colors after:transition-colors;
@@ -14,7 +14,7 @@
     }
 
     label {
-        @apply block py-3 px-5 xl:px-8 xl:py-4 rounded-md border border-black cursor-pointer max-md:text-xs hover:bg-add_1 transition-colors;
+        @apply block py-1.5 px-2.5 md:py-3 md:px-5 xl:px-8 xl:py-4 rounded-md border border-black cursor-pointer max-md:text-xs hover:bg-add_1 transition-colors;
     }
 }
 .sizes {
@@ -44,6 +44,7 @@
 
 .toCartLink {
     @apply p-0 bg-main text-white border-main relative overflow-hidden;
+
     &:hover {
         @apply bg-main text-white;
     }

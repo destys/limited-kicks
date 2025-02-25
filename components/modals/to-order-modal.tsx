@@ -19,17 +19,18 @@ import Loader from "../ui/loader/loader";
 import toast from "react-hot-toast";
 import { fetchWooCommerce } from "@/lib/utils";
 import { PacmanLoader } from "react-spinners";
+import useToOrderModal from "@/hooks/use-to-order-modal";
 import { twMerge } from "tailwind-merge";
 
-export default function OneClickModal() {
-    const { onClose, isOpen, product, sizeValue, entrySize, image } = useOneClickModal();
+export default function ToOrderModal() {
+    const { onClose, isOpen, product, sizeValue, entrySize, image } = useToOrderModal();
     const { jwtToken, login } = useUser();
     const [count, setCount] = useState(1);
     const [user, setUser] = useState<User | null>(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [phone, setPhone] = useState('');
-    const [loading, setLoading] = useState(false);
     const [phoneError, setPhoneError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const FetchData = async () => {
@@ -109,7 +110,6 @@ export default function OneClickModal() {
     const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-        const form = e.target as HTMLFormElement;
 
         const order = {
             status: 'processing',
@@ -121,7 +121,7 @@ export default function OneClickModal() {
                 variation_id: entrySize?.id,
             }],
             shipping_lines: [{
-                method_id: form.oneClickDelivery.value,
+                method_id: 3,
             }],
         }
 
@@ -140,7 +140,7 @@ export default function OneClickModal() {
     };
 
     return (
-        <Modal title={"Покупка в 1 клик"} isOpen={isOpen} onChange={onChange}>
+        <Modal title={"Узнать стоимость"} isOpen={isOpen} onChange={onChange}>
             {product && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-7">
                     <div>
@@ -180,10 +180,7 @@ export default function OneClickModal() {
                             </div>
                             <div>
                                 <p className="mb-1.5 md:mb-3 text-xs xs:text-sm sm:text-base">Сумма</p>
-                                <Price
-                                    value={count * entrySize.price}
-                                    className="font-medium text-xs xs:text-sm sm:text-base lg:text-xl"
-                                />
+                                <p className="whitespace-nowrap font-medium text-xs xs:text-sm sm:text-base lg:text-base">По запросу</p>
                             </div>
                         </div>
                     </div>
@@ -198,23 +195,7 @@ export default function OneClickModal() {
                         </form>
                     ) : (
                         <form className="grid gap-4 lg:gap-6" onSubmit={user ? handleCheckout : handleAuth}>
-                            <div className="grid grid-cols-2 gap-2">
-                                <Radio
-                                    label={"Доставка"}
-                                    name="oneClickDelivery"
-                                    id="oneClickDelivery"
-                                    defaultChecked
-                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-                                    value="3"
-                                />
-                                <Radio
-                                    label={"Самовывоз"}
-                                    name="oneClickDelivery"
-                                    id="oneClickPickup"
-                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-                                    value="4"
-                                />
-                            </div>
+
                             {user ? (
                                 <Link href="/profile" className="flex items-center gap-5 rounded p-5 border border-add_4">
                                     <div className="rounded-full overflow-hidden shrink-0 basis-[50px] h-[50px] relative">
@@ -284,12 +265,7 @@ export default function OneClickModal() {
                             </div>
                             <Button className={"w-full font-medium md:text-lg hover:fill-main"} type="submit" styled="filled">
                                 {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : (
-                                    <>
-                                        Оформить заказ на{" "}<Price
-                                            value={count * entrySize.price}
-                                            className="font-medium text-xs xs:text-sm sm:text-base lg:text-xl"
-                                        />
-                                    </>
+                                    "Узнать стоимость"
                                 )}
 
                             </Button>

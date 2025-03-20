@@ -8,4 +8,8 @@
     ul {
         @apply list-inside list-disc;
     }
+
+    a {
+        @apply underline text-main;
+    }
 }

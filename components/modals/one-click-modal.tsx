@@ -21,6 +21,9 @@ import { fetchWooCommerce } from "@/lib/utils";
 import { PacmanLoader } from "react-spinners";
 import { twMerge } from "tailwind-merge";
 
+
+import styles from "./modals.module.scss";
+
 export default function OneClickModal() {
     const { onClose, isOpen, product, sizeValue, entrySize, image } = useOneClickModal();
     const { jwtToken, login } = useUser();
@@ -151,7 +154,7 @@ export default function OneClickModal() {
                                     width={498}
                                     height={362}
                                     alt={product.name}
-                                    className="max-h-[362px] object-contain"
+                                    className="max-h-[220px] sm:max-h-[362px] object-contain"
                                 />
                             )}
                         </div>
@@ -198,6 +201,7 @@ export default function OneClickModal() {
                         </form>
                     ) : (
                         <form className="grid gap-4 lg:gap-6" onSubmit={user ? handleCheckout : handleAuth}>
+
                             <div className="grid grid-cols-2 gap-2">
                                 <Radio
                                     label={"Доставка"}
@@ -265,6 +269,7 @@ export default function OneClickModal() {
                             </div>
                             <Button type="button" styled={'filled'}>Применить</Button>
                         </div> */}
+                            <h3>Способ связи</h3>
                             <div className="grid grid-cols-2 gap-2">
                                 <Radio
                                     label={"Telegram"}
@@ -282,7 +287,7 @@ export default function OneClickModal() {
                                     value="WhatsApp"
                                 />
                             </div>
-                            <Button className={"w-full font-medium md:text-lg hover:fill-main"} type="submit" styled="filled">
+                            <Button className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`} type="submit" styled="filled">
                                 {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : (
                                     <>
                                         Оформить заказ на{" "}<Price

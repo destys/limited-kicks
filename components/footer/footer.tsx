@@ -28,7 +28,12 @@ export default async function Footer() {
                             height={130}
                         />
                     </Link>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <div>
+                        <p>ИП Касаткин Илья Олегович</p>
+                        <br />
+                        <p>ОГРН: 324774600515950</p>
+                        <p>ИНН: 772822920424</p>
+                    </div>
                 </div>
                 <Menu
                     title={"Инфо"}
@@ -42,11 +47,11 @@ export default async function Footer() {
                     <ul className="flex flex-col gap-2">
                         <li>
                             Напишите нам в {" "}
-                            <Link href="#" className="font-medium hover:text-main">WhatsApp</Link>
+                            <Link href="https://wa.me/+79951508080" className="font-medium hover:text-main" target="_blank">WhatsApp</Link>
                         </li>
                         <li>
                             Напишите нам в {" "}
-                            <Link href="#" className="font-medium hover:text-main">Telegram</Link>
+                            <Link href="https://t.me/LimitedKicks_bot" className="font-medium hover:text-main" target="_blank">Telegram</Link>
                         </li>
                         <li>
                             Позвоните нам {" "}
@@ -54,7 +59,7 @@ export default async function Footer() {
                         </li>
                         <li>
                             Наша почта  {" "}
-                            <Link href="mailto:hello@limited-kicks.ru" className="font-medium hover:text-main">hello@limited-kicks.ru</Link>
+                            <Link href="mailto:shop@limited-kicks.ru" className="font-medium hover:text-main">shop@limited-kicks.ru</Link>
                         </li>
                     </ul>
                 </div>

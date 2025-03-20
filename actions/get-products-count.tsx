@@ -1,6 +1,5 @@
 // Функция для получения количества товаров на основе фильтров
 const getProductsCount = async (params: string): Promise<{ count: number }> => {
-    console.log('params: ', params);
     try {
         const response = await fetch(`https://admin.limited-kicks.ru/wp-json/custom-woocommerce/v1/product-count?${params.toString()}`, {
             method: 'GET',

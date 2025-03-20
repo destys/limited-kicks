@@ -33,6 +33,6 @@
     }
 
     .sizeItem {
-        @apply p-1 bg-white rounded transition-colors cursor-pointer hover:bg-main hover:text-white ;
+        @apply p-1 bg-white rounded transition-colors cursor-pointer whitespace-nowrap text-xs hover:bg-main hover:text-white ;
     }
 }

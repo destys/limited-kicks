@@ -11,7 +11,11 @@
 }
 
 .searchResults {
-    @apply absolute top-[110%] left-0 z-50 w-full  py-5 px-8 xl:px-16 bg-white shadow rounded-lg overflow-y-auto;
+    @apply absolute top-[110%] left-0 z-[9000] w-full  py-5 px-8 xl:px-16 bg-white  overflow-y-auto;
+
+    @media screen and (min-width: 1024px) {
+        @apply shadow rounded-lg;
+    }
 
     ul {
         @apply grid gap-2;

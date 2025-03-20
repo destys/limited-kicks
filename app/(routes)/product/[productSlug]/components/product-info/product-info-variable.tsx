@@ -32,7 +32,6 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [activeSizeIndex, setActiveSizeIndex] = useState(0);
   const [entrySize, setEntrySize] = useState(data.variationsData[0]);
-  console.log('entrySize: ', entrySize);
   const [isInStock, setIsInStock] = useState(data.variationsData[0].stock_status === 'instock');
 
   const brandsData = data?.brand ? data.brand : [];
@@ -147,7 +146,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
           Товар будет доставлен{" "}
           <span className="text-main">{deliveryDate}</span>
         </div>
-        {isToOrder && !isInStock ? (
+        {(isToOrder && !isInStock) || entrySize.price.toString() === "0" ? (
           <div className="mb-7">
             <Button
               type="button"
@@ -184,7 +183,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
                 className={styles.toCartLink}
                 onClick={handleAddToCart}
               >
-                <Link href={'/cart'} className="block py-4 px-8">Перейти в корзину</Link>
+                <Link href={'/cart'} className="block py-4 px-8">Оформить заказ</Link>
               </Button>
             )}
 

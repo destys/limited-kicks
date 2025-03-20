@@ -1,0 +1,29 @@
+.toCartLink {
+    @apply bg-main text-white border-main relative overflow-hidden;
+
+    &:hover {
+        @apply bg-main text-white border-main;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        height: 120%;
+        width: 45px;
+        transform: skewX(-45deg); // Наклон
+        animation: flareAnimation;
+        left: -150%;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4));
+        animation: flareAnimation 3s infinite linear; // Время и тип анимации можно менять
+    }
+}
+
+@keyframes flareAnimation {
+    0% {
+        left: -150%;
+    }
+    100% {
+        left: 150%;
+    }
+}

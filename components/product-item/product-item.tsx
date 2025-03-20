@@ -17,23 +17,18 @@ const extractNumber = (size: any): any | 0 => {
 };
 
 const ProductItem: React.FC<IProductItem> = ({ data }) => {
-    // Проверяем, что data.attributes[0].options действительно массив строк
-    if (!data.attributes || !Array.isArray(data.attributes[0].options)) {
-        return <div>Invalid data</div>;
-    }
-
-    // Сортировка размеров по числовым значениям
-    const sortedSizes = data.attributes[0].options
-        .sort((a, b) => extractNumber(a) - extractNumber(b));
+    // Проверяем наличие attributes и options
+    const hasSizes = data.attributes?.[0]?.options && Array.isArray(data.attributes[0].options);
+    const sortedSizes = hasSizes ? [...data.attributes[0].options].sort((a, b) => extractNumber(a) - extractNumber(b)) : [];
 
     return (
         <article className={styles.product + " group"}>
             <div className={styles.wrapper}>
                 <Link href={`/product/${data.slug}`}>
-                    {data?.acf.flag_1 && <FlagList data={data} className={styles.flags} />}
+                    {data?.acf?.flag_1 && <FlagList data={data} className={styles.flags} />}
                     <div className={styles.image}>
                         <Image
-                            src={data.images[0]?.src || '/images/image-placeholder.png'}
+                            src={data.images?.[0]?.src || data.image || '/images/image-placeholder.png'}
                             width={400}
                             height={240}
                             alt={data.name}
@@ -47,7 +42,7 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                         </div>
                     </div>
                 </Link>
-                {data.type === 'variable' && (
+                {data.type === 'variable' && hasSizes && sortedSizes.length > 0 && (
                     <Link href={`/product/${data.slug}`} className={styles.sizes + " lg:group-hover:grid"}>
                         <div className={styles.sizeTitle}>Доступные размеры:</div>
                         <div className={styles.sizeList}>

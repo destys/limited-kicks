@@ -15,18 +15,18 @@ export default function Cabinet() {
   const { jwtToken } = useUser();
 
   useEffect(() => {
+    return;
+  }, []);
+
+  useEffect(() => {
     // Перенос обновления маршрутизации в useEffect
     if (jwtToken) {
       if (localStorage.getItem('fromCheckout') === "true") {
-        console.log('localStorage: ', localStorage.getItem('fromCheckout'));
-        console.log('localStorage type: ', typeof (localStorage.getItem('fromCheckout')));
         localStorage.removeItem('fromCheckout');
         router.push("/checkout");
       } else {
         router.push("/profile");
       }
-
-      console.log('test');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jwtToken]);

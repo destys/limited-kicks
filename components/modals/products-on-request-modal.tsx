@@ -10,6 +10,8 @@ import Textarea from "../ui/textarea/textarea";
 import Radio from "../ui/radio/radio";
 import Button from "../ui/button/button";
 
+import styles from "./modals.module.scss";
+
 export default function ProductsOnRequestModal() {
     const [imageSource, setImageSource] = useState<string | null>(null);
     const { onClose, isOpen } = useProductsOnRequestModal();
@@ -62,6 +64,7 @@ export default function ProductsOnRequestModal() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5">
                     <div className="flex justify-center items-center bg-add_1 h-full min-h-20">Капча</div>
                     <div>
+                        <h3 className="mb-2">Способ связи</h3>
                         <div className="grid grid-cols-2 gap-2 mb-6">
                             <Radio
                                 label={"Telegram"}
@@ -79,7 +82,7 @@ export default function ProductsOnRequestModal() {
                                 value="WhatsApp"
                             />
                         </div>
-                        <Button type="submit" styled="filled" className="w-full">Отправить</Button>
+                        <Button type="submit" styled="filled" className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`}>Отправить</Button>
                     </div>
 
                 </div>

@@ -1,19 +1,27 @@
 'use client'
 import { IFaqItem } from '@/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from './faq.module.scss'
 
 interface InterfaceFaqItem {
     data: IFaqItem;
+    index: number;
 }
 
-const FaqItem: React.FC<InterfaceFaqItem> = ({ data }) => {
+const FaqItem: React.FC<InterfaceFaqItem> = ({ data, index }) => {
+    const id = `block-${index}`;
     const [active, setActive] = useState(false);
 
+    useEffect(() => {
+        if (window.location.hash === `#${id}`) {
+            setActive(true);
+        }
+    }, [id]);
+
     return (
-        <div className="mt-6 space-y-8 lg:mt-8 cursor-pointer" onClick={() => setActive(!active)}>
-            <div className="p-8 bg-add_1 hover:bg-add_1_hv transition-colors rounded-lg">
+        <div className="mt-6 space-y-8 lg:mt-8 cursor-pointer" id={id} onClick={() => setActive(!active)}>
+            <div className={`p-8 bg-add_1 hover:bg-add_1_hv transition-colors rounded-lg ${active && " bg-add_1_hv"}`}>
                 <div className="flex items-center justify-between w-full">
                     <h2 className="font-semibold">{data.vopros}</h2>
 

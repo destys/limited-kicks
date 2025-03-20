@@ -166,7 +166,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     };
 
     return (
-        <div className="relative z-[10000]">
+        <div className="relative z-[8000]">
             <div className="block mb-6 pb-2 md:mb-11 md:pb-6 border-b relative z-[1000] lg:static">
                 <div className="flex justify-between items-center gap-5">
                     <div className="whitespace-nowrap text-[10px] xs:text-xs sm:text-sm md:text-base">
@@ -189,7 +189,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                     </button>
                 </div>
                 <div className={`fixed top-0 left-0 w-full h-full z-[9500] bg-black/10 ${showFilters ? "block lg:hidden" : "hidden"}`} onClick={() => setShowFilters(!showFilters)}></div>
-                <div className={`fixed bottom-[52px] left-1/2 -translate-x-1/2 z-[10000] rounded w-full h-auto max-w-lg shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:translate-x-0 lg:static lg:grid-cols-5 gap-3 items-center flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
+                <div className={`fixed bottom-[52px] left-1/2 -translate-x-1/2 z-[9000] rounded w-full h-auto max-w-lg shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:translate-x-0 lg:static lg:grid-cols-5 gap-3 items-center flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
                     <div className="mt-5 mb-10 p-2.5 lg:hidden">
                         {!!activeFilters.length && (
                             <>

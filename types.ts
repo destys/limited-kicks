@@ -20,6 +20,7 @@ export interface Page {
 
 export interface Banners {
   izobrazhenie: SingleImage;
+  izobrazhenie_mobile: SingleImage;
 }
 
 export interface SingleImage {
@@ -96,6 +97,7 @@ export interface Product {
   id: number;
   new: boolean;
   slug: string;
+  image: string;
   images: SingleImage[];
   name: string;
   price: number;

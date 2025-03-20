@@ -15,8 +15,6 @@ const YandexMetrikaContainer: React.FC<Props> = ({ enabled }) => {
     (url: string) => {
       if (enabled) {
         ym("hit", url);
-      } else {
-        console.log(`%c[YandexMetrika](HIT)`, `color: orange`, url);
       }
     },
     [enabled],

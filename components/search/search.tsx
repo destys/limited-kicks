@@ -31,16 +31,25 @@ export default function Search() {
   const [isLoading, setIsLoading] = useState(false);
   const [popular, setPopular] = useState<AcfOptions['acf']['chastye_zaprosy']>([]);
   const [searchBanner, setSearchBanner] = useState<SearchBanner | null>(null);
-
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const fetchPopular = async () => {
       const response = await getAcfOptions();
-      setPopular(response.acf.chastye_zaprosy)
-      setSearchBanner(response.acf.banner)
-    }
+      setPopular(response.acf.chastye_zaprosy);
+      setSearchBanner(response.acf.banner);
+    };
 
     fetchPopular();
-  }, [])
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const onSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -128,8 +137,13 @@ export default function Search() {
         </div>
       </div>
 
-      {isActive && (
+      {(isActive || isMobile) && (
         <div className={styles.searchResults}>
+          <button className="hidden lg:block absolute top-4 right-4" onClick={() => setIsActive(false)}>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.3334 23.3333L4.66675 4.66667M23.3334 4.66667L4.66675 23.3333" stroke="#060F2F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
           {results && (
             <div className="mb-5">
               <h5>Результаты поиска</h5>

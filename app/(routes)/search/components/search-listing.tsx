@@ -8,7 +8,6 @@ import ProductItem from "@/components/product-item/product-item";
 import Loader from "@/components/ui/loader/loader";
 
 import styles from "./search-listing.module.scss";
-import getProductsListing from "@/actions/get-products-listing";
 import getSearchResults from "@/actions/get-search-results";
 
 interface ListingProps {

@@ -28,10 +28,19 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const SizesTableModal = useTableSizesModal();
   const cart = useShoppingCart();
 
+
+
+  const minPrice = Math.min(
+    ...data.variationsData
+      .map((v) => Number(v.price))
+      .filter((price) => price > 0)
+  );
+
   const [isAdding, setIsAdding] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState("");
   const [activeSizeIndex, setActiveSizeIndex] = useState(0);
   const [entrySize, setEntrySize] = useState(data.variationsData[0]);
+  const [entryPrice, setEntryPrice] = useState(minPrice > 0 ? minPrice : 0);
   const [isInStock, setIsInStock] = useState(data.variationsData[0].stock_status === 'instock');
 
   const brandsData = data?.brand ? data.brand : [];
@@ -68,6 +77,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
   const handleSizeClick = (entrySize: any) => {
     setIsInStock(entrySize.stock_status === 'instock');
     setEntrySize(entrySize);
+    setEntryPrice(entrySize.price)
   };
 
   const handleAddToCart = async () => {
@@ -91,6 +101,15 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
 
   return (
     <>
+      {entryPrice > 0 ? (
+        <Price
+          before="от"
+          value={entryPrice}
+          className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
+        />
+      ) : (
+        <div className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg">Цена по запросу</div>
+      )}
       <div className=" overflow-hidden">
         <div className={styles.sizes_type}>
           <div className="flex items-center gap-2 overflow-x-auto pb-2">

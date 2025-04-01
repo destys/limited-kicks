@@ -13,6 +13,7 @@ import Button from "@/components/ui/button/button";
 import styles from "./product-info.module.scss";
 import { Product } from "@/types";
 import useShoppingCart from "@/hooks/use-cart";
+import Price from "@/components/price/price";
 
 interface ProductInfoProps {
   data: Product;
@@ -47,6 +48,15 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
 
   return (
     <>
+      {data.price > 0 ? (
+        <Price
+          before="от"
+          value={data.price}
+          className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
+        />
+      ) : (
+        <div className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg">Цена по запросу</div>
+      )}
       <div>
         <div className="mb-4 lg:mb-7 text-xs xs:text-sm md:text-base lg:text-lg whitespace-nowrap">
           Товар будет доставлен{" "}

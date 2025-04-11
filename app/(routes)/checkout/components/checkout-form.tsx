@@ -48,7 +48,7 @@ const CheckoutForm = () => {
 
     const router = useRouter();
 
-    
+
 
     useEffect(() => {
         if (!jwtToken) router.push('/auth');
@@ -148,7 +148,7 @@ const CheckoutForm = () => {
                     },
                     body: JSON.stringify({
                         order_id: orderId,
-                        success_url: `https://limited-kicks.ru/success`,
+                        success_url: `https://limited-kicks.ru/success?orderId=${orderId}`,
                         fail_url: `https://limited-kicks.ru/fail`,
                     }),
                 });

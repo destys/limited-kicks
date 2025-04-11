@@ -25,6 +25,8 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
   const [isAdding, setIsAdding] = useState(false);
   const cart = useShoppingCart();
 
+  const isToOrder = data.acf.tovary_pod_zakaz;
+
   useEffect(() => {
     const newDeliveryDate = new Date();
     newDeliveryDate.setDate(newDeliveryDate.getDate() + (isInStock ? 1 : 14));
@@ -42,15 +44,13 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
       price: data.price,
       image: data.images[0].src,
     })
-
-    setTimeout(() => setIsAdding(false), 2000)
   }
 
   return (
     <>
       {data.price > 0 ? (
         <Price
-          before="от"
+          before=""
           value={data.price}
           className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
         />
@@ -63,23 +63,32 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
           <span className="text-main">{deliveryDate}</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-7">
-          <Button
+          {/* <Button
             type="button"
             styled={"filled"}
             className={"px-10 py-5"}
-          /* onClick={oneClickAction} */
+          onClick={oneClickAction}
           >
             В один клик
-          </Button>
-          <Button
-            type="button"
-            styled={"filled"}
-            className={"py-5 px-10 bg-add_1 text-black hover:bg-main hover:border-main"}
-            onClick={handleAddToCart}
-            disabled={isAdding}
-          >
-            {isAdding ? 'Товар в корзине' : 'В корзину'}
-          </Button>
+          </Button> */}
+          {!isAdding ? (
+            <Button
+              type="button"
+              styled={"filled"}
+              className={`py-5 px-10 bg-add_1 text-black hover:bg-main hover:border-main`}
+              onClick={handleAddToCart}
+            >
+              В корзину
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              styled={"filled"}
+              className={styles.toCartLink}
+            >
+              <Link href={'/cart'} className="block py-4 px-8">Оформить заказ</Link>
+            </Button>
+          )}
         </div>
         <Dolayme />
         <div className="mb-5 md:mb-7 lg:mb-11 h-[1px] bg-add_1"></div>

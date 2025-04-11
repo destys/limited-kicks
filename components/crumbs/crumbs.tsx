@@ -13,6 +13,7 @@ interface ICrumbs {
 }
 
 const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
+    
     let crumbs;
 
     if (type === 'product') {

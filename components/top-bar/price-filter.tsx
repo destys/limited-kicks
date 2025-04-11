@@ -15,6 +15,8 @@ const PriceFilter: React.FC<PriceFilterProps> = ({ minPrice, maxPrice, onChange 
         onChange(values[0], values[1]);
     };
 
+    if (minPrice <= maxPrice) return null;
+
     return (
         <div className="relative mb-2 mx-8 lg:ml-0">
             <div className="mb-3 text-sm px-3">Цена</div>

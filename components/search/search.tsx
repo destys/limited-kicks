@@ -150,14 +150,18 @@ export default function Search() {
               <ul className="mb-3">
                 {results.map((item: Product) => (
                   <li key={item.id}>
-                    <button type="button" onClick={() => router.push(`/product/${item.slug}`)}>{item.name}</button>
+                    <button type="button" onClick={() => {
+                      router.push(`/product/${item.slug}`);
+                      mobileSearch.onClose();
+                    }}>{item.name}</button>
                   </li>
                 ))}
               </ul>
               {!results.length && <p>Ничего не найдено</p>}
               {!!results.length && <button onClick={() => {
                 router.push(`/search?s=${searchText}`);
-                mobileSearch.onClose()
+                mobileSearch.onClose();
+                setIsActive(false);
               }} className="text-main">Показать все результаты</button>}
             </div>
           )}
@@ -166,13 +170,13 @@ export default function Search() {
             <ul>
               {popular.map(item => (
                 <li key={item.zagolovok}>
-                  <Link href={item.ssylka}>{item.zagolovok}</Link>
+                  <Link href={item.ssylka} onClick={mobileSearch.onClose}>{item.zagolovok}</Link>
                 </li>
               ))}
             </ul>
             {searchBanner !== null && (
               <div className="mt-10 w-full max-w-96 h-52 rounded-lg overflow-hidden">
-                <Link href={searchBanner.ssylka} className="relative block w-full h-full">
+                <Link href={searchBanner.ssylka} className="relative block w-full h-full" onClick={mobileSearch.onClose}>
                   <Image src={searchBanner.banner.url} alt="logo" fill />
                 </Link>
               </div>

@@ -17,7 +17,7 @@ export default function SizesTableModal() {
     };
 
     return (
-        <Modal title={"Таблица размеров"} isOpen={isOpen} onChange={onChange} contentClassNames="md:!max-w-[500px] left-auto right-20 !translate-x-0">
+        <Modal title={"Таблица размеров"} isOpen={isOpen} onChange={onChange} contentClassNames="md:!max-w-[500px] left-auto md:right-20 !translate-x-0">
             <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead>

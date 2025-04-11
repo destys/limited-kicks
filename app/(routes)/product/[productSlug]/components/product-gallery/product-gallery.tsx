@@ -6,6 +6,7 @@ import React, { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
+import "swiper/css/navigation";
 
 import styles from "./product-gallery.module.scss";
 import SlidePrevButton from "@/components/ui/slider-navigations/slider-prev-button";
@@ -15,6 +16,7 @@ import useFavoriteStore from "@/hooks/use-favorite";
 import FlagList from "@/components/flag-list/flag-list";
 import useProductGalleryModal from "@/hooks/use-product-gallery-modal";
 import { useViewedProducts } from "@/hooks/use-viewed-products";
+import { Navigation } from "swiper/modules";
 
 interface ProductGalleryProps {
   productId: number;

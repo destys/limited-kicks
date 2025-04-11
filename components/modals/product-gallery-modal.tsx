@@ -2,6 +2,7 @@ import useProductGalleryModal from '@/hooks/use-product-gallery-modal';
 import Modal from './modal';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
+import { Navigation } from 'swiper/modules';
 
 type Props = {}
 
@@ -24,6 +25,7 @@ const ProductGalleryModal = () => {
                     spaceBetween={50}
                     slidesPerView={1}
                     pagination={{ clickable: true }}
+                    modules={[Navigation]}
                     className="h-[500px]"
                     navigation
                     loop

@@ -5,7 +5,6 @@ import getProduct from "@/actions/get-product";
 
 import Banner from "@/components/banner/banner";
 import Listing from "@/components/listing/listing";
-import Price from "@/components/price/price";
 import Ticker from "@/components/ticker/ticker";
 import ProductGallery from "./components/product-gallery/product-gallery";
 import ProductInfoVariable from "./components/product-info/product-info-variable";

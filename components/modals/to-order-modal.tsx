@@ -153,7 +153,7 @@ export default function ToOrderModal() {
                                     width={498}
                                     height={362}
                                     alt={product.name}
-                                    className="max-h-[362px] object-contain"
+                                    className="max-h-[220px] sm:max-h-[362px] object-contain"
                                 />
                             )}
                         </div>

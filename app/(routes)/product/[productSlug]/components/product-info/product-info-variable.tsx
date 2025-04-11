@@ -95,16 +95,14 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
         sizeType: entrySize.name[activeSizeIndex],
       }
     );
-
-    setTimeout(() => setIsAdding(false), 10000)
   };
 
   return (
     <>
-      {entryPrice > 0 ? (
+      {entrySize.price > 0 ? (
         <Price
-          before="от"
-          value={entryPrice}
+          before=""
+          value={entrySize.price}
           className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
         />
       ) : (
@@ -173,7 +171,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
               className={"px-10 py-5 hover:bg-main hover:border-main"}
               onClick={() => toOrderModal.onOpen(data, entrySize.name[activeSizeIndex], entrySize, data.images[0])}
             >
-              Заказать товар
+              Запросить стоимость
             </Button>
           </div>
         ) : (
@@ -200,7 +198,6 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
                 type="button"
                 styled={"filled"}
                 className={styles.toCartLink}
-                onClick={handleAddToCart}
               >
                 <Link href={'/cart'} className="block py-4 px-8">Оформить заказ</Link>
               </Button>

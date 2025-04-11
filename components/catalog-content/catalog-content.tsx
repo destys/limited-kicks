@@ -1,4 +1,4 @@
-import { Attribute, Brand, Category, IProductsQuery, Tag } from '@/types';
+import { Attribute, Brand, Category, IProductsQuery, Page, Tag } from '@/types';
 import Crumbs from '@/components/crumbs/crumbs';
 import TopBar from '@/components/top-bar/top-bar';
 import TagCloud from '@/components/tag-cloud/tag-cloud';
@@ -15,28 +15,31 @@ interface ICatalogContent {
   description: string;
   tagCloud: Tag[];
   categoryTags?: Tag[];
-  category: Category | Brand;
+  category: Category | Brand | Page;
   searchParams: {};
   query: IProductsQuery,
   hiddenBrands?: boolean,
   filtersList?: { attributes: Attribute[] };
+  crumbsType?: string;
 }
 
-const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams, hiddenBrands, filtersList }) => {
+const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams, hiddenBrands, filtersList, crumbsType }) => {
   const siteOptions = await getAcfOptions();
 
-  const brandAttribute = filtersList?.attributes.find(
-    (attribute: { name: string; }) => attribute.name === 'Бренд'
-  )
+  const attributes =
+    typeof filtersList === 'object' &&
+      !Array.isArray(filtersList) &&
+      Array.isArray(filtersList.attributes)
+      ? filtersList.attributes
+      : [];
 
-  const versions = filtersList?.attributes.find(
-    (attribute: { name: string; }) => attribute.name === 'Версия'
-  )
+  const brandAttribute = attributes.find(attr => attr.name === 'Бренд');
+  const versions = attributes.find(attr => attr.name === 'Версия');
 
   return (
     <>
       <section>
-        <Crumbs data={category} type="category" />
+        <Crumbs data={category} type={crumbsType || "category"} />
         <h1 className="mb-10">{title}</h1>
         {excerpt && <div dangerouslySetInnerHTML={{ __html: excerpt }} className="mb-10" />}
         {!hiddenBrands && brandAttribute && <BrandsCatalog brandsArray={brandAttribute} />}

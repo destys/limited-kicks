@@ -45,9 +45,13 @@ const CheckoutForm = () => {
     const [showAddForm, setShowAddForm] = useState(false);
     const { jwtToken } = useUser();
     const { items, clearCart, coupon } = useShoppingCart();
+
     const router = useRouter();
 
+    
+
     useEffect(() => {
+        if (!jwtToken) router.push('/auth');
         const fetchData = async () => {
             setLoading(true);
             try {
@@ -98,13 +102,15 @@ const CheckoutForm = () => {
         e.preventDefault();
         const form = e.target as HTMLFormElement & CheckoutFormData;
         const deliveryIndex = parseInt(form.deivery_methods.value, 10);
+        const paymentMethod = form.payments.value;
+        const isTinkoff = paymentMethod === 'tinkoff_custom_gateway';
 
         const order = {
-            status: 'processing',
-            payment_method: form.payments.value,
-            payment_method_title: payments.find(p => p.id === form.payments.value)?.method_title,
+            status: 'pending',
+            payment_method: paymentMethod,
+            payment_method_title: payments.find(p => p.id === paymentMethod)?.method_title,
             customer_id: user?.id || 0,
-            set_paid: true,
+            set_paid: false,
             billing: {
                 first_name: user?.first_name,
                 last_name: user?.last_name,
@@ -119,24 +125,51 @@ const CheckoutForm = () => {
                 variation_id: item.entrySize?.id,
             })),
             coupon_lines: coupon ? [{
-                code: coupon?.code,
-            }] : '',
+                code: coupon.code,
+            }] : [],
             shipping_lines: [{
                 method_id: deliveryMethods[deliveryIndex]?.method_id,
                 method_title: deliveryMethods[deliveryIndex]?.method_title,
                 total: deliveryMethods[deliveryIndex]?.settings.cost?.value,
             }],
-        }
+        };
 
         try {
             const orderResponse = await fetchWooCommerce("orders", {
                 withCredentials: true
             }, 'post', order);
+            const orderId = orderResponse.id;
+
+            if (isTinkoff) {
+                const res = await fetch(`${process.env.WP_ADMIN_REST_URL}/tinkoff/v1/init`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        success_url: `https://limited-kicks.ru/success`,
+                        fail_url: `https://limited-kicks.ru/fail`,
+                    }),
+                });
+
+                const data = await res.json();
+
+                if (data.PaymentURL) {
+                    window.location.href = data.PaymentURL;
+                    return;
+                } else {
+                    toast.error('Не удалось получить ссылку оплаты от Тинькофф');
+                    return;
+                }
+            }
+
+            // Если не Тинькофф, оформляем заказ как обычно
             toast.success('Заказ успешно оформлен');
             clearCart();
             router.push('/');
         } catch (error) {
-            console.error('Failed to submit order:', error);
+            console.error('Ошибка оформления заказа:', error);
             toast.error('Ошибка при оформлении заказа');
         }
     };
@@ -176,6 +209,8 @@ const CheckoutForm = () => {
 
         return response.json();
     };
+
+
 
     return (
         <form className="relative lg:col-span-3 2xl:col-span-4 min-h-[100vh] row-start-2 lg:row-start-1" onSubmit={handleCheckout}>

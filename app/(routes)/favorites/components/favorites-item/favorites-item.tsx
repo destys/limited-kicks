@@ -53,7 +53,9 @@ const FavoritesItem: React.FC<IProductItem> = ({ data }) => {
                     {data.price ? <Price before="от" value={data.price} /> : "По запросу"}
                 </div>
             </div>
-            <FavoritesActions />
+            <Link href={`/product/${data.slug}`}>
+                <FavoritesActions />
+            </Link>
         </article >
     );
 }

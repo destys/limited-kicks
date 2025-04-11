@@ -41,7 +41,7 @@ export default function ProductsOnRequestModal() {
             <form action="">
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-8 lg:mb-10">
                     <div className="h-full">
-                        <label htmlFor="photo" className="flex items-center justify-center w-full h-full border-2 border-dashed border-add_4 rounded-2xl cursor-pointer">
+                        <label htmlFor="photo" className="flex items-center justify-center w-full h-full p-4 border-2 border-dashed border-add_4 rounded-2xl cursor-pointer">
                             {imageSource ? <Image src={imageSource} width={253} height={90} alt="Загрузить изображение" /> : (
                                 <div className="flex flex-col items-center gap-3">
                                     <Image src={'/images/document-download.svg'} width={50} height={50} alt="Загрузить" />
@@ -62,7 +62,7 @@ export default function ProductsOnRequestModal() {
                     <Input type="tel" name="tel" label="Телефон" placeholder="+7" />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5">
-                    <div className="flex justify-center items-center bg-add_1 h-full min-h-20">Капча</div>
+                    <div className="hidden justify-center items-center h-full min-h-20 lg:flex"></div>
                     <div>
                         <h3 className="mb-2">Способ связи</h3>
                         <div className="grid grid-cols-2 gap-2 mb-6">

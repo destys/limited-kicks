@@ -28,6 +28,16 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     const searchParams = useSearchParams();
 
     useEffect(() => {
+        if (window.innerWidth < 1024) {
+            if (showFilters) {
+                document.body.classList.add('locked');
+            } else {
+                document.body.classList.remove('locked');
+            }
+        }
+    }, [showFilters])
+
+    useEffect(() => {
         const fetchFilters = async () => {
             let params = {};
             try {
@@ -38,6 +48,10 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                 } else if (query.tag !== undefined) {
                     params = {
                         tag: query.tag
+                    }
+                } else if (query.attribute === 'pa_collections') {
+                    params = {
+                        collection_id: query.attribute_term
                     }
                 } else if (query.attribute !== undefined) {
                     params = {

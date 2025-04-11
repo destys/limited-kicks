@@ -13,6 +13,7 @@ export interface Page {
   };
   template: string;
   acf: {
+    korotkoe_opisanie: string;
     bannery: [];
     faq: IFaqItem[];
   };

@@ -3,14 +3,11 @@ import getProducts from "@/actions/get-products";
 import getPage from "@/actions/get-page";
 
 import Crumbs from "@/components/crumbs/crumbs";
-import ProductItem from "@/components/product-item/product-item";
 import TopBar from "@/components/top-bar/top-bar";
-import BannerCatalog from "@/components/banner-catalog/banner-catalog";
 
 import Categories from "./components/categories/categories";
 import BrandsCatalog from "./components/brands-catalog/brands-catalog";
 import NotFound from "@/app/not-found";
-import ScrollElement from "@/components/scroll-element/scroll-element";
 import ProductGrid from "@/components/products-grid/products-grid";
 import { generateYoastMetadata } from "@/utils/meta-data";
 import getAcfOptions from "@/actions/get-acf-options";

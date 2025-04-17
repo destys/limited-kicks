@@ -12,7 +12,7 @@ interface ProductsOnRequestProps {
 
 const ProductsOnRequest: React.FC<ProductsOnRequestProps> = ({ data }) => {
     return (
-        <section className={styles.onrequest}>
+        <div className={styles.onrequest}>
             <div className={styles.onrequest__wrapper}>
                 <div className={styles.onrequest__content}>
                     <h2 className={styles.contentOnrequest__title}>{data.zagolovok}</h2>
@@ -34,7 +34,7 @@ const ProductsOnRequest: React.FC<ProductsOnRequestProps> = ({ data }) => {
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     )
 }
 

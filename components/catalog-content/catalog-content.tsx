@@ -49,7 +49,7 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
         <ProductsGrid query={query} searchParams={searchParams} banners={siteOptions?.acf?.bannery_v_kataloge} />
       </section>
       {tagCloud && <TagCloud data={tagCloud} className="lg:hidden" />}
-      {description && <div dangerouslySetInnerHTML={{ __html: description }} className="grid gap-3 py-10 px-2 lg:px-[60px] bg-main text-white" />}
+      {description && <div dangerouslySetInnerHTML={{ __html: description }} className="grid gap-3 py-10 px-2 lg:px-[60px] bg-add_1 text-black" />}
     </>
   );
 };

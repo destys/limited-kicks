@@ -8,6 +8,8 @@ interface PriceFilterProps {
 }
 
 const PriceFilter: React.FC<PriceFilterProps> = ({ minPrice, maxPrice, onChange }) => {
+    console.log('maxPrice: ', maxPrice);
+    console.log('minPrice: ', minPrice);
     const [values, setValues] = React.useState([minPrice, maxPrice]);
 
     const handleRangeChange = (values: number[]) => {
@@ -15,7 +17,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({ minPrice, maxPrice, onChange 
         onChange(values[0], values[1]);
     };
 
-    if (minPrice <= maxPrice) return null;
+    if (minPrice >= maxPrice) return <div></div>;
 
     return (
         <div className="relative mb-2 mx-8 lg:ml-0">

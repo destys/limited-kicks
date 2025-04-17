@@ -50,7 +50,7 @@ const ProductTabs: React.FC<IProductTabs> = ({ data }) => {
     {
       id: 6,
       title: "Подбор размера",
-      content: "Мы оказываем сервис подбора размера для всех клиентов. Вам больше не стоит переживать! Подобрать размер можно в Telegram или WhatsApp (ссылки)",
+      content: "Мы оказываем сервис подбора размера для всех клиентов. Вам больше не стоит переживать! Подобрать размер можно в <a href='https://t.me/LimitedKicksOfficial' target='_blank' rel='nofollow'  style='color: blue'>Telegram</a> или <a href='https://wa.me/+79951508080' target='_blank' rel='nofollow'style='color:green'>WhatsApp</a>",
     },
     /* {
       id: 7,
@@ -80,12 +80,14 @@ const ProductTabs: React.FC<IProductTabs> = ({ data }) => {
       </div>
       <div className={styles.body}>
         {tabs.map((item, index) => (
-          <div
-            key={item.id}
-            className={activeTab === index ? "block" : "hidden"}
-          >
-            {item.content}
-          </div>
+          item.id === 6 ? (
+            <div key={item.id} className={activeTab === index ? "block" : "hidden"} dangerouslySetInnerHTML={item.content ? { __html: item.content as string } : undefined} />
+          ) : (
+            <div key={item.id} className={activeTab === index ? "block" : "hidden"}>
+              {item.content}
+            </div>
+
+          )
         ))}
       </div>
     </div>

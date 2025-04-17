@@ -70,7 +70,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                     if (pathname.includes('/brand/') && attribute.name === 'Бренд') {
                         return false;
                     }
-                    if (pathname.includes('/tag/') && attribute.name === 'Модель') {
+                    if (pathname.includes('/model/') && attribute.name === 'Модель') {
                         return false;
                     }
                     return true;

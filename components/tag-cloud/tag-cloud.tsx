@@ -27,7 +27,7 @@ const TagCloud: React.FC<ITagCloud> = ({ data, wrapper, className }) => {
 
             <div className={styles.tagCloud__list}>
                 {data.map((item) => (
-                    <Link href={`/tag/${item.slug}`} key={item.term_id} className="flex items-center gap-3 w-fit flex-shrink-0 py-3 px-5 bg-add_1 rounded-lg hover:bg-add_1_hv text-sm lg:text-base">{item.name}</Link>
+                    <Link href={`/model/${item.slug}`} key={item.term_id} className="flex items-center gap-3 w-fit flex-shrink-0 py-3 px-5 bg-add_1 rounded-lg hover:bg-add_1_hv text-sm lg:text-base">{item.name}</Link>
                 ))}
             </div>
         </div>

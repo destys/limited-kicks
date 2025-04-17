@@ -19,7 +19,7 @@ export default async function Footer() {
                 <div className="col-span-2 sm:col-span-1 text-center sm:text-left">
                     <Link
                         href={"/"}
-                        className="flex justify-center sm:justify-start sm:mr-11"
+                        className="flex justify-center sm:justify-start sm:mr-11 mb-8"
                     >
                         <Image
                             src="/logo_white.svg"
@@ -28,11 +28,8 @@ export default async function Footer() {
                             height={130}
                         />
                     </Link>
-                    <div>
-                        <p>ИП Касаткин Илья Олегович</p>
-                        <br />
-                        <p>ОГРН: 324774600515950</p>
-                        <p>ИНН: 772822920424</p>
+                    <div className="ml-5">
+                        <iframe src="https://yandex.ru/sprav/widget/rating-badge/83654437343?type=rating&theme=dark" width="250" height="50" frameBorder="0"></iframe>
                     </div>
                 </div>
                 <Menu
@@ -51,7 +48,7 @@ export default async function Footer() {
                         </li>
                         <li>
                             Напишите нам в {" "}
-                            <Link href="https://t.me/LimitedKicks_bot" className="font-medium hover:text-main" target="_blank">Telegram</Link>
+                            <Link href="https://t.me/LimitedKicksOfficial" className="font-medium hover:text-main" target="_blank">Telegram</Link>
                         </li>
                         <li>
                             Позвоните нам {" "}
@@ -84,6 +81,13 @@ export default async function Footer() {
                     menuClassList="flex flex-col md:flex-row gap-3 md:ga-6 lg:gap-14"
                     menuItemClassList="lg:text-lg"
                 />
+            </div>
+
+            <div className="flex flex-col gap-3 pb-10 lg:flex-row lg:gap-5">
+                <p>ИП Касаткин Илья Олегович</p>
+                <br />
+                <p>ОГРН: 324774600515950</p>
+                <p>ИНН: 772822920424</p>
             </div>
         </footer>
     );

@@ -153,7 +153,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
                 </div>
                 <Price
                   value={item.price}
-                  className="text-xs xs:text-sm md:text-base"
+                  className="text-xs whitespace-nowrap xs:text-sm md:text-base"
                 />
               </label>
             </div>

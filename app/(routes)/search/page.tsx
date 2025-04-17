@@ -10,6 +10,13 @@ import Banner from "@/components/banner/banner";
 import SearchListing from "./components/search-listing";
 import getProductsListing from "@/actions/get-products-listing";
 
+export async function generateMetadata() {
+  return {
+    title: "Поиск товаров",
+    description: "Поиск товаров на сайте Limited-Kicks",
+  };
+}
+
 const Search = async () => {
   const siteOptions = await getAcfOptions();
   const listing_1 = await getProductsListing({ include: [siteOptions?.acf?.listing_1?.products] });

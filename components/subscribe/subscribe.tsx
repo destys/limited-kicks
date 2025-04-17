@@ -3,8 +3,12 @@ import Button from "../ui/button/button";
 import Input from "../ui/input/input";
 
 import styles from "./subscribe.module.scss";
+import ProductsOnRequest from "../products-on-request/products-on-request";
+import getAcfOptions from "@/actions/get-acf-options";
 
-export default function Subscribe() {
+export default async function Subscribe() {
+  const siteOptions = await getAcfOptions();
+  return <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} />
   return (
     <div className={styles.subscribe}>
       <div className={styles.subscribe__title}>Получи скидку 10%</div>

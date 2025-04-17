@@ -7,7 +7,7 @@ import useProductsOnRequestModal from '@/hooks/use-products-on-requst-modal'
 const ProductsOnRequestButton = () => {
     const productsOnRequestModal = useProductsOnRequestModal();
     return (
-        <Button type='button' styled='filled' className={styles.contentOnrequest__button} onClick={productsOnRequestModal.onOpen}>Подобрать</Button>
+        <Button type='button' styled='filled' className={styles.contentOnrequest__button} onClick={productsOnRequestModal.onOpen}>Запросить</Button>
     )
 }
 

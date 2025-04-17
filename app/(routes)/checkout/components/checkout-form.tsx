@@ -37,6 +37,8 @@ const CheckoutForm = () => {
     const [build, setBuild] = useState('');
     const [apartmentNumber, setApartmentNumber] = useState('');
 
+    const [paymentType, setPaymentType] = useState('cash');
+
     const [user, setUser] = useState<User | null>(null);
     const [addresses, setAddresses] = useState<Address[]>([])
     const [deliveryMethods, setDeliveryMethods] = useState<IDelivery[]>([]);
@@ -166,6 +168,15 @@ const CheckoutForm = () => {
 
             // Если не Тинькофф, оформляем заказ как обычно
             toast.success('Заказ успешно оформлен');
+
+            try {
+                await fetchWooCommerce(`orders/${orderId}`, {}, "PUT", {
+                    status: "processing",
+                });
+            } catch (err) {
+                console.error("Ошибка при обновлении статуса заказа:", err);
+            }
+
             clearCart();
             router.push('/');
         } catch (error) {
@@ -293,19 +304,21 @@ const CheckoutForm = () => {
                         <h2 className="mb-3 lg:mb-7 max-md:text-base">4. Способ оплаты</h2>
                         <div className="grid md:grid-cols-2 gap-2 md:gap-4 mb-4 md:mb-7">
                             {payments?.map((item, index) => (
-                                <Radio
-                                    key={item.id + 'pay'}
-                                    label={item.method_title}
-                                    name="payments"
-                                    id={`payments-${item.id}`}
-                                    defaultChecked={index === 0}
-                                    value={item.id}
-                                />
+                                <div key={item.id + 'pay'} onClick={() => setPaymentType(item.method_title.includes('Т-Касса') ? "card" : "cash")}>
+                                    <Radio
+                                        label={item.method_title}
+                                        name="payments"
+                                        id={`payments-${item.id}`}
+                                        defaultChecked={index === 0}
+                                        value={item.id}
+                                    />
+                                </div>
+
                             ))}
                         </div>
                     </div>
                     <Button styled="filled" type="submit">
-                        Перейти к оплате
+                        {paymentType === "cash" ? "Оформить заказ" : "Перейти к оплате"}
                     </Button>
                 </div>
             )}

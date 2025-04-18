@@ -2,8 +2,7 @@
     @apply pb-5;
 
     .swiper-scrollbar {
-        margin: 0 20px;
-        @apply mx-4
+        @apply mx-4 !bg-green-400;
     }
 }
 

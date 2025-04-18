@@ -2,5 +2,6 @@
     @apply relative  max-sm:mb-0 px-0 sm:px-3 sm:pt-3 md:px-6 md:pt-6 lg:pt-0 lg:px-12 xl:px-14 2xl:px-16 min-h-[440px];
 
     &__slide {
+        @apply block;
     }
 }

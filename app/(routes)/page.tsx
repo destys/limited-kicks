@@ -14,7 +14,7 @@ import ProductsOnRequest from "@/components/products-on-request/products-on-requ
 import getProductsListing from "@/actions/get-products-listing";
 
 export async function generateMetadata() {
-  const page = await getPage('krossovki');
+  const page = await getPage('main');
 
   if (!page.length) return null;
 
@@ -42,7 +42,7 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const pageData = await getPage('krossovki');
+  const pageData = await getPage('main');
   const siteOptions = await getAcfOptions();
   const listing_1 = await getProductsListing({ include: siteOptions?.acf?.listing_1?.products?.join() });
   const listing_2 = await getProductsListing({ include: siteOptions?.acf?.listing_2?.products?.join() });

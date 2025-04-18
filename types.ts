@@ -22,6 +22,7 @@ export interface Page {
 export interface Banners {
   izobrazhenie: SingleImage;
   izobrazhenie_mobile: SingleImage;
+  ssylka: string;
 }
 
 export interface SingleImage {

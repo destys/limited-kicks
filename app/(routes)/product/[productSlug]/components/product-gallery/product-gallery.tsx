@@ -26,6 +26,7 @@ interface ProductGalleryProps {
 }
 
 const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
+  console.log('data: ', data);
   const swiperRef = useRef<any>(null);
   const { onOpen } = useProductGalleryModal();
 

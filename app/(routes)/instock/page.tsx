@@ -16,7 +16,7 @@ interface IBrandsPage {
 }
 
 export async function generateMetadata() {
-    const page = await getPage('nalichie');
+    const page = await getPage('v-nalichii');
     if (!page.length) {
         return
     }
@@ -28,7 +28,7 @@ export async function generateMetadata() {
 const InstockPage: React.FC<IBrandsPage> = async ({ searchParams }) => {
     const siteOptions = await getAcfOptions();
     const brand = await getBrand('nike');
-    const page = await getPage('nalichie');
+    const page = await getPage('v-nalichii');
 
     if (!brand.length) {
         return <NotFound />;

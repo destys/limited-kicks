@@ -20,7 +20,7 @@ export async function fetchWooCommerce(
   data: Record<string, unknown> = {},
   revalidate: number = 60
 ) {
-  const url = "https://admin.limited-kicks.ru/wp-json/wc/v3/";
+  const url = "https://limited-kicks.ru/admin/wp-json/wc/v3/";
   const params = query ? "?" + stringify(query) : "";
 
   const credentials = btoa(

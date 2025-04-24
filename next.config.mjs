@@ -12,6 +12,11 @@ const nextConfig = {
                 hostname: 'admin.limited-kicks.ru',
                 pathname: '**',
             },
+            {
+                protocol: 'https',
+                hostname: 'limited-kicks.ru',
+                pathname: '**',
+            },
         ],
     },
 };

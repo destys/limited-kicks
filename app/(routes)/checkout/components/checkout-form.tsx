@@ -43,6 +43,7 @@ const CheckoutForm = () => {
     const [addresses, setAddresses] = useState<Address[]>([])
     const [deliveryMethods, setDeliveryMethods] = useState<IDelivery[]>([]);
     const [payments, setPayments] = useState<IPayments[]>([]);
+    console.log('payments: ', payments);
     const [loading, setLoading] = useState(true);
     const [showAddForm, setShowAddForm] = useState(false);
     const { jwtToken } = useUser();
@@ -106,6 +107,7 @@ const CheckoutForm = () => {
         const deliveryIndex = parseInt(form.deivery_methods.value, 10);
         const paymentMethod = form.payments.value;
         const isTinkoff = paymentMethod === 'tinkoff_custom_gateway';
+        const isDolyami = paymentMethod === "dolyamepayment";
 
         const order = {
             status: 'pending',
@@ -162,6 +164,35 @@ const CheckoutForm = () => {
                     return;
                 } else {
                     toast.error('Не удалось получить ссылку оплаты от Тинькофф');
+                    return;
+                }
+            }
+
+            if (isDolyami) {
+                try {
+                    const res = await fetch(`https://limited-kicks.ru/admin/wp-json/dolyame/v1/create-payment-link`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            order_id: orderId,
+                            /* success_url: `https://limited-kicks.ru/success?orderId=${orderId}`,
+                            fail_url: `https://limited-kicks.ru/fail`, */
+                        }),
+                    });
+
+                    const data = await res.json();
+                    if (data?.redirect) {
+                        window.location.href = data.redirect;
+                        return;
+                    } else {
+                        toast.error('Не удалось получить ссылку на оплату через Долями');
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Ошибка при инициализации оплаты Долями:', error);
+                    toast.error('Ошибка оплаты через Долями');
                     return;
                 }
             }

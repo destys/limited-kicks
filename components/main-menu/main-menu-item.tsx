@@ -9,7 +9,7 @@ interface IMainMenuItem {
 }
 
 const MainMenuItem: React.FC<IMainMenuItem> = ({ data, onClose }) => {
-    const formattedUrl = data.url.replace('https://admin.limited-kicks.ru', '');
+    const formattedUrl = data.url.replace('limited-kicks.ru/admin', 'limited-kicks.ru');
     const [open, setOpen] = useState(false);
 
     return (

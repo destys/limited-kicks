@@ -12,6 +12,7 @@ import ProductGrid from "@/components/products-grid/products-grid";
 import { generateYoastMetadata } from "@/utils/meta-data";
 import getAcfOptions from "@/actions/get-acf-options";
 import getFilters from "@/actions/get-filters";
+import getTotalProductsCount from "@/actions/get-total-products-count";
 
 interface IShopPage {
     searchParams: {}
@@ -34,6 +35,7 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
         return <NotFound />
     }
     const filtersList = await getFilters({});
+    const { count } = await getTotalProductsCount();
 
     const query = {
         per_page: 12,
@@ -48,7 +50,7 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
                 <Categories />
                 <BrandsCatalog brandsArray={filtersList.attributes.find(
                     (attribute: Attribute) => attribute.name === 'Бренд')} />
-                <TopBar count={1250} query={query} />
+                <TopBar count={count} query={query} />
                 <ProductGrid query={query} searchParams={searchParams} banners={siteOptions.acf.bannery_v_kataloge} />
             </section>
         </>

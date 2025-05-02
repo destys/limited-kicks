@@ -13,7 +13,7 @@ import useUser from "@/hooks/use-user";
 import { User } from "@/types";
 import getUser from "@/actions/get-user";
 import Link from "next/link";
-import toast from "react-hot-toast";
+import toast from "react-hot-toast"; 
 import { fetchWooCommerce } from "@/lib/utils";
 import { PacmanLoader } from "react-spinners";
 import { twMerge } from "tailwind-merge";

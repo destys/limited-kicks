@@ -7,8 +7,16 @@ import useMobileSearch from "@/hooks/use-mobile-search";
 import useMainMenu from "@/hooks/use-main-menu";
 import useShoppingCart from "@/hooks/use-cart";
 import useFavoriteStore from "@/hooks/use-favorite";
+import { useEffect, useState } from "react";
 
 export default function AppBar() {
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const mobileSearch = useMobileSearch();
   const { items } = useShoppingCart();
   const { favorites } = useFavoriteStore();
@@ -36,7 +44,7 @@ export default function AppBar() {
                 alt="heart"
                 className="text-black"
               />
-              {!!favorites.length && (
+              {hasMounted && !!favorites.length && (
                 <span className={styles.badge}>{favorites.length}</span>
               )}
             </Link>
@@ -59,7 +67,7 @@ export default function AppBar() {
                 alt="Bag"
                 className="text-black"
               />
-              {!!items.length && (
+              {hasMounted && !!items.length && (
                 <span className={styles.badge}>{items.length}</span>
               )}
             </Link>

@@ -23,6 +23,7 @@ interface ProductInfoProps {
 }
 
 const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
+  console.log('data: ', data);
   const oneClickModal = useOneClickModal();
   const toOrderModal = useToOrderModal();
   const SizesTableModal = useTableSizesModal();
@@ -57,11 +58,11 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
       sizeMap.set(key, sizes);
     }
   });
-
+  
   const variationsData = data.variationsData.map(variation => {
     const normalizedName = variation.name.replace(',', '.');
     const sizeArray = sizeMap.get(normalizedName);
-
+    
     return {
       ...variation,
       name: sizeArray || [variation.name]
@@ -206,7 +207,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
           </div>
         )}
 
-        <Dolayme />
+        <Dolayme price={entryPrice} />
         <div className="mb-5 md:mb-7 lg:mb-11 h-[1px] bg-add_1"></div>
         <ProductTabs data={data} />
 

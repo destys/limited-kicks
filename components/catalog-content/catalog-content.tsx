@@ -19,11 +19,12 @@ interface ICatalogContent {
   searchParams: {};
   query: IProductsQuery,
   hiddenBrands?: boolean,
+  hiddenVersions?: boolean,
   filtersList?: { attributes: Attribute[] };
   crumbsType?: string;
 }
 
-const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams, hiddenBrands, filtersList, crumbsType }) => {
+const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, query, title, excerpt, description, tagCloud, categoryTags, searchParams, hiddenBrands, filtersList, crumbsType, hiddenVersions = false }) => {
   const siteOptions = await getAcfOptions();
 
   const attributes =
@@ -44,7 +45,7 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
         {excerpt && <div dangerouslySetInnerHTML={{ __html: excerpt }} className="mb-10" />}
         {!hiddenBrands && brandAttribute && <BrandsCatalog brandsArray={brandAttribute} />}
         {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}
-        {versions && <Versions versionsArray={versions} />}
+        {versions && !hiddenVersions && <Versions versionsArray={versions} />}
         <TopBar count={count} query={query} />
         <ProductsGrid query={query} searchParams={searchParams} banners={siteOptions?.acf?.bannery_v_kataloge} />
       </section>

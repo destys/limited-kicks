@@ -43,7 +43,6 @@ const CheckoutForm = () => {
     const [addresses, setAddresses] = useState<Address[]>([])
     const [deliveryMethods, setDeliveryMethods] = useState<IDelivery[]>([]);
     const [payments, setPayments] = useState<IPayments[]>([]);
-    console.log('payments: ', payments);
     const [loading, setLoading] = useState(true);
     const [showAddForm, setShowAddForm] = useState(false);
     const { jwtToken } = useUser();
@@ -59,6 +58,7 @@ const CheckoutForm = () => {
             setLoading(true);
             try {
                 const userData = jwtToken ? await getUser(jwtToken) : null;
+                console.log('userData: ', userData);
 
                 if (userData === null) {
                     localStorage.setItem('fromCheckout', 'true');

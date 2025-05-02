@@ -51,7 +51,7 @@ const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) =
     category: category[0].id,
     per_page: 12,
     page: 1,
-    ...searchParams 
+    ...searchParams
   }
 
   return (
@@ -66,6 +66,7 @@ const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) =
       categoryTags={category[0].acf?.metki_pod_zagolovkom}
       searchParams={searchParams}
       filtersList={filtersList}
+      hiddenVersions={true}
     />
   );
 };

@@ -6,10 +6,13 @@ import getProducts from "@/actions/get-products";
 import ProductItem from "@/components/product-item/product-item";
 import BannerCatalog from "@/components/banner-catalog/banner-catalog";
 import { PacmanLoader } from "react-spinners";
+import Skeleton from "../ui/skeleton/skeleton";
 
 interface ProductGridProps {
     query: {};
-    searchParams: {};
+    searchParams: {
+        orderby?: string;
+    };
     banners: {
         banner_1?: SingleImage;
         banner_2?: SingleImage;
@@ -73,14 +76,20 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
 
     const loadMoreProducts = useCallback(async () => {
         setLoading(true);
-        const newProducts = await getProducts({ ...query, per_page: 12, page, ...searchParams, order: 'desc', orderby: 'date', });
+        let newProducts;
+        if (searchParams.orderby) {
+            newProducts = await getProducts({ ...query, per_page: 12, page, ...searchParams, });
+        } else {
+            newProducts = await getProducts({ ...query, per_page: 12, page, ...searchParams, order: 'desc', orderby: 'date', });
+        }
+
         setProducts(prevProducts => [...prevProducts, ...newProducts]);
         setHasMore(newProducts.length > 0);
         setLoading(false);
     }, [page, searchParams]);
 
     useEffect(() => {
-        if (!loading) {
+        if (!loading && !isLoading) {
             loadMoreProducts();
         }
     }, [page, loadMoreProducts]);
@@ -103,29 +112,68 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
     const scrollElement = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div className="relative">
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5 mb-10">
-                {products.map((item, index) => {
-                    const showBanner1 = index + 1 === 9 && banners.banner_1;
-                    const showBanner2 = index + 1 === 22 && banners.banner_2;
+        <div className="relative min-h-screen">
+            {isLoading ? (
+                <div className="w-full h-full">
+                    <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5">
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                        <Skeleton className="aspect-square rounded-xl" />
+                    </div>
+                </div>
+            ) : (
+                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5 mb-10 relative">
 
-                    return (
-                        <React.Fragment key={index + '-fragment'}>
-                            {showBanner1 && (
-                                <div className="flex justify-center items-center lg:col-span-2 lg:row-span-2">
-                                    <BannerCatalog banner={banners.banner_1} />
-                                </div>
-                            )}
-                            {showBanner2 && (
-                                <div className="flex justify-center items-center lg:col-span-2 lg:row-span-2">
-                                    <BannerCatalog banner={banners.banner_2} />
-                                </div>
-                            )}
-                            <ProductItem key={item.id} data={item} />
-                        </React.Fragment>
-                    );
-                })}
-            </div>
+                    {products.map((item, index) => {
+                        const showBanner1 = index + 1 === 9 && banners.banner_1;
+                        const showBanner2 = index + 1 === 22 && banners.banner_2;
+
+                        return (
+                            <React.Fragment key={index + '-fragment'}>
+                                {showBanner1 && (
+                                    <div className="flex justify-center items-center lg:col-span-2 lg:row-span-2">
+                                        <BannerCatalog banner={banners.banner_1} />
+                                    </div>
+                                )}
+                                {showBanner2 && (
+                                    <div className="flex justify-center items-center lg:col-span-2 lg:row-span-2">
+                                        <BannerCatalog banner={banners.banner_2} />
+                                    </div>
+                                )}
+                                <ProductItem key={item.id} data={item} />
+                            </React.Fragment>
+                        );
+                    })}
+                </div>
+            )}
+
             <div className="flex justify-center mt-6" ref={scrollElement}>
                 {loading && <PacmanLoader color="#2972FF" />}
             </div>

@@ -1,4 +1,6 @@
+// ✅ ОБНОВЛЁННЫЙ КОМПОНЕНТ FilterList С ПОЛНОЙ РАБОТОЙ ПЕРЕСЧЁТА
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import FilterItem from './filter-item';
 import PriceFilter from './price-filter';
@@ -29,135 +31,122 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
 
     useEffect(() => {
         if (window.innerWidth < 1024) {
-            if (showFilters) {
-                document.body.classList.add('locked');
-            } else {
-                document.body.classList.remove('locked');
-            }
+            document.body.classList.toggle('locked', showFilters);
         }
-    }, [showFilters])
+    }, [showFilters]);
+
+    useEffect(() => {
+        const run = async () => {
+            await updateProductCount(searchParams.toString(), query);
+        };
+        run();
+    }, [searchParams.toString(), query]);
 
     useEffect(() => {
         const fetchFilters = async () => {
-            let params = {};
+            let params: Record<string, any> = {};
+
+            if (query.category !== undefined) {
+                params.categoryId = query.category;
+            } else if (query.tag !== undefined) {
+                params.tag = query.tag;
+            } else if (query.attribute === 'pa_collections') {
+                params.collection_id = query.attribute_term;
+            } else if (query.attribute !== undefined) {
+                params.brand_id = query.attribute_term;
+            }
+
             try {
-                if (query.category !== undefined) {
-                    params = {
-                        categoryId: query.category
-                    }
-                } else if (query.tag !== undefined) {
-                    params = {
-                        tag: query.tag
-                    }
-                } else if (query.attribute === 'pa_collections') {
-                    params = {
-                        collection_id: query.attribute_term
-                    }
-                } else if (query.attribute !== undefined) {
-                    params = {
-                        brand_id: query.attribute_term
-                    }
-                };
-
                 const filtersList = await getFilters(params);
-
                 setMinPrice(filtersList.min_price);
                 setMaxPrice(filtersList.max_price);
 
                 const customOrder = ['Категория', 'Бренд', 'Модель', 'Версия', 'Размер', 'Коллекция'];
-
-                const filteredAttributes = filtersList.attributes.filter((attribute: { name: string; }) => {
-                    if (pathname.includes('/brand/') && attribute.name === 'Бренд') {
-                        return false;
-                    }
-                    if (pathname.includes('/model/') && attribute.name === 'Модель') {
-                        return false;
-                    }
+                const filteredAttributes = filtersList.attributes.filter((attribute: { name: string }) => {
+                    if (pathname.includes('/brand/') && attribute.name === 'Бренд') return false;
+                    if (pathname.includes('/model/') && attribute.name === 'Модель') return false;
                     return true;
                 });
 
                 const sortedFiltersList = filteredAttributes.sort((a: { name: string; }, b: { name: string; }) => {
                     return customOrder.indexOf(a.name) - customOrder.indexOf(b.name);
                 });
+
                 setFilters(sortedFiltersList);
             } catch (error) {
                 console.error('Failed to fetch filters:', error);
             }
         };
-        fetchFilters();
 
-        // Обновляем активные фильтры при изменении параметров в URL
         const updateActiveFilters = () => {
-            const active: React.SetStateAction<string[]> = [];
-            const attributeKey = `attribute`;
-            const termKey = `attribute_term`;
+            const active: string[] = [];
+            const attributes = searchParams.getAll('attribute');
+            const terms = searchParams.getAll('attribute_term');
 
-            const attributes = searchParams.getAll(attributeKey);
-            const terms = searchParams.getAll(termKey);
-
-            attributes.forEach((attr, index) => {
-                active.push(`${terms[index]}`);
+            attributes.forEach((_, index) => {
+                if (terms[index]) active.push(terms[index]);
             });
 
             setActiveFilters(active);
         };
 
+        fetchFilters();
         updateActiveFilters();
     }, [query, searchParams]);
 
-    // Функция для пересчета количества товаров
-    const updateProductCount = async (query: string) => {
+    const updateProductCount = async (urlParams: string, query: IProductsQuery) => {
         try {
-            /* const params = new URLSearchParams(searchParams.toString()); */
-            const response = await getProductsCount(query);
+            const combinedParams = new URLSearchParams(urlParams);
+            Object.entries(query).forEach(([key, value]) => {
+                if (value === undefined || value === null) return;
+                if (Array.isArray(value)) {
+                    value.forEach((v) => combinedParams.append(key, String(v)));
+                } else {
+                    combinedParams.set(key, String(value));
+                }
+            });
+
+            const response = await getProductsCount(combinedParams.toString());
             setProductCount(response.count);
         } catch (error) {
             console.error('Failed to fetch product count:', error);
         }
     };
 
-    const updateFilters = (attributeName: string, termValue: any, isActive: boolean, termName: string) => {
+    const updateFilters = (attributeName: string, termValue: any, isActive: boolean) => {
         const newQuery = new URLSearchParams(searchParams.toString());
 
-        const attributeKey = `attribute`;
-        const termKey = `attribute_term`;
+        const attributes = newQuery.getAll('attribute');
+        const terms = newQuery.getAll('attribute_term');
+        newQuery.delete('attribute');
+        newQuery.delete('attribute_term');
 
-        const existingAttributes = newQuery.getAll(attributeKey);
-        const existingTerms = newQuery.getAll(termKey);
-        newQuery.delete(attributeKey);
-        newQuery.delete(termKey);
-
-        existingAttributes.forEach((attr, index) => {
-            if (!(attr === attributeName && existingTerms[index] === termValue && !isActive)) {
-                newQuery.append(attributeKey, attr);
-                newQuery.append(termKey, existingTerms[index]);
+        attributes.forEach((attr, index) => {
+            if (!(attr === attributeName && terms[index] === termValue && !isActive)) {
+                newQuery.append('attribute', attr);
+                newQuery.append('attribute_term', terms[index]);
             }
         });
 
         if (isActive) {
-            newQuery.append(attributeKey, attributeName);
-            newQuery.append(termKey, termValue);
+            newQuery.append('attribute', attributeName);
+            newQuery.append('attribute_term', termValue);
         }
 
         const newPath = `${pathname}?${newQuery.toString()}`;
         router.push(newPath, { scroll: false });
-        updateProductCount(newQuery.toString());
     };
 
     const updatePriceFilter = (min: number, max: number) => {
         const newQuery = new URLSearchParams(searchParams.toString());
-        newQuery.set('min_price', min.toString());
-        newQuery.set('max_price', max.toString());
-
+        newQuery.set('min_price', String(min));
+        newQuery.set('max_price', String(max));
         const newPath = `${pathname}?${newQuery.toString()}`;
         router.push(newPath, { scroll: false });
-
-        updateProductCount(newQuery.toString());
     };
 
     const updateSortFilter = (sortValue: string) => {
         const newQuery = new URLSearchParams(searchParams.toString());
-
         if (sortValue === 'default') {
             newQuery.delete('orderby');
             newQuery.delete('order');
@@ -165,18 +154,12 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
             newQuery.set('orderby', 'price');
             newQuery.set('order', sortValue);
         }
-
         const newPath = `${pathname}?${newQuery.toString()}`;
         router.push(newPath, { scroll: false });
     };
 
     const resetFilters = () => {
         router.push(pathname, { scroll: false });
-        updateProductCount('');
-    };
-
-    const applyFilters = () => {
-        setShowFilters(false);
     };
 
     return (
@@ -184,26 +167,21 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
             <div className="block mb-6 pb-2 md:mb-11 md:pb-6 border-b relative z-[1000] lg:static">
                 <div className="flex justify-between items-center gap-5">
                     <div className="whitespace-nowrap text-[10px] xs:text-xs sm:text-sm md:text-base">
-                        <span className="font-light">Показано</span>{" "}
+                        <span className="font-light">Показано</span>{' '}
                         <strong className="font-medium"> {productCount} </strong>
                     </div>
                     <button
                         className="flex items-center gap-1.5 md:gap-3 py-3 px-5 pr-0 md:pr-5"
                         onClick={() => setShowFilters(!showFilters)}
                     >
-                        {showFilters ? (
-                            <Image src="/icons/Icon/Filter.svg" width={28} height={28} alt="open filters" />
-                        ) : (
-                            <Image src="/icons/Icon/ClosedFilters.svg" width={28} height={28} alt="closed filters" />
-                        )}
-
-                        <span className="text-[10px] xs:text-xs sm:text-sm md:text-base">
-                            Фильтры
-                        </span>
+                        <Image src={`/icons/Icon/${showFilters ? 'Filter' : 'ClosedFilters'}.svg`} width={28} height={28} alt="toggle filters" />
+                        <span className="text-[10px] xs:text-xs sm:text-sm md:text-base">Фильтры</span>
                     </button>
                 </div>
-                <div className={`fixed top-0 left-0 w-full h-full bg-black/10 ${showFilters ? "block lg:hidden" : "hidden"}`} onClick={() => setShowFilters(!showFilters)}></div>
-                <div className={`fixed bottom-[52px] left-1/2 -translate-x-1/2 z-[9000] rounded w-full h-auto max-w-lg shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:translate-x-0 lg:static lg:grid-cols-5 gap-3 items-center flex-wrap lg:mt-6 ${showFilters ? "block lg:grid" : "hidden"}`}>
+
+                <div className={`fixed top-0 left-0 w-full h-full bg-black/10 ${showFilters ? 'block lg:hidden' : 'hidden'}`} onClick={() => setShowFilters(false)}></div>
+
+                <div className={`fixed bottom-[52px] left-1/2 -translate-x-1/2 z-[9000] rounded w-full h-auto max-w-lg shadow lg:shadow-none lg:max-w-none bg-white lg:bg-transparent lg:translate-x-0 lg:static lg:grid-cols-5 gap-3 items-center flex-wrap lg:mt-6 ${showFilters ? 'block lg:grid' : 'hidden'}`}>
                     <div className="mt-5 mb-10 p-2.5 lg:hidden">
                         {!!activeFilters.length && (
                             <>
@@ -222,21 +200,23 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                         )}
                     </div>
 
-                    {filters.length && <PriceFilter minPrice={minPrice} maxPrice={maxPrice} onChange={updatePriceFilter} />}
+                    {!!filters.length && <PriceFilter minPrice={minPrice} maxPrice={maxPrice} onChange={updatePriceFilter} />}
                     <div className="lg:col-span-3"></div>
-
                     <SortFilter onChange={updateSortFilter} />
 
-                    {filters.map(item => (
-                        <FilterItem key={item.id} data={item} onChange={(attributeName, termValue, isActive, termName) => updateFilters(attributeName, termValue, isActive, termName)} />
+                    {filters.map((item) => (
+                        <FilterItem key={item.id} data={item} onChange={(name, val, active) => updateFilters(name, val, active)} />
                     ))}
+
                     <div className="grid grid-cols-2 gap-4 my-5 px-2.5 lg:hidden">
                         <Button styled="outlined" onClick={resetFilters}>Сбросить</Button>
-                        <Button styled="filled" onClick={applyFilters}>Применить {!!activeFilters.length && `(${productCount})`}</Button>
+                        <Button styled="filled" onClick={() => setShowFilters(false)}>
+                            Применить {!!activeFilters.length && `(${productCount})`}
+                        </Button>
                     </div>
 
                     <div className="relative flex justify-center lg:hidden h-[52px]">
-                        <div className="absolute top-1/2 p-3 rounded-full bg-white shadow w-[52px] h-[52px]" onClick={() => setShowFilters(!showFilters)}>
+                        <div className="absolute top-1/2 p-3 rounded-full bg-white shadow w-[52px] h-[52px]" onClick={() => setShowFilters(false)}>
                             <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
                         </div>
                     </div>
@@ -244,6 +224,6 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
             </div>
         </div>
     );
-}
+};
 
 export default FiltersList;

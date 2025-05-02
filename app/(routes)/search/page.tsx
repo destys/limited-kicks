@@ -19,9 +19,18 @@ export async function generateMetadata() {
 
 const Search = async () => {
   const siteOptions = await getAcfOptions();
-  const listing_1 = await getProductsListing({ include: [siteOptions?.acf?.listing_1?.products] });
-  const listing_2 = await getProductsListing({ include: [siteOptions?.acf?.listing_2?.products] });
-  const listing_3 = await getProductsListing({ include: [siteOptions?.acf?.listing_3?.products] });
+  const listing_1 = siteOptions?.acf?.listing_1?.products?.length
+    ? await getProductsListing({ include: siteOptions.acf.listing_1.products.join() })
+    : [];
+
+  const listing_2 = siteOptions?.acf?.listing_2?.products?.length
+    ? await getProductsListing({ include: siteOptions.acf.listing_2.products.join() })
+    : [];
+
+  const listing_3 = siteOptions?.acf?.listing_3?.products?.length
+    ? await getProductsListing({ include: siteOptions.acf.listing_3.products.join() })
+    : [];
+
   const posts = await getPosts('?per_page=8&orderby=date&_embed=true');
   const brands = await getBrands();
 
@@ -29,11 +38,11 @@ const Search = async () => {
     <>
       <SearchListing />
       <Ticker />
-      <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} />
+      {!!listing_1.length && <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} />}
       <Brands data={brands} />
-      <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} />
+      {!!listing_2.length && <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" link={siteOptions?.acf?.listing_2.ssylka} />}
       <Banner data={siteOptions?.acf?.bannery} />
-      <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} />
+      {!!listing_3.length && <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" link={siteOptions?.acf?.listing_3.ssylka} />}
       <BlogSlider data={posts} />
     </>
   );

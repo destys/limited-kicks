@@ -1,12 +1,18 @@
 'use client'
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from "../header.module.scss";
 import useShoppingCart from '@/hooks/use-cart';
 import useFavoriteStore from '@/hooks/use-favorite';
 
 const Actions = () => {
+    const [hasMounted, setHasMounted] = useState(false);
+
+    useEffect(() => {
+        setHasMounted(true);
+    }, []);
+
     const { favorites } = useFavoriteStore();
     const { items } = useShoppingCart();
     return (
@@ -31,7 +37,7 @@ const Actions = () => {
                         fill="#060F2F"
                     />
                 </svg>
-                {!!favorites.length && (
+                {hasMounted && !!favorites.length && (
                     <span className="absolute -right-1 -bottom-1 flex justify-center items-center w-4 h-4 rounded-full bg-main text-white text-[10px]">{favorites.length}</span>
                 )}
 
@@ -67,7 +73,7 @@ const Actions = () => {
                         strokeLinecap="round"
                     />
                 </svg>
-                {!!items.length && (
+                {hasMounted && !!items.length && (
                     <span className="absolute -right-1 -bottom-1 flex justify-center items-center w-4 h-4 rounded-full bg-main text-white text-[10px]">{items.length}</span>
                 )}
             </Link>

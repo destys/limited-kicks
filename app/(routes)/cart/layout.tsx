@@ -11,7 +11,9 @@ import getProductsListing from "@/actions/get-products-listing";
 
 const CartLayout = async ({ children }: { children: ReactNode }) => {
     const siteOptions = await getAcfOptions();
-    const listing_1 = await getProductsListing({ include: [siteOptions?.acf?.listing_1?.products] });
+    const listing_1 = siteOptions?.acf?.listing_1?.products?.length
+        ? await getProductsListing({ include: siteOptions.acf.listing_1.products.join() })
+        : [];
     return (
         <>
             <section className="max-w-[1070px] mx-auto">
@@ -19,7 +21,7 @@ const CartLayout = async ({ children }: { children: ReactNode }) => {
             </section>
             <RecentlyViewed />
             <Ticker />
-            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} link={siteOptions?.acf?.listing_1.ssylka} />
+            {!!listing_1 && <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} link={siteOptions?.acf?.listing_1.ssylka} />}
             <Banner data={siteOptions?.acf?.bannery} />
             <TagCloud data={siteOptions?.acf.oblako_metok} />
         </>

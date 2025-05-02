@@ -16,8 +16,8 @@ export const SortFilter: React.FC<SortFilterProps> = ({ onChange }) => {
 
     const options = [
         { value: 'default', label: 'По дате релиза' },
-        { value: 'desc', label: 'От дорогих к дешевым' },
-        { value: 'asc', label: 'От дешевых к дорогим' }
+        { value: 'asc', label: 'По возрастанию цены' },
+        { value: 'desc', label: 'По убыванию цены' },
     ];
 
     return (
@@ -25,7 +25,7 @@ export const SortFilter: React.FC<SortFilterProps> = ({ onChange }) => {
             {/* Заголовок "Сортировка" */}
             <label htmlFor="sort" className="hidden lg:block mb-2 text-sm px-3 lg:px-0">Сортировка:</label>
             {/* Основной блок имитации select */}
-            <div 
+            <div
                 className="border-b border-b-add_1 lg:border-none lg:rounded-lg lg:bg-add_1 transition-colors lg:hover:bg-add_1_hv lg:cursor-pointer"
                 onClick={() => setIsOpen(!isOpen)}
             >

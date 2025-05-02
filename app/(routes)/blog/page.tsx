@@ -17,7 +17,7 @@ const Blog = async () => {
           ))}
         </div>
       </section>
-      <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} />
+      {/* <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} /> */}
     </>
   );
 }

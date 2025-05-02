@@ -1,10 +1,8 @@
 import getAcfOptions from "@/actions/get-acf-options";
-import getAttributes from "@/actions/get-attributes";
 
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import getBrand from "@/actions/get-brand";
 import { generateYoastMetadata } from "@/utils/meta-data";
-import getTagsCloud from "@/actions/get-tags-cloud";
 import NotFound from "@/app/not-found";
 import getPage from "@/actions/get-page";
 
@@ -27,15 +25,12 @@ export async function generateMetadata() {
 
 const InstockPage: React.FC<IBrandsPage> = async ({ searchParams }) => {
     const siteOptions = await getAcfOptions();
-    const brand = await getBrand('nike');
+    const brand = await getBrand('yeezy');
     const page = await getPage('v-nalichii');
 
     if (!brand.length) {
         return <NotFound />;
     }
-
-    const brandAttributes = await getAttributes(9);
-    const currentTerm = brandAttributes.find(term => term.slug === 'nike');
 
     const query = {
         attribute: "pa_collections",
@@ -43,8 +38,6 @@ const InstockPage: React.FC<IBrandsPage> = async ({ searchParams }) => {
         per_page: 12,
         page: 1,
     }
-
-    const tagsCloud = await getTagsCloud('pa_brand', currentTerm?.id);
 
     return (
         <CatalogContent
@@ -56,9 +49,10 @@ const InstockPage: React.FC<IBrandsPage> = async ({ searchParams }) => {
             excerpt={page[0].acf?.korotkoe_opisanie}
             description={page[0].content.rendered}
             tagCloud={siteOptions?.acf?.oblako_metok}
-            categoryTags={tagsCloud}
+            categoryTags={undefined}
             searchParams={searchParams}
             hiddenBrands={true}
+            hiddenVersions={true}
         />
     );
 }

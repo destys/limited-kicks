@@ -42,7 +42,9 @@ export async function generateMetadata({ params }: ProductPageProps) {
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     const data = await getProduct({ slug: params.productSlug });
     const siteOptions = await getAcfOptions();
-    const listing_1 = await getProductsListing({ include: [siteOptions?.acf?.listing_1?.products] });
+    const listing_1 = siteOptions?.acf?.listing_1?.products?.length
+        ? await getProductsListing({ include: siteOptions.acf.listing_1.products.join() })
+        : [];
 
     const brandAttributes = await getAttributes(9);
     const currentTerm = brandAttributes.find(term => term.slug === data?.brand[0]?.slug) || null;
@@ -70,7 +72,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                     </div>
                     <div className={styles.info}>
                         <h1 className="mb-2 sm:mb-3 lg:mb-4">{data.name}</h1>
-                        
+
 
                         {data.type === 'variable' ? <ProductInfoVariable data={data} /> : <ProductInfoSimple data={data} />}
                     </div>
@@ -79,9 +81,12 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
             <Ticker />
             <Listing data={likes} title={"Вам может понравиться"} titleTag="h2" />
             <Banner data={siteOptions?.acf?.bannery} />
-            <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />
+            {!!listing_1.length && <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />}
             <RecentViewedListing />
-            <TagCloud data={tagsCloud} />
+            <section>
+                <TagCloud data={tagsCloud} />
+            </section>
+
         </>
     );
 }

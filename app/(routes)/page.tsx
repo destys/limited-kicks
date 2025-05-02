@@ -44,9 +44,19 @@ export async function generateMetadata() {
 export default async function HomePage() {
   const pageData = await getPage('main');
   const siteOptions = await getAcfOptions();
-  const listing_1 = await getProductsListing({ include: siteOptions?.acf?.listing_1?.products?.join() });
-  const listing_2 = await getProductsListing({ include: siteOptions?.acf?.listing_2?.products?.join() });
-  const listing_3 = await getProductsListing({ include: siteOptions?.acf?.listing_3?.products?.join() });
+
+  const listing_1 = siteOptions?.acf?.listing_1?.products?.length
+    ? await getProductsListing({ include: siteOptions.acf.listing_1.products.join() })
+    : [];
+
+  const listing_2 = siteOptions?.acf?.listing_2?.products?.length
+    ? await getProductsListing({ include: siteOptions.acf.listing_2.products.join() })
+    : [];
+
+  const listing_3 = siteOptions?.acf?.listing_3?.products?.length
+    ? await getProductsListing({ include: siteOptions.acf.listing_3.products.join() })
+    : [];
+
   const posts = await getPosts('?per_page=8&orderby=date&_embed=true');
   const brands = await getBrands();
 
@@ -54,11 +64,13 @@ export default async function HomePage() {
     <>
       <MainBanner data={pageData[0]?.acf?.bannery} />
       <Ticker />
-      <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" link={siteOptions?.acf?.listing_1.ssylka} />
+      {!!listing_1.length && <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" link={siteOptions?.acf?.listing_1.ssylka} />}
       <Brands data={brands} />
-      <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" link={siteOptions?.acf?.listing_2.ssylka} />
-      <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" link={siteOptions?.acf?.listing_3.ssylka} />
-      <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} />
+      {!!listing_2.length && <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" link={siteOptions?.acf?.listing_2.ssylka} />}
+      {!!listing_3.length && <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" link={siteOptions?.acf?.listing_3.ssylka} />}
+      <div className="mb-10 xl:mb-20">
+        <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} />
+      </div>
       <BlogSlider data={posts} />
       <Banner data={siteOptions?.acf?.bannery} />
     </>

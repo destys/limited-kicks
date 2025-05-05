@@ -16,7 +16,6 @@ import useFavoriteStore from "@/hooks/use-favorite";
 import FlagList from "@/components/flag-list/flag-list";
 import useProductGalleryModal from "@/hooks/use-product-gallery-modal";
 import { useViewedProducts } from "@/hooks/use-viewed-products";
-import { Navigation } from "swiper/modules";
 
 interface ProductGalleryProps {
   productId: number;
@@ -26,7 +25,6 @@ interface ProductGalleryProps {
 }
 
 const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
-  console.log('data: ', data);
   const swiperRef = useRef<any>(null);
   const { onOpen } = useProductGalleryModal();
 

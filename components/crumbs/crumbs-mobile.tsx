@@ -1,8 +1,6 @@
 import Link from 'next/link'
 
-import getProduct from '@/actions/get-product';
-
-import styles from "./crumbs.module.scss";
+import styles from "./crumbsMobile.module.scss";
 
 interface ICrumbs {
     type?: string;
@@ -12,7 +10,7 @@ interface ICrumbs {
     data?: any;
 }
 
-const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
+const CrumbsMobile: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
 
     let crumbs;
 
@@ -20,8 +18,7 @@ const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
         crumbs = [
             { text: data.categories[0].name, link: `/category/${data.categories[0].slug}` },
             { text: data.brand[0].name, link: `/brand/${data.brand[0].slug}` },
-            { text: data.tags[0].name, link: `/model/${data.tags[0].slug}` },
-            { text: data.name },
+            { text: data.tags[0].name, link: `/model/${data.tags[0].slug}` }
         ];
     } else if (type === 'category') {
         crumbs = [
@@ -78,4 +75,4 @@ const Crumbs: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
     )
 }
 
-export default Crumbs
+export default CrumbsMobile

@@ -1,0 +1,24 @@
+.breadcrumbs {
+    @apply flex lg:hidden items-center gap-1 mb-3 md:mb-5 text-[10px];
+    .item {
+        .link {
+            @apply flex items-center gap-2 text-add_4 transition-colors;
+
+            svg {
+                @apply shrink-0 basis-3 size-3;
+            }
+
+            path {
+                @apply fill-add_4 transition-colors;
+            }
+
+            &:hover {
+                @apply text-black;
+
+                path {
+                    @apply fill-black;
+                }
+            }
+        }
+    }
+}

@@ -17,7 +17,6 @@ const Ticker = () => {
     useEffect(() => {
         const fetchTickers = async () => {
             const response = await getAcfOptions();
-            console.log('response: ', response);
             setTikers(response.acf.begushhaya_stroka);
         }
         fetchTickers();

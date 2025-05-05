@@ -21,6 +21,7 @@ interface ProductGridProps {
 
 const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners }) => {
     const [products, setProducts] = useState<Product[]>([]);
+    console.log('products: ', products);
     const [page, setPage] = useState(2); // Начинаем со второй страницы
     const [loading, setLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -77,10 +78,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
     const loadMoreProducts = useCallback(async () => {
         setLoading(true);
         let newProducts;
+        const combinedParams = mergeParams(query, searchParams);
+
         if (searchParams.orderby) {
-            newProducts = await getProducts({ ...query, per_page: 12, page, ...searchParams, });
+            newProducts = await getProducts({ ...combinedParams, per_page: 12, page, });
         } else {
-            newProducts = await getProducts({ ...query, per_page: 12, page, ...searchParams, order: 'desc', orderby: 'date', });
+            newProducts = await getProducts({ ...combinedParams, per_page: 12, page, order: 'desc', orderby: 'date', });
         }
 
         setProducts(prevProducts => [...prevProducts, ...newProducts]);
@@ -115,7 +118,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
         <div className="relative min-h-screen">
             {isLoading ? (
                 <div className="w-full h-full">
-                    <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 lg:gap-x-4 lg:gap-y-5">
+                    <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 gap-2 lg:gap-x-4 lg:gap-y-5">
                         <Skeleton className="aspect-square rounded-xl" />
                         <Skeleton className="aspect-square rounded-xl" />
                         <Skeleton className="aspect-square rounded-xl" />

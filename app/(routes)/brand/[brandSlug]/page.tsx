@@ -71,6 +71,7 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
       categoryTags={tagsCloud}
       searchParams={searchParams}
       hiddenBrands={true}
+      crumbsType={brand[0].acf.kategoriya ? "brand" : ""}
     />
   );
 }

@@ -184,6 +184,10 @@ export interface Brand {
     logotip: {
       url: string;
     };
+    kategoriya: {
+      name: string;
+      slug: string;
+    }[];
     korotkoe_opisanie: string;
     ikonka: {
       url: string;

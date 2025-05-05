@@ -20,6 +20,7 @@ import styles from './product.module.scss';
 import RecentViewedListing from "@/components/recent-viewed-listing/recent-viewed-listing";
 import getTagsCloud from "@/actions/get-tags-cloud";
 import getAttributes from "@/actions/get-attributes";
+import CrumbsMobile from "@/components/crumbs/crumbs-mobile";
 
 interface ProductPageProps {
     params: {
@@ -71,9 +72,8 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                         <ProductGallery productId={data.id} data={data} />
                     </div>
                     <div className={styles.info}>
+                        <CrumbsMobile type={"product"} data={data} />
                         <h1 className="mb-2 sm:mb-3 lg:mb-4">{data.name}</h1>
-
-
                         {data.type === 'variable' ? <ProductInfoVariable data={data} /> : <ProductInfoSimple data={data} />}
                     </div>
                 </div>
@@ -86,10 +86,8 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
             <section>
                 <TagCloud data={tagsCloud} />
             </section>
-
         </>
     );
 }
 
 export default ProductPage
-

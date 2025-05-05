@@ -1,7 +1,7 @@
 // Функция для получения количества товаров на основе фильтров
 const getProductsCount = async (params: string): Promise<{ count: number }> => {
     try {
-        const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom-woocommerce/v1/product-count?${params.toString()}`, {
+        const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom-woocommerce/v1/products/count?${params.toString()}`, {
             method: 'GET',
         });
 

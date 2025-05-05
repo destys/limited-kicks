@@ -28,11 +28,12 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
   const siteOptions = await getAcfOptions();
 
   const attributes =
-    typeof filtersList === 'object' &&
-      !Array.isArray(filtersList) &&
-      Array.isArray(filtersList.attributes)
-      ? filtersList.attributes
-      : [];
+  typeof filtersList === 'object' &&
+  !Array.isArray(filtersList) &&
+  Array.isArray(filtersList.attributes)
+  ? filtersList.attributes
+  : [];
+  console.log('attributes: ', attributes);
 
   const brandAttribute = attributes.find(attr => attr.name === 'Бренд');
   const versions = attributes.find(attr => attr.name === 'Версия');

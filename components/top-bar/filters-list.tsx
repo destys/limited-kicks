@@ -25,6 +25,14 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     const [productCount, setProductCount] = useState(count);
     const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
+    useEffect(() => {
+        if (activeFilters && window.innerWidth < 1024) {
+            document.body.classList.add('lock');
+        } else {
+            document.body.classList.remove('lock');
+        }
+    }, [activeFilters]);
+
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -36,6 +44,8 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     }, [showFilters]);
 
     useEffect(() => {
+        console.log('query: ', query);
+        console.log('searchParams: ', searchParams.toString());
         const run = async () => {
             await updateProductCount(searchParams.toString(), query);
         };
@@ -97,14 +107,19 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
     const updateProductCount = async (urlParams: string, query: IProductsQuery) => {
         try {
             const combinedParams = new URLSearchParams(urlParams);
+            console.log('before merge: ', combinedParams.toString());
+
             Object.entries(query).forEach(([key, value]) => {
                 if (value === undefined || value === null) return;
+
                 if (Array.isArray(value)) {
                     value.forEach((v) => combinedParams.append(key, String(v)));
                 } else {
-                    combinedParams.set(key, String(value));
+                    combinedParams.append(key, String(value));
                 }
             });
+
+            console.log('after merge: ', combinedParams.toString());
 
             const response = await getProductsCount(combinedParams.toString());
             setProductCount(response.count);

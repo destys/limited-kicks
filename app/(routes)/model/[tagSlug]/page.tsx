@@ -66,6 +66,7 @@ const TagPage: React.FC<ITagPage> = async ({ params, searchParams }) => {
       filtersList={filtersList}
       searchParams={searchParams}
       hiddenBrands={true}
+      crumbsType={tag[0].acf.kategoriya && tag[0].acf.brend ? "model" : ""}
     />
   );
 }

@@ -50,7 +50,7 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
     onChange(data.slug, event.target.value, event.target.checked, optionName);
   };
 
-  if (attributes && attributes.length < 2) return null;
+  if (attributes && attributes.length < 1) return null;
 
   return (
     <div

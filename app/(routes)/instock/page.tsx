@@ -25,17 +25,12 @@ export async function generateMetadata() {
 
 const InstockPage: React.FC<IBrandsPage> = async ({ searchParams }) => {
     const siteOptions = await getAcfOptions();
-    const brand = await getBrand('yeezy');
     const page = await getPage('v-nalichii');
-
-    if (!brand.length) {
-        return <NotFound />;
-    }
 
     const query = {
         attribute: "pa_collections",
         attribute_term: 1783,
-        per_page: 12,
+        per_page: 12, 
         page: 1,
     }
 

@@ -56,7 +56,7 @@ export const SortFilter: React.FC<SortFilterProps> = ({ onChange }) => {
                     {options.map(option => (
                         <div key={option.value}>
                             <div
-                                className={`flex items-center gap-6 relative py-3 px-5 pl-10 lg:py-4 lg:px-6 lg:pl-14 text-sm sm:text-base lg:text-lg rounded-lg cursor-pointer bg-add_1 text-add_2 transition-colors hover:bg-add_1_hv border border-add_4 font-medium !text-xs !max-md:text-sm justify-center 
+                                className={`flex items-center gap-6 relative py-3 px-5 pl-10 lg:py-4 lg:px-6 lg:pl-14 sm:text-base lg:text-lg rounded-lg cursor-pointer bg-add_1 text-add_2 transition-colors hover:bg-add_1_hv border border-add_4 font-medium !text-xs !max-md:text-sm justify-center 
                                     ${selectedOption === option.label ? 'bg-add_2 text-white' : ''}`}
                                 onClick={() => handleSortChange(option.value, option.label)}
                             >

@@ -155,6 +155,9 @@ export interface Post {
   _embedded: {
     "wp:featuredmedia": FeaturedMedia[];
   };
+  acf: {
+    tovar: { ID: number };
+  };
 }
 
 interface FeaturedMedia {

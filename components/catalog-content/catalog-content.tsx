@@ -33,7 +33,6 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
   Array.isArray(filtersList.attributes)
   ? filtersList.attributes
   : [];
-  console.log('attributes: ', attributes);
 
   const brandAttribute = attributes.find(attr => attr.name === 'Бренд');
   const versions = attributes.find(attr => attr.name === 'Версия');

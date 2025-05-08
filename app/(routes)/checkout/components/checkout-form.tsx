@@ -58,7 +58,6 @@ const CheckoutForm = () => {
             setLoading(true);
             try {
                 const userData = jwtToken ? await getUser(jwtToken) : null;
-                console.log('userData: ', userData);
 
                 if (userData === null) {
                     localStorage.setItem('fromCheckout', 'true');

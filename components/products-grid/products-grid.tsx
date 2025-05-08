@@ -21,7 +21,6 @@ interface ProductGridProps {
 
 const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners }) => {
     const [products, setProducts] = useState<Product[]>([]);
-    console.log('products: ', products);
     const [page, setPage] = useState(2); // Начинаем со второй страницы
     const [loading, setLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

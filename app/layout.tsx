@@ -38,10 +38,16 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <head>
-        <head>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+        {/* Favicon и мета-иконки */}
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
    m[i].l=1*new Date();
    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -56,9 +62,8 @@ export default function RootLayout({
         ecommerce:"dataLayer"
    });
             `,
-            }}
-          />
-        </head>
+          }}
+        />
       </head>
       <body className={font.className}>
         <Suspense>

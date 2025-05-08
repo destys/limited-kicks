@@ -20,9 +20,9 @@ const Versions = ({ versionsArray }: Props) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const selectedTerm = searchParams.get('attribute_term');
-
     const [options, setOptions] = useState<AttributeOption[]>([]);
+
+    const selectedTerms = searchParams.getAll('attribute_term').map(Number);
 
     useEffect(() => {
         const fetchAttributes = async () => {
@@ -41,29 +41,39 @@ const Versions = ({ versionsArray }: Props) => {
     }, [versionsArray]);
 
     const handleVersionClick = (termId: number) => {
-        const newQuery = new URLSearchParams(searchParams.toString());
+        const currentTerms = new Set(searchParams.getAll('attribute_term').map(Number));
 
-        newQuery.delete('attribute');
-        newQuery.delete('attribute_term');
+        if (currentTerms.has(termId)) {
+            currentTerms.delete(termId);
+        } else {
+            currentTerms.add(termId);
+        }
 
-        newQuery.append('attribute', 'pa_versiya');
-        newQuery.append('attribute_term', termId.toString());
+        const newQuery = new URLSearchParams();
+        newQuery.set('attribute', 'pa_versiya');
+
+        currentTerms.forEach((id) => {
+            newQuery.append('attribute_term', id.toString());
+        });
 
         router.push(`${pathname}?${newQuery.toString()}`, { scroll: false });
     };
 
     return (
         <div className={styles.tagCloud__list}>
-            {options.map((item) => (
-                <div
-                    key={item.id}
-                    className={`flex items-center gap-3 w-fit flex-shrink-0 py-3 px-5 rounded-lg hover:bg-add_1_hv text-sm lg:text-base cursor-pointer
-          ${selectedTerm === item.id.toString() ? 'bg-black text-white' : 'bg-add_1'}`}
-                    onClick={() => handleVersionClick(item.id)}
-                >
-                    {item.name}
-                </div>
-            ))}
+            {options.map((item) => {
+                const isSelected = selectedTerms.includes(item.id);
+                return (
+                    <div
+                        key={item.id}
+                        className={`flex items-center gap-3 w-fit flex-shrink-0 py-3 px-5 rounded-lg hover:bg-add_1_hv text-sm lg:text-base cursor-pointer
+              ${isSelected ? 'bg-black text-white' : 'bg-add_1'}`}
+                        onClick={() => handleVersionClick(item.id)}
+                    >
+                        {item.name}
+                    </div>
+                );
+            })}
         </div>
     );
 };

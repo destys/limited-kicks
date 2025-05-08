@@ -48,7 +48,6 @@ export default function ProductsOnRequestModal() {
         const form = e.target as HTMLFormElement;
 
         try {
-            console.log('imageSource: ', imageSource);
             const res = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/product-request`, {
                 method: "POST",
                 headers: {

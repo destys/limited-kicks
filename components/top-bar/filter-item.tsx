@@ -81,7 +81,7 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
         </svg>
       </div>
       <div className={open ? 'block relative' : 'hidden'}>
-        <div className="lg:absolute lg:-top-1 lg:w-full lg:z-[1000] bg-add_1/50 lg:bg-add_1 grid grid-cols-2 gap-2 mb-4 p-2 pt-3 overflow-y-auto max-h-[280px]">
+        <div className="bg-add_1/50 lg:bg-add_1 grid grid-cols-2 gap-2 mb-4 p-2 pt-3 overflow-y-auto max-h-[280px]">
           {attributes?.map((option) => (
             <CheckBox
               key={option.id}

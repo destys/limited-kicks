@@ -182,7 +182,10 @@ export default function Search() {
             <ul>
               {popular.map(item => (
                 <li key={item.zagolovok}>
-                  <Link href={item.ssylka} onClick={mobileSearch.onClose}>{item.zagolovok}</Link>
+                  <Link href={item.ssylka} onClick={() => {
+                    mobileSearch.onClose();
+                    setIsActive(false);
+                  }}>{item.zagolovok}</Link>
                 </li>
               ))}
             </ul>

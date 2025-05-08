@@ -2,16 +2,16 @@ import Image from "next/image";
 
 import getPost from "@/actions/get-post";
 import getPosts from "@/actions/get-posts";
-import getProduct from "@/actions/get-product";
 
 import BlogSlider from "@/components/blog-slider/blog-slider";
 import FlagItem from "@/components/flag-item/flag-item";
 import ProductItem from "@/components/product-item/product-item";
+import getPostProduct from "@/actions/get-post-product";
 
 const Post = async ({ params }: { params: { slug: string } }) => {
   const post = await getPost(params.slug);
   const posts = await getPosts(`?per_page=4&orderby=date&_embed=true&exclude=${post[0].id}`);
-  const product = await getProduct({});
+  const product = await getPostProduct({ id: post[0]?.acf?.tovar?.ID ? post[0]?.acf?.tovar?.ID : 0 });
 
   const pub_date = new Date(post[0].date).toLocaleDateString();
 
@@ -47,9 +47,11 @@ const Post = async ({ params }: { params: { slug: string } }) => {
             </h1>
             <div dangerouslySetInnerHTML={{ __html: post[0].content.rendered }} className="grid gap-4 text-xs xs:text-sm lg:text-base" />
           </div>
-          <div className="hidden lg:block">
-            <ProductItem data={product} />
-          </div>
+          {post[0].acf.tovar && product && (
+            <div className="hidden lg:block">
+              <ProductItem data={product} />
+            </div>
+          )}
         </div>
       </section>
       <BlogSlider data={posts} />

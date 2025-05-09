@@ -23,7 +23,7 @@ export const SortFilter: React.FC<SortFilterProps> = ({ onChange }) => {
     return (
         <div className="relative flex flex-col">
             {/* Заголовок "Сортировка" */}
-            <label htmlFor="sort" className="hidden lg:block mb-2 text-sm px-3 lg:px-0">Сортировка:</label>
+            <label htmlFor="sort" className="hidden lg:block mb-2 text-xs xs:text-sm md:text-base  px-2.5 md:px-5 lg:px-7">Сортировка:</label>
             {/* Основной блок имитации select */}
             <div
                 className="border-b border-b-add_1 lg:border-none lg:rounded-lg lg:bg-add_1 transition-colors lg:hover:bg-add_1_hv lg:cursor-pointer"
@@ -51,8 +51,8 @@ export const SortFilter: React.FC<SortFilterProps> = ({ onChange }) => {
             </div>
 
             {/* Выпадающий список */}
-            <div className={`${isOpen ? 'block' : 'hidden'}`}>
-                <div className="lg:absolute lg:w-full lg:z-[1000] bg-add_1/50 lg:bg-add_1 lg:border lg:rounded-lg grid grid-cols-1 gap-2 mb-4 p-2 pt-3 overflow-y-auto max-h-[280px]">
+            <div className={`relative ${isOpen ? 'block' : 'hidden'}`}>
+                <div className="absolute w-full z-[1000] bg-add_1/50 lg:bg-add_1 lg:border lg:rounded-lg grid grid-cols-1 gap-2 mb-4 p-2 pt-3 overflow-y-auto max-h-[280px]">
                     {options.map(option => (
                         <div key={option.value}>
                             <div

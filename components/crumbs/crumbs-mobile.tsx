@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import styles from "./crumbsMobile.module.scss";
+import clsx from 'clsx';
 
 interface ICrumbs {
     type?: string;
@@ -8,9 +9,10 @@ interface ICrumbs {
     slug?: string;
     parentCategory?: any;
     data?: any;
+    className?: string;
 }
 
-const CrumbsMobile: React.FC<ICrumbs> = async ({ type, parentCategory, data }) => {
+const CrumbsMobile: React.FC<ICrumbs> = async ({ type, parentCategory, data, className }) => {
 
     let crumbs;
 
@@ -24,20 +26,17 @@ const CrumbsMobile: React.FC<ICrumbs> = async ({ type, parentCategory, data }) =
         crumbs = [
             { text: "Главная", link: "/" },
             { text: "Каталог", link: "/shop" },
-            { text: data.name }
         ];
     } else if (type === 'brand') {
         crumbs = [
             { text: "Каталог", link: "/shop" },
             { text: data.acf.kategoriya[0].name, link: `/category/${data.acf.kategoriya[0].slug}` },
-            { text: data.name }
         ];
     } else if (type === 'model') {
         crumbs = [
             { text: "Каталог", link: "/shop" },
             { text: data.acf.kategoriya[0].name, link: `/category/${data.acf.kategoriya[0].slug}` },
             { text: data.acf.brend[0].name, link: `/brand/${data.acf.brend[0].slug}` },
-            { text: data.name }
         ];
     } else {
         crumbs = [
@@ -47,7 +46,7 @@ const CrumbsMobile: React.FC<ICrumbs> = async ({ type, parentCategory, data }) =
     }
 
     return (
-        <div className={styles.breadcrumbs}>
+        <div className={clsx(styles.breadcrumbs, className)}>
             {crumbs?.map((crumb, index) => (
                 <span key={index} className={styles.item}>
                     {crumb.link ? (

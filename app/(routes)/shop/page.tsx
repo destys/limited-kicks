@@ -50,7 +50,7 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
                 <Categories />
                 <BrandsCatalog brandsArray={filtersList.attributes.find(
                     (attribute: Attribute) => attribute.name === 'Бренд')} />
-                <TopBar count={count} query={query} />
+                <TopBar count={count} query={query} searchParams={searchParams}/>
                 <ProductGrid query={query} searchParams={searchParams} banners={siteOptions.acf.bannery_v_kataloge} />
             </section>
         </>

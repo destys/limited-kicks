@@ -1,19 +1,42 @@
-// Функция для получения количества товаров на основе фильтров
-const getProductsCount = async (params: string): Promise<{ count: number }> => {
-    try {
-        const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom-woocommerce/v1/products/count?${params.toString()}`, {
-            method: 'GET',
-        });
+import { Products } from "@/types";
+import { buildUrlWithParams, QueryParams } from "@/utils/build-url";
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch product count: ${response.statusText}`);
+
+const getProductsCount = async (query: QueryParams = {}): Promise<number> => {
+    const prepareQueryParams = (params: QueryParams): QueryParams => {
+        const newParams = { ...params };
+
+        if (Array.isArray(newParams.orderby)) {
+            newParams.orderby = newParams.orderby.filter((v) => v !== 'date');
         }
 
-        const data = await response.json();
-        return data; // Предполагается, что ответ содержит { count: number }
+        if (Array.isArray(newParams.order)) {
+            newParams.order = newParams.order.filter((v) => v !== 'desc');
+        }
+
+        return newParams;
+    };
+
+    try {
+        const cleanedParams = prepareQueryParams(query);
+        const queryString = buildUrlWithParams(cleanedParams);
+        const endpoint = `${process.env.WP_ADMIN_REST_URL}/custom-woocommerce/v1/products/count?${queryString}`;
+
+        const response = await fetch(endpoint);
+
+        if (!response.ok) {
+            console.error('Ошибка ответа от сервера:', response.statusText);
+            return 0;
+        }
+
+        const json = await response.json();
+        console.log('json: ', json);
+
+        // Примерно ожидаем такую структуру от твоего кастомного API
+        return json.total ?? 0
     } catch (error) {
-        console.error('Failed to fetch product count:', error);
-        throw new Error('Error fetching product count');
+        console.error('Ошибка при загрузке товаров:', error);
+        return 0;
     }
 };
 

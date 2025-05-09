@@ -1,32 +1,5 @@
-import { fetchWooCommerce } from "@/lib/utils";
 import { Products } from "@/types";
-import getProductsCount from "./get-products-count";
-
-// Типизация для параметров
-interface QueryParams {
-    [key: string]: string | number | Array<string | number>;
-}
-
-const buildUrlWithParams = (params: QueryParams): string => {
-    const urlSearchParams = new URLSearchParams();
-
-    Object.entries(params).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-            value.forEach((v) => {
-                // Только для attribute и attribute_term добавляем []
-                if (key === 'attribute' || key === 'attribute_term') {
-                    urlSearchParams.append(`${key}[]`, String(v));
-                } else {
-                    urlSearchParams.append(key, String(v)); // Без []
-                }
-            });
-        } else if (value !== undefined && value !== null) {
-            urlSearchParams.set(key, String(value));
-        }
-    });
-
-    return urlSearchParams.toString();
-};
+import { buildUrlWithParams, QueryParams } from "@/utils/build-url";
 
 
 const getProducts = async (query: QueryParams = {}): Promise<Products[]> => {
@@ -44,14 +17,12 @@ const getProducts = async (query: QueryParams = {}): Promise<Products[]> => {
         return newParams;
     };
 
-
-
     try {
         const cleanedParams = prepareQueryParams(query);
         const queryString = buildUrlWithParams(cleanedParams);
 
         //const queryString = buildUrlWithParams(query);
-        const endpoint = `https://limited-kicks.ru/admin/wp-json/custom-woocommerce/v1/products?${queryString}`;
+        const endpoint = `${process.env.WP_ADMIN_REST_URL}/custom-woocommerce/v1/products?${queryString}`;
 
         const response = await fetch(endpoint);
 

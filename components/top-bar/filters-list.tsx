@@ -12,31 +12,36 @@ import Image from 'next/image';
 import getProductsCount from '@/actions/get-products-count';
 import Button from '../ui/button/button';
 import clsx from 'clsx';
+import { mergeParams } from '@/lib/utils';
+import Loader from '../ui/loader/loader';
+import { PacmanLoader } from 'react-spinners';
 
 interface IFiltersList {
     query: IProductsQuery;
     count: number;
+    searchParams: {};
 }
 
-const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
+const FiltersList: React.FC<IFiltersList> = ({ query, count, searchParams }) => {
     const [showFilters, setShowFilters] = useState(false);
     const [filters, setFilters] = useState<Attribute[]>([]);
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(100);
     const [productCount, setProductCount] = useState(count);
     const [activeFilters, setActiveFilters] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (activeFilters && window.innerWidth < 1024) {
-            document.body.classList.add('lock');
+        if (showFilters) {
+            document.body.classList.add('locked');
         } else {
-            document.body.classList.remove('lock');
+            document.body.classList.remove('locked');
         }
-    }, [activeFilters]);
+    }, [showFilters])
 
     const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useSearchParams();
+    const newSearchParams = useSearchParams();
 
     useEffect(() => {
         if (window.innerWidth < 1024) {
@@ -46,10 +51,10 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
 
     useEffect(() => {
         const run = async () => {
-            await updateProductCount(searchParams.toString(), query);
+            await updateProductCount(query);
         };
         run();
-    }, [searchParams.toString(), query]);
+    }, [searchParams, query]);
 
     useEffect(() => {
         const fetchFilters = async () => {
@@ -70,7 +75,7 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                 setMinPrice(filtersList.min_price);
                 setMaxPrice(filtersList.max_price);
 
-                const customOrder = ['Категория', 'Бренд', 'Модель', 'Версия', 'Размер', 'Коллекция'];
+                const customOrder = ['Коллекция', 'Категория', 'Бренд', 'Модель', 'Версия', 'Размер'];
                 const filteredAttributes = filtersList.attributes.filter((attribute: { name: string }) => {
                     if (pathname.includes('/brand/') && attribute.name === 'Бренд') return false;
                     if (pathname.includes('/model/') && attribute.name === 'Модель') return false;
@@ -89,8 +94,8 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
 
         const updateActiveFilters = () => {
             const active: string[] = [];
-            const attributes = searchParams.getAll('attribute');
-            const terms = searchParams.getAll('attribute_term');
+            const attributes = newSearchParams.getAll('attribute');
+            const terms = newSearchParams.getAll('attribute_term');
 
             attributes.forEach((_, index) => {
                 if (terms[index]) active.push(terms[index]);
@@ -101,34 +106,23 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
 
         fetchFilters();
         updateActiveFilters();
-    }, [query, searchParams]);
+    }, [query, newSearchParams]);
 
-    const updateProductCount = async (urlParams: string, query: IProductsQuery) => {
+    const updateProductCount = async (query: IProductsQuery) => {
         try {
-            const combinedParams = new URLSearchParams(urlParams);
-            //console.log('before merge: ', combinedParams.toString());
-
-            Object.entries(query).forEach(([key, value]) => {
-                if (value === undefined || value === null) return;
-
-                if (Array.isArray(value)) {
-                    value.forEach((v) => combinedParams.append(key, String(v)));
-                } else {
-                    combinedParams.append(key, String(value));
-                }
-            });
-
-            //console.log('after merge: ', combinedParams.toString());
-
-            const response = await getProductsCount(combinedParams.toString());
-            setProductCount(response.count);
+            setLoading(true);
+            const combinedParams = mergeParams(query, searchParams);
+            const response = await getProductsCount(combinedParams);
+            setProductCount(response);
         } catch (error) {
             console.error('Failed to fetch product count:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
     const updateFilters = (attributeName: string, termValue: any, isActive: boolean) => {
-        const newQuery = new URLSearchParams(searchParams.toString());
+        const newQuery = new URLSearchParams(newSearchParams.toString());
 
         const attributes = newQuery.getAll('attribute');
         const terms = newQuery.getAll('attribute_term');
@@ -148,19 +142,19 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
         }
 
         const newPath = `${pathname}?${newQuery.toString()}`;
-        router.push(newPath, { scroll: false });
+        router.replace(`${pathname}?${newQuery.toString()}`, { scroll: false });
     };
 
     const updatePriceFilter = (min: number, max: number) => {
-        const newQuery = new URLSearchParams(searchParams.toString());
+        const newQuery = new URLSearchParams(newSearchParams.toString());
         newQuery.set('min_price', String(min));
         newQuery.set('max_price', String(max));
         const newPath = `${pathname}?${newQuery.toString()}`;
-        router.push(newPath, { scroll: false });
+        router.replace(`${pathname}?${newQuery.toString()}`, { scroll: false });
     };
 
     const updateSortFilter = (sortValue: string) => {
-        const newQuery = new URLSearchParams(searchParams.toString());
+        const newQuery = new URLSearchParams(newSearchParams.toString());
         if (sortValue === 'default') {
             newQuery.delete('orderby');
             newQuery.delete('order');
@@ -193,53 +187,59 @@ const FiltersList: React.FC<IFiltersList> = ({ query, count }) => {
                     </button>
                 </div>
 
-                <div className={`fixed top-0 left-0 w-full h-full bg-black/10 ${showFilters ? 'block' : 'hidden'}`} onClick={() => setShowFilters(false)}></div>
+                {showFilters && (
+                    <div className="fixed top-0 left-0 z-[8000] size-full flex justify-end items-end">
+                        <div className="fixed top-0 left-0 z-[8001] size-full bg-black/30 " onClick={() => setShowFilters(false)}></div>
+                        <div className="pb-10 md:mr-10 md:mb-10 relative z-[8002] rounded w-full max-h-[100dvh] overflow-y-auto md:h-auto max-w-lg shadow bg-white gap-3 px-3">
+                            <div className={clsx("p-2.5 hidden", !!activeFilters.length && "my-5")}>
+                                {!!activeFilters.length && (
+                                    <>
+                                        <p className="mb-2">Примененные фильтры</p>
+                                        <ul className="flex flex-wrap gap-2">
+                                            {activeFilters.map((filter, index) => (
+                                                <li key={index} className="flex justify-center items-center gap-2 py-1 px-2 rounded-xl bg-add_1">
+                                                    <span>{filter}</span>
+                                                    <button>
+                                                        <Image src="/icons/Icon/Close.svg" width={10} height={10} alt="close" />
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </>
+                                )}
+                            </div>
 
-                <div className={`fixed bottom-[52px] left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:right-20 z-[9000] rounded w-full h-auto max-w-lg shadow bg-white gap-3 items-center flex-wrap px-3 ${showFilters ? 'block' : 'hidden'}`}>
-                    <div className={clsx("p-2.5 hidden", !!activeFilters.length && "my-5")}>
-                        {!!activeFilters.length && (
-                            <>
-                                <p className="mb-2">Примененные фильтры</p>
-                                <ul className="flex flex-wrap gap-2">
-                                    {activeFilters.map((filter, index) => (
-                                        <li key={index} className="flex justify-center items-center gap-2 py-1 px-2 rounded-xl bg-add_1">
-                                            <span>{filter}</span>
-                                            <button>
-                                                <Image src="/icons/Icon/Close.svg" width={10} height={10} alt="close" />
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                        )}
-                    </div>
+
+                            {!!filters.length && <PriceFilter minPrice={minPrice} maxPrice={maxPrice} onChange={updatePriceFilter} />}
+                            <div className="lg:col-span-3"></div>
+                            <div className="md:space-y-3">
+                                <SortFilter onChange={updateSortFilter} />
+
+                                {filters.map((item) => (
+                                    <FilterItem key={item.id} data={item} onChange={(name, val, active) => updateFilters(name, val, active)} />
+                                ))}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 mt-5 px-2.5">
+                                <Button styled="outlined" onClick={resetFilters}>Сбросить</Button>
+                                <Button styled="filled" onClick={() => setShowFilters(false)} className="relative">
+                                    {loading ? <PacmanLoader color='#fff' size={12} /> : <span>Применить {!!activeFilters.length && `(${productCount})`}</span>}
+                                </Button>
+                            </div>
 
 
-                    {!!filters.length && <PriceFilter minPrice={minPrice} maxPrice={maxPrice} onChange={updatePriceFilter} />}
-                    <div className="lg:col-span-3"></div>
-                    <div className="grid gap-3">
-                        <SortFilter onChange={updateSortFilter} />
-
-                        {filters.map((item) => (
-                            <FilterItem key={item.id} data={item} onChange={(name, val, active) => updateFilters(name, val, active)} />
-                        ))}
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 my-5 px-2.5">
-                        <Button styled="outlined" onClick={resetFilters}>Сбросить</Button>
-                        <Button styled="filled" onClick={() => setShowFilters(false)}>
-                            Применить {!!activeFilters.length && `(${productCount})`}
-                        </Button>
-                    </div>
-
-                    <div className="relative flex justify-center h-[52px]">
-                        <div className="absolute top-1/2 p-3 rounded-full bg-white shadow w-[52px] h-[52px]" onClick={() => setShowFilters(false)}>
-                            <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
+                            <div className="absolute top-0 right-0 flex justify-center h-[52px]">
+                                <button className="static p-3 rounded-full w-[52px] h-[52px]" onClick={() => setShowFilters(false)}>
+                                    <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                )}
+
+
+            </div >
+        </div >
     );
 };
 

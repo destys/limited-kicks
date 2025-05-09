@@ -7,6 +7,7 @@ import ProductItem from "@/components/product-item/product-item";
 import BannerCatalog from "@/components/banner-catalog/banner-catalog";
 import { PacmanLoader } from "react-spinners";
 import Skeleton from "../ui/skeleton/skeleton";
+import { mergeParams } from "@/lib/utils";
 
 interface ProductGridProps {
     query: {};
@@ -28,36 +29,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ query, searchParams, banners 
 
     const observer = useRef<IntersectionObserver | null>(null);
 
-    const mergeParams = (query: Record<string, any>, searchParams: Record<string, any>): Record<string, any> => {
-        const merged: Record<string, any> = { ...query };
-
-        // Добавляем параметры сортировки по дате публикации от новых к старым
-        merged.order = 'desc';
-        merged.orderby = 'date';
-
-        Object.keys(searchParams).forEach(key => {
-            if (Array.isArray(searchParams[key])) {
-                if (Array.isArray(merged[key])) {
-                    merged[key] = merged[key].concat(searchParams[key]);
-                } else if (merged[key] !== undefined) {
-                    merged[key] = [merged[key]].concat(searchParams[key]);
-                } else {
-                    merged[key] = searchParams[key];
-                }
-            } else {
-                if (Array.isArray(merged[key])) {
-                    merged[key] = merged[key].concat(searchParams[key]);
-                } else if (merged[key] !== undefined) {
-                    merged[key] = [merged[key], searchParams[key]];
-                } else {
-                    merged[key] = searchParams[key];
-                }
-            }
-        });
-        return merged;
-    };
-
     useEffect(() => {
+        console.log('searchParamsP: ', searchParams);
         const combinedParams = mergeParams(query, searchParams);
         const fetchInitialProducts = async () => {
             try {

@@ -8,12 +8,13 @@ interface ICheckBox {
   defaultChecked?: boolean;
   checked?: boolean;
   value?: any;
+  wrapperClassNames?: string;
   onChange?: (e: any) => void;
 }
 
-const CheckBox: React.FC<ICheckBox> = ({ className, label, id, name, ...props }) => {
+const CheckBox: React.FC<ICheckBox> = ({ className, label, id, name, wrapperClassNames, ...props }) => {
   return (
-    <div>
+    <div className={wrapperClassNames}>
       <input type="checkbox" id={id} className="hidden peer" name={name} {...props} />
       {label && (
         <label

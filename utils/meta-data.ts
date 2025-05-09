@@ -1,3 +1,5 @@
+import { removeAdminFromYoast } from "./build-url";
+
 interface YoastHeadJson {
   title: string;
   description: string;
@@ -15,6 +17,7 @@ interface Metadata {
   title: string;
   description: string;
   canonical: string;
+  robots: string;
   openGraph: {
     type: string;
     locale: string;
@@ -31,20 +34,24 @@ interface Metadata {
 export const generateYoastMetadata = (
   yoast_head_json: YoastHeadJson
 ): Metadata => {
+  const cleaned = removeAdminFromYoast(yoast_head_json);
+  
+
   return {
-    title: yoast_head_json.title,
-    description: yoast_head_json.description,
-    canonical: yoast_head_json.canonical,
+    title: cleaned.title,
+    description: cleaned.description,
+    canonical: cleaned.canonical,
+    robots: cleaned.robots,
     openGraph: {
-      type: yoast_head_json.og_type,
-      locale: yoast_head_json.og_locale,
-      url: yoast_head_json.og_url,
-      title: yoast_head_json.og_title,
-      description: yoast_head_json.og_description,
-      site_name: yoast_head_json.og_site_name,
+      type: cleaned.og_type,
+      locale: cleaned.og_locale,
+      url: cleaned.og_url,
+      title: cleaned.og_title,
+      description: cleaned.og_description,
+      site_name: cleaned.og_site_name,
     },
     twitter: {
-      cardType: yoast_head_json.twitter_card,
+      cardType: cleaned.twitter_card,
     },
   };
 };

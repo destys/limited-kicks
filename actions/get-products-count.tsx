@@ -30,7 +30,6 @@ const getProductsCount = async (query: QueryParams = {}): Promise<number> => {
         }
 
         const json = await response.json();
-        console.log('json: ', json);
 
         // Примерно ожидаем такую структуру от твоего кастомного API
         return json.total ?? 0

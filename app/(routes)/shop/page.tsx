@@ -13,6 +13,7 @@ import { generateYoastMetadata } from "@/utils/meta-data";
 import getAcfOptions from "@/actions/get-acf-options";
 import getFilters from "@/actions/get-filters";
 import getTotalProductsCount from "@/actions/get-total-products-count";
+import { SchemaMarkup } from "@/components/schema-markup";
 
 interface IShopPage {
     searchParams: {}
@@ -42,16 +43,25 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
         page: 1,
     };
 
+    const initialProducts = await getProducts({
+        ...query,
+        ...searchParams,
+        per_page: 12,
+        page: 1,
+    });
+
     return (
         <>
+            <SchemaMarkup schema={shop[0].yoast_head_json.schema} />
             <section>
                 <Crumbs data={shop[0]} />
                 <h1 className="mb-10">{shop[0].title.rendered}</h1>
                 <Categories />
                 <BrandsCatalog brandsArray={filtersList.attributes.find(
                     (attribute: Attribute) => attribute.name === 'Бренд')} />
-                <TopBar count={count} query={query} searchParams={searchParams}/>
-                <ProductGrid query={query} searchParams={searchParams} banners={siteOptions.acf.bannery_v_kataloge} />
+                <TopBar count={count} query={query} searchParams={searchParams} />
+                <ProductGrid query={query} searchParams={searchParams} banners={siteOptions.acf.bannery_v_kataloge} initialProducts={initialProducts}/>
+                
             </section>
         </>
     );

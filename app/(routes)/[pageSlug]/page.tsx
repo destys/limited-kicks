@@ -4,6 +4,7 @@ import NotFound from "@/app/not-found";
 import Crumbs from "@/components/crumbs/crumbs";
 import Faq from "@/components/pages/faq/faq";
 import { generateYoastMetadata } from "@/utils/meta-data";
+import { SchemaMarkup } from "@/components/schema-markup";
 
 type Params = {
   params: {
@@ -39,6 +40,8 @@ export default async function HomePage({ params }: Params) {
 
   return (
     <>
+
+      <SchemaMarkup schema={pageData[0].yoast_head_json.schema} />
       <section>
         <Crumbs data={pageData[0]} />
         <h1 className="mb-10">{pageData[0].title.rendered}</h1>

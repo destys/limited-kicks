@@ -12,6 +12,7 @@ import Banner from "@/components/banner/banner";
 import BlogSlider from "@/components/blog-slider/blog-slider";
 import ProductsOnRequest from "@/components/products-on-request/products-on-request";
 import getProductsListing from "@/actions/get-products-listing";
+import { generateYoastMetadata } from "@/utils/meta-data";
 
 export async function generateMetadata() {
   const page = await getPage('main');
@@ -20,25 +21,7 @@ export async function generateMetadata() {
 
   const yoast_head_json = page[0].yoast_head_json;
 
-  return {
-    title: yoast_head_json.title,
-    description: yoast_head_json.description,
-    canonical: yoast_head_json.canonical,
-    openGraph: {
-      type: yoast_head_json.og_type,
-      locale: yoast_head_json.og_locale,
-      url: yoast_head_json.og_url,
-      title: yoast_head_json.og_title,
-      description: yoast_head_json.og_description,
-      site_name: yoast_head_json.og_site_name,
-    },
-    twitter: {
-      cardType: yoast_head_json.twitter_card,
-    },
-    verification: {
-      yandex: "b7d5aedbbbe984af",
-    },
-  }
+  return generateYoastMetadata(yoast_head_json);
 }
 
 export default async function HomePage() {
@@ -62,10 +45,11 @@ export default async function HomePage() {
 
   return (
     <>
+      <div></div>
       <MainBanner data={pageData[0]?.acf?.bannery} />
       <Ticker />
       {!!listing_1.length && <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" link={siteOptions?.acf?.listing_1.ssylka} />}
-      <Brands data={brands} />
+      {/* <Brands data={brands} /> */}
       {!!listing_2.length && <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" link={siteOptions?.acf?.listing_2.ssylka} />}
       {!!listing_3.length && <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" link={siteOptions?.acf?.listing_3.ssylka} />}
       <div className="mb-10 xl:mb-20">

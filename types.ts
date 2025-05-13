@@ -158,6 +158,7 @@ export interface Post {
   acf: {
     tovar: { ID: number };
   };
+  yoast_head_json: any;
 }
 
 interface FeaturedMedia {
@@ -173,6 +174,7 @@ export interface Category {
   image: {
     src: string;
   };
+  yoast_head_json?: any;
 }
 
 export interface Brand {

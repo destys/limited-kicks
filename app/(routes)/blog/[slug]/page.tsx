@@ -7,6 +7,21 @@ import BlogSlider from "@/components/blog-slider/blog-slider";
 import FlagItem from "@/components/flag-item/flag-item";
 import ProductItem from "@/components/product-item/product-item";
 import getPostProduct from "@/actions/get-post-product";
+import { SchemaMarkup } from "@/components/schema-markup";
+import NotFound from "@/app/not-found";
+import { generateYoastMetadata } from "@/utils/meta-data";
+
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const data = await getPost(params.slug);
+
+  if (!data) {
+    return <NotFound />
+  }
+
+  const yoast_head_json = data[0].yoast_head_json;
+
+  return generateYoastMetadata(yoast_head_json);
+}
 
 const Post = async ({ params }: { params: { slug: string } }) => {
   const post = await getPost(params.slug);
@@ -17,6 +32,7 @@ const Post = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <>
+      <SchemaMarkup schema={post[0].yoast_head_json.schema} />
       <section>
         <div className="mb-10 relative rounded-lg overflow-hidden">
           <div className="absolute top-5 left-5">

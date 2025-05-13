@@ -21,6 +21,7 @@ import RecentViewedListing from "@/components/recent-viewed-listing/recent-viewe
 import getTagsCloud from "@/actions/get-tags-cloud";
 import getAttributes from "@/actions/get-attributes";
 import CrumbsMobile from "@/components/crumbs/crumbs-mobile";
+import { SchemaMarkup } from "@/components/schema-markup";
 
 interface ProductPageProps {
     params: {
@@ -64,6 +65,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
 
     return (
         <>
+            <SchemaMarkup schema={data.yoast_head_json.schema} />
             <section>
                 <AddToRecently id={data.id} />
                 <Crumbs type={"product"} data={data} />

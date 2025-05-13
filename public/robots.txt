@@ -5,6 +5,8 @@ Disallow: /favorites/
 Disallow: /fail/
 Disallow: /success/
 Disallow: /profile/
+Disallow: /admin/
+Disallow: /*?*
 
 Allow: /
 

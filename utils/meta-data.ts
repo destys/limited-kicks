@@ -11,6 +11,7 @@ interface YoastHeadJson {
   og_description: string;
   og_site_name: string;
   twitter_card: string;
+  robots: Record<string, string>;
 }
 
 interface Metadata {
@@ -31,17 +32,21 @@ interface Metadata {
   };
 }
 
+const formatRobots = (robotsObj: Record<string, string>): string => {
+  return Object.values(robotsObj).join(", ");
+};
+
 export const generateYoastMetadata = (
   yoast_head_json: YoastHeadJson
 ): Metadata => {
   const cleaned = removeAdminFromYoast(yoast_head_json);
-  
+  console.log('cleaned: ', cleaned);
 
   return {
     title: cleaned.title,
     description: cleaned.description,
     canonical: cleaned.canonical,
-    robots: cleaned.robots,
+    robots: formatRobots(cleaned.robots),
     openGraph: {
       type: cleaned.og_type,
       locale: cleaned.og_locale,

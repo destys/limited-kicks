@@ -1,11 +1,10 @@
-"use client";
-import { useRef, useEffect } from "react";
-import { Brand } from "@/types";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-
-import styles from "./brands.module.scss";
+import { useRef, useEffect } from 'react';
+import { Brand } from '@/types';
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from './brands.module.scss';
 
 interface IBrands {
   data: Brand[];
@@ -13,97 +12,97 @@ interface IBrands {
 
 const Brands: React.FC<IBrands> = ({ data }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  let isDown = false;
-  let startX = 0;
-  let scrollLeft = 0;
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
 
-  // Горизонтальная прокрутка колесом мыши
+  // ❗ Создаём один ref на каждый элемент
+  const dragRefs = useRef<Record<number, boolean>>({});
+
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return;
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
+    const start = (clientX: number) => {
+      isDraggingRef.current = true;
+      el.classList.add('dragging');
+      startXRef.current = clientX - el.offsetLeft;
+      scrollLeftRef.current = el.scrollLeft;
     };
 
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, []);
-
-  // Перетаскивание мышью
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const onMouseDown = (e: MouseEvent) => {
-      isDown = true;
-      el.classList.add("dragging");
-      startX = e.pageX - el.offsetLeft;
-      scrollLeft = el.scrollLeft;
+    const move = (clientX: number) => {
+      if (!isDraggingRef.current) return;
+      const x = clientX - el.offsetLeft;
+      const walk = (x - startXRef.current) * 1.5;
+      el.scrollLeft = scrollLeftRef.current - walk;
     };
 
-    const onMouseLeave = () => {
-      isDown = false;
-      el.classList.remove("dragging");
+    const end = () => {
+      isDraggingRef.current = false;
+      el.classList.remove('dragging');
     };
 
-    const onMouseUp = () => {
-      isDown = false;
-      el.classList.remove("dragging");
-    };
-
+    const onMouseDown = (e: MouseEvent) => start(e.pageX);
     const onMouseMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - el.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      el.scrollLeft = scrollLeft - walk;
+      if (isDraggingRef.current) e.preventDefault();
+      move(e.pageX);
     };
+    const onTouchStart = (e: TouchEvent) => start(e.touches[0].pageX);
+    const onTouchMove = (e: TouchEvent) => move(e.touches[0].pageX);
+    const onMouseUp = end;
+    const onMouseLeave = end;
+    const onTouchEnd = end;
 
-    el.addEventListener("mousedown", onMouseDown);
-    el.addEventListener("mouseleave", onMouseLeave);
-    el.addEventListener("mouseup", onMouseUp);
-    el.addEventListener("mousemove", onMouseMove);
+    el.addEventListener('mousedown', onMouseDown);
+    el.addEventListener('mousemove', onMouseMove);
+    el.addEventListener('mouseup', onMouseUp);
+    el.addEventListener('mouseleave', onMouseLeave);
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: true });
+    el.addEventListener('touchend', onTouchEnd);
 
     return () => {
-      el.removeEventListener("mousedown", onMouseDown);
-      el.removeEventListener("mouseleave", onMouseLeave);
-      el.removeEventListener("mouseup", onMouseUp);
-      el.removeEventListener("mousemove", onMouseMove);
+      el.removeEventListener('mousedown', onMouseDown);
+      el.removeEventListener('mousemove', onMouseMove);
+      el.removeEventListener('mouseup', onMouseUp);
+      el.removeEventListener('mouseleave', onMouseLeave);
+
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
     };
   }, []);
 
   return (
-    <section>
+    <section aria-label="Популярные бренды" className="mb-8">
+      <h2 className="sr-only">Бренды</h2>
       <div
         ref={containerRef}
-        className="flex gap-3 mb-2 lg:mb-10 pb-3 overflow-x-auto cursor-grab select-none"
-        style={{ scrollBehavior: "smooth" }}
+        className="flex gap-3 pb-3 overflow-x-auto cursor-grab select-none"
+        style={{ scrollBehavior: 'smooth' }}
       >
         {data.map((item) => {
-          let isDragging = false;
-
+          // сохраняем ref по item.id
           const handleMouseDown = () => {
-            isDragging = false;
+            dragRefs.current[item.id] = false;
           };
 
           const handleMouseMove = () => {
-            isDragging = true;
+            dragRefs.current[item.id] = true;
           };
 
           const handleClick = (e: React.MouseEvent) => {
-            if (isDragging) {
-              e.preventDefault(); // 🔒 блокируем переход
+            if (dragRefs.current[item.id]) {
+              e.preventDefault();
             }
           };
 
           return (
             <Link
+              key={item.id}
               href={`/brand/${item.slug}`}
               className={styles.slide}
-              key={item.id}
               draggable={false}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
@@ -111,10 +110,10 @@ const Brands: React.FC<IBrands> = ({ data }) => {
             >
               {item.acf?.logotip?.url ? (
                 <Image
-                  src={item.acf?.logotip.url}
+                  src={item.acf.logotip.url}
+                  alt={item.name}
                   width={200}
                   height={200}
-                  alt={item.name}
                   className="w-full h-full object-contain"
                   draggable={false}
                 />

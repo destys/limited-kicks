@@ -8,6 +8,8 @@ import getAcfOptions from '@/actions/get-acf-options';
 import { versions } from 'process';
 import Versions from '../versions/versions';
 import CrumbsMobile from '../crumbs/crumbs-mobile';
+import { SchemaMarkup } from '../schema-markup';
+import getProducts from '@/actions/get-products';
 
 interface ICatalogContent {
   count: number;
@@ -38,8 +40,16 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
   const brandAttribute = attributes.find(attr => attr.name === 'Бренд');
   const versions = attributes.find(attr => attr.name === 'Версия');
 
+  const initialProducts = await getProducts({
+    ...query,
+    ...searchParams,
+    per_page: 12,
+    page: 1,
+  });
+
   return (
     <>
+      <SchemaMarkup schema={category.yoast_head_json.schema} />
       <section>
         <Crumbs data={category} type={crumbsType || "category"} />
         <CrumbsMobile data={category} type={crumbsType || "category"} className="mt-5" />
@@ -49,7 +59,7 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
         {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}
         {versions && !hiddenVersions && <Versions versionsArray={versions} />}
         <TopBar count={count} query={query} searchParams={searchParams} />
-        <ProductsGrid query={query} searchParams={searchParams} banners={siteOptions?.acf?.bannery_v_kataloge} />
+        <ProductsGrid query={query} searchParams={searchParams} banners={siteOptions?.acf?.bannery_v_kataloge} initialProducts={initialProducts} />
       </section>
       {tagCloud && <TagCloud data={tagCloud} className="lg:hidden" />}
       {description && <div dangerouslySetInnerHTML={{ __html: description }} className="grid gap-3 py-10 px-2 text-sm md:text-base lg:px-[60px] bg-add_1 text-black" />}

@@ -4,7 +4,7 @@ import CategorySlider from "./category-slider";
 export default async function Categories() {
     const categories = await getCategories({
         parent: 0,
-        per_page: 10,
+        per_page: 100,
     });
 
     return (

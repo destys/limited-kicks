@@ -58,7 +58,7 @@ const Header = () => {
               </svg>
               <span>Каталог</span>
             </Link>
-            <Link href="/instock">
+            <Link href="/collection/v-nalichii-v-moskve">
               <span>🚀</span>
               <span>от 2-х часов</span>
             </Link>

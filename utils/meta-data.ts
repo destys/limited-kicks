@@ -40,7 +40,6 @@ export const generateYoastMetadata = (
   yoast_head_json: YoastHeadJson
 ): Metadata => {
   const cleaned = removeAdminFromYoast(yoast_head_json);
-  console.log('cleaned: ', cleaned);
 
   return {
     title: cleaned.title,

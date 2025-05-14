@@ -19,7 +19,7 @@ const TagCloud: React.FC<ITagCloud> = ({ data, wrapper, className }) => {
             {wrapper !== 'div' && (<div className={styles.tagCloud__top}>
                 <h2 className={styles.tagCloud__title}>Смотрите так же</h2>
                 <div className="flex items-center gap-10">
-                    <Link href={"/products"} className={styles.tagCloud__showMore}>
+                    <Link href={"/shop"} className={styles.tagCloud__showMore}>
                         Смотреть все
                     </Link>
                 </div>

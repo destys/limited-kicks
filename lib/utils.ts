@@ -35,6 +35,7 @@ export async function fetchWooCommerce(
     method: method,
     headers: headers,
     body: method !== "GET" && data ? JSON.stringify(data) : null,
+    next: { revalidate: 5 }, // ← ключевой момент
   };
 
   try {

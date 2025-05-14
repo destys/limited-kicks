@@ -42,6 +42,7 @@ const MainBanner: React.FC<MainBannersProps> = ({ data }) => {
                 width={isMobile && item.izobrazhenie_mobile ? item.izobrazhenie_mobile.width : item.izobrazhenie.width}
                 height={isMobile && item.izobrazhenie_mobile ? item.izobrazhenie_mobile.height : item.izobrazhenie.height}
                 className="w-full h-[440px] 2xl:h-[660px] sm:rounded-2xl object-cover object-center"
+                priority
               />
             </Link>
           </SwiperSlide>

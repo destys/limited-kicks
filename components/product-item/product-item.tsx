@@ -42,7 +42,7 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                         </div>
                     </div>
                 </Link>
-                {data.type === 'variable' && hasSizes && sortedSizes.length > 0 && (
+                {/* {data.type === 'variable' && hasSizes && sortedSizes.length > 0 && (
                     <Link href={`/product/${data.slug}`} className={styles.sizes + " lg:group-hover:grid"}>
                         <div className={styles.sizeTitle}>Доступные размеры:</div>
                         <div className={styles.sizeList}>
@@ -51,7 +51,7 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                             ))}
                         </div>
                     </Link>
-                )}
+                )} */}
             </div>
         </article>
     );

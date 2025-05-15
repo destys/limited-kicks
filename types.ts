@@ -53,6 +53,7 @@ export interface AcfOptions {
       ssylka: string;
     }[];
     banner: SearchBanner;
+    listing_4: IListing;
     listing_2: IListing;
     listing_3: IListing;
     listing_1: IListing;

@@ -121,6 +121,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
               width={892}
               height={540}
               alt={image.name}
+              priority
             />
           </SwiperSlide>
         ))}
@@ -138,6 +139,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ data }) => {
                   height={266}
                   alt={image.name}
                   onClick={() => handleImageClick(index)}
+                  priority
                 />
               </div>
             ))}

@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
+const withAnalyzer = withBundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
     env: {
         WP_ADMIN_REST_URL: process.env.WP_ADMIN_REST_URL,
@@ -21,4 +27,4 @@ const nextConfig = {
     },
 };
 
-export default nextConfig;
+export default withAnalyzer(nextConfig);

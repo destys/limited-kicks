@@ -10,6 +10,7 @@ import Versions from '../versions/versions';
 import CrumbsMobile from '../crumbs/crumbs-mobile';
 import { SchemaMarkup } from '../schema-markup';
 import getProducts from '@/actions/get-products';
+import { Suspense } from 'react';
 
 interface ICatalogContent {
   count: number;
@@ -59,7 +60,9 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
         {categoryTags && <TagCloud data={categoryTags} wrapper="div" className="mb-10" />}
         {versions && !hiddenVersions && <Versions versionsArray={versions} />}
         <TopBar count={count} query={query} searchParams={searchParams} />
-        <ProductsGrid query={query} searchParams={searchParams} banners={siteOptions?.acf?.bannery_v_kataloge} initialProducts={initialProducts} />
+        <Suspense fallback={null}>
+          <ProductsGrid query={query} searchParams={searchParams} banners={siteOptions?.acf?.bannery_v_kataloge} initialProducts={initialProducts} />
+        </Suspense>
       </section>
       {tagCloud && <TagCloud data={tagCloud} className="lg:hidden" />}
       {description && <div dangerouslySetInnerHTML={{ __html: description }} className="grid gap-3 py-10 px-2 text-sm md:text-base lg:px-[60px] bg-add_1 text-black" />}

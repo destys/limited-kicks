@@ -6,6 +6,7 @@ import getBrand from "@/actions/get-brand";
 import { generateYoastMetadata } from "@/utils/meta-data";
 import getTagsCloud from "@/actions/get-tags-cloud";
 import NotFound from "@/app/not-found";
+import { notFound } from "next/navigation";
 
 interface IBrandsPage {
   params: {
@@ -44,7 +45,7 @@ const BrandPage: React.FC<IBrandsPage> = async ({ params, searchParams }) => {
   const brand = await getBrand(params.brandSlug);
 
   if (!brand.length) {
-    return <NotFound />;
+    return notFound();;
   }
 
   const brandAttributes = await getAttributes(9);

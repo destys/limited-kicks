@@ -39,6 +39,7 @@ const MobileLogo = () => {
                         alt="logotype"
                         width={151}
                         height={68}
+                        priority
                     />
                 </Link>
             </div>

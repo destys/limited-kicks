@@ -8,14 +8,14 @@ import FlagItem from "@/components/flag-item/flag-item";
 import ProductItem from "@/components/product-item/product-item";
 import getPostProduct from "@/actions/get-post-product";
 import { SchemaMarkup } from "@/components/schema-markup";
-import NotFound from "@/app/not-found";
 import { generateYoastMetadata } from "@/utils/meta-data";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const data = await getPost(params.slug);
 
   if (!data) {
-    return <NotFound />
+    return notFound();
   }
 
   const yoast_head_json = data[0].yoast_head_json;

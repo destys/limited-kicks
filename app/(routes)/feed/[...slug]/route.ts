@@ -34,7 +34,6 @@ export async function GET(
   }
 
   const feedUrl = `${BASE_FEED_URL}${slug[0]}`;
-  console.log('feedUrl: ', feedUrl);
 
   try {
     const res = await fetch(feedUrl);

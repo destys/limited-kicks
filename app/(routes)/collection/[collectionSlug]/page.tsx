@@ -6,6 +6,7 @@ import { generateYoastMetadata } from "@/utils/meta-data";
 import getTagsCloud from "@/actions/get-tags-cloud";
 import NotFound from "@/app/not-found";
 import getCollection from "@/actions/get-collection";
+import { notFound } from "next/navigation";
 
 interface IBrandsPage {
   params: {
@@ -44,7 +45,7 @@ const CollectionPage: React.FC<IBrandsPage> = async ({ params, searchParams }) =
   const collection = await getCollection(params.collectionSlug);
 
   if (!collection.length) {
-    return <NotFound />;
+    return notFound();
   }
 
   const collectionAttributes = await getAttributes(10);

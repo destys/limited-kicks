@@ -5,6 +5,7 @@ import getAcfOptions from "@/actions/get-acf-options";
 import CatalogContent from "@/components/catalog-content/catalog-content";
 import NotFound from "@/app/not-found";
 import getFilters from "@/actions/get-filters";
+import { notFound } from "next/navigation";
 
 interface ICategoryPage {
   params: {
@@ -24,13 +25,7 @@ export async function generateMetadata(
   const category = await getCategories({ slug: params.categorySlug });
 
   if (!category.length) {
-    return {
-      title: '404',
-      description: '404',
-      image: '',
-      url: '',
-      type: 'website',
-    };
+    return
   }
 
   const yoast_head_json = category[0].yoast_head_json;
@@ -43,7 +38,7 @@ const CategoryPage: React.FC<ICategoryPage> = async ({ params, searchParams }) =
   const category = await getCategories({ slug: params.categorySlug });
 
   if (!category.length) {
-    return <NotFound />;
+    return notFound();
   }
 
   const filtersList = await getFilters({ categoryId: category[0].id });

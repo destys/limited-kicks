@@ -4,6 +4,7 @@ import getTags from "@/actions/get-tags";
 import NotFound from "@/app/not-found";
 import { generateYoastMetadata } from "@/utils/meta-data";
 import getFilters from "@/actions/get-filters";
+import { notFound } from "next/navigation";
 
 interface ITagPage {
   params: {
@@ -39,7 +40,7 @@ const TagPage: React.FC<ITagPage> = async ({ params, searchParams }) => {
   const tag = await getTags({ slug: params.tagSlug });
 
   if (!tag.length) {
-    return <NotFound />
+    return notFound()
   }
 
   const siteOptions = await getAcfOptions();

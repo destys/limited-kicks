@@ -9,6 +9,7 @@ import Brands from "@/components/brands/brands";
 import Banner from "@/components/banner/banner";
 import SearchListing from "./components/search-listing";
 import getProductsListing from "@/actions/get-products-listing";
+import { Suspense } from "react";
 
 export async function generateMetadata() {
   return {
@@ -36,7 +37,9 @@ const Search = async () => {
 
   return (
     <>
-      <SearchListing />
+      <Suspense fallback={null}>
+        <SearchListing />
+      </Suspense>
       <Ticker />
       {!!listing_1.length && <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} />}
       <Brands data={brands} />

@@ -14,6 +14,7 @@ import styles from "./product-info.module.scss";
 import { Product } from "@/types";
 import useShoppingCart from "@/hooks/use-cart";
 import Price from "@/components/price/price";
+import useToOrderModal from "@/hooks/use-to-order-modal";
 
 interface ProductInfoProps {
   data: Product;
@@ -24,6 +25,8 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const cart = useShoppingCart();
+  const oneClickModal = useOneClickModal();
+  const toOrderModal = useToOrderModal();
 
   const isToOrder = data.acf.tovary_pod_zakaz;
 
@@ -63,31 +66,46 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
           <span className="text-main">{deliveryDate}</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-7">
-          {/* <Button
-            type="button"
-            styled={"filled"}
-            className={"px-10 py-5"}
-          onClick={oneClickAction}
-          >
-            В один клик
-          </Button> */}
-          {!isAdding ? (
-            <Button
-              type="button"
-              styled={"filled"}
-              className={`py-5 px-10 bg-add_1 text-black hover:bg-main hover:border-main`}
-              onClick={handleAddToCart}
-            >
-              В корзину
-            </Button>
+          {(isToOrder && !isInStock) || data.price === 0 ? (
+            <div className="mb-7">
+              <Button
+                type="button"
+                styled={"filled"}
+                className={"px-10 py-5 hover:bg-main hover:border-main"}
+                onClick={() => toOrderModal.onOpen(data, "", {}, data.images[0])}
+              >
+                Запросить стоимость
+              </Button>
+            </div>
           ) : (
-            <Button
-              type="button"
-              styled={"filled"}
-              className={styles.toCartLink}
-            >
-              <Link href={'/cart'} className="block py-4 px-8">Оформить заказ</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-7">
+              <Button
+                type="button"
+                styled={"filled"}
+                className={"px-10 py-5"}
+                onClick={() => oneClickModal.onOpen(data, "", {}, data.images[0])}
+              >
+                В один клик
+              </Button>
+              {!isAdding ? (
+                <Button
+                  type="button"
+                  styled={"filled"}
+                  className={`py-5 px-10 bg-add_1 text-black hover:bg-main hover:border-main`}
+                  onClick={handleAddToCart}
+                >
+                  В корзину
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  styled={"filled"}
+                  className={styles.toCartLink}
+                >
+                  <Link href={'/cart'} className="block py-4 px-8">Оформить заказ</Link>
+                </Button>
+              )}
+            </div>
           )}
         </div>
         <Dolayme price={data.price} />

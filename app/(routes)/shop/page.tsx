@@ -14,6 +14,8 @@ import getAcfOptions from "@/actions/get-acf-options";
 import getFilters from "@/actions/get-filters";
 import getTotalProductsCount from "@/actions/get-total-products-count";
 import { SchemaMarkup } from "@/components/schema-markup";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
 
 interface IShopPage {
     searchParams: {}
@@ -33,7 +35,7 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
     const shop = await getPage("shop");
     const siteOptions = await getAcfOptions();
     if (!shop.length) {
-        return <NotFound />
+        return notFound();
     }
     const filtersList = await getFilters({});
     const { count } = await getTotalProductsCount();
@@ -60,8 +62,9 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
                 <BrandsCatalog brandsArray={filtersList.attributes.find(
                     (attribute: Attribute) => attribute.name === 'Бренд')} />
                 <TopBar count={count} query={query} searchParams={searchParams} />
-                <ProductGrid query={query} searchParams={searchParams} banners={siteOptions.acf.bannery_v_kataloge} initialProducts={initialProducts}/>
-                
+                <Suspense fallback={null}>
+                    <ProductGrid query={query} searchParams={searchParams} banners={siteOptions.acf.bannery_v_kataloge} initialProducts={initialProducts} />
+                </Suspense>
             </section>
         </>
     );

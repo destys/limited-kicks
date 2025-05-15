@@ -51,7 +51,7 @@ export default async function HomePage() {
       {!!listing_1.length && <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h1" link={siteOptions?.acf?.listing_1.ssylka} />}
       {/* <Brands data={brands} /> */}
       {!!listing_2.length && <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" link={siteOptions?.acf?.listing_2.ssylka} />}
-      {!!listing_3.length && <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h2" link={siteOptions?.acf?.listing_3.ssylka} />}
+      {!!listing_3.length && <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h3" link={siteOptions?.acf?.listing_3.ssylka} />}
       <div className="mb-10 xl:mb-20">
         <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} />
       </div>

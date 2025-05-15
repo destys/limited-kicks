@@ -1,16 +1,15 @@
-import getAcfOptions from "@/actions/get-acf-options";
 import getPage from "@/actions/get-page";
 import getPosts from "@/actions/get-posts";
-import NotFound from "@/app/not-found";
 import BlogItem from "@/components/blog-item/blog-item";
 import { SchemaMarkup } from "@/components/schema-markup";
 import { generateYoastMetadata } from "@/utils/meta-data";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata() {
   const data = await getPage('blog');
 
   if (!data) {
-    return <NotFound />
+    return notFound();
   }
 
   const yoast_head_json = data[0].yoast_head_json;
@@ -21,7 +20,6 @@ export async function generateMetadata() {
 const Blog = async () => {
   const posts = await getPosts('?per_page=12&orderby=date&_embed=true');
   const data = await getPage('blog');
-  /*   const siteOptions = await getAcfOptions(); */
 
   return (
     <>

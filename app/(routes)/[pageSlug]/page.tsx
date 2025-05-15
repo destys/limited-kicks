@@ -5,6 +5,7 @@ import Crumbs from "@/components/crumbs/crumbs";
 import Faq from "@/components/pages/faq/faq";
 import { generateYoastMetadata } from "@/utils/meta-data";
 import { SchemaMarkup } from "@/components/schema-markup";
+import { notFound } from "next/navigation";
 
 type Params = {
   params: {
@@ -26,7 +27,7 @@ export default async function HomePage({ params }: Params) {
   const pageData = await getPage(params.pageSlug);
 
   if (!pageData.length) {
-    return <NotFound />
+    return notFound();
   }
 
   const templateName = pageData[0].template;

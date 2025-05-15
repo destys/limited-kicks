@@ -22,6 +22,8 @@ import getTagsCloud from "@/actions/get-tags-cloud";
 import getAttributes from "@/actions/get-attributes";
 import CrumbsMobile from "@/components/crumbs/crumbs-mobile";
 import { SchemaMarkup } from "@/components/schema-markup";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
 
 interface ProductPageProps {
     params: {
@@ -43,20 +45,19 @@ export async function generateMetadata({ params }: ProductPageProps) {
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     const data = await getProduct({ slug: params.productSlug });
+
+    if (!data) {
+        return notFound();
+    }
+
     const siteOptions = await getAcfOptions();
-    const listing_1 = siteOptions?.acf?.listing_1?.products?.length
-        ? await getProductsListing({ include: siteOptions.acf.listing_1.products.join() })
+    const listing_4 = siteOptions?.acf?.listing_4?.products?.length
+        ? await getProductsListing({ include: siteOptions.acf.listing_4.products.join() })
         : [];
 
     const brandAttributes = await getAttributes(9);
     const currentTerm = brandAttributes.find(term => term.slug === data?.brand[0]?.slug) || null;
     const tagsCloud = await getTagsCloud('pa_brand', currentTerm?.id);
-
-
-    if (!data) {
-        return <NotFound />;
-    }
-
 
     const likes = await getProducts({
         tag: data.tags[0].id,
@@ -83,7 +84,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
             <Ticker />
             <Listing data={likes} title={"Вам может понравиться"} titleTag="h2" />
             <Banner data={siteOptions?.acf?.bannery} />
-            {!!listing_1.length && <Listing data={listing_1} title={siteOptions?.acf?.listing_1?.title} titleTag="h2" />}
+            {!!listing_4.length && <Listing data={listing_4} title={siteOptions?.acf?.listing_4?.title} titleTag="h2" />}
             <RecentViewedListing />
             <section>
                 <TagCloud data={tagsCloud} />

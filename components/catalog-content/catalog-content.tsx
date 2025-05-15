@@ -50,7 +50,60 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
 
   return (
     <>
-      <SchemaMarkup schema={category.yoast_head_json.schema} />
+      <SchemaMarkup
+        schema={{
+          "@context": "https://schema.org",
+          "@type": (() => {
+            switch (crumbsType) {
+              case "brand":
+                return "Brand";
+              case "model":
+                return "ProductGroup";
+              case "collection":
+              case "category":
+              default:
+                return "CollectionPage";
+            }
+          })(),
+          "name": title,
+          "description": excerpt || description || "",
+          ...(crumbsType === "brand"
+            ? {
+              "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": `${title} — каталог`,
+                "itemListElement": initialProducts.map((product, index) => ({
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Product",
+                    "name": product.name || "",
+                    "url": `https://limited-kicks.ru/product/${product.slug}`
+                  }
+                }))
+              }
+            }
+            : crumbsType === "model"
+              ? {
+                "hasVariant": initialProducts.map((product) => ({
+                  "@type": "Product",
+                  "name":product.name || "",
+                  "url": `https://limited-kicks.ru/product/${product.slug}`
+                }))
+              }
+              : {
+                "mainEntity": {
+                  "@type": "ItemList",
+                  "itemListElement": initialProducts.map((product, index) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "url": `https://limited-kicks.ru/product/${product.slug}`,
+                    "name": product.name || ""
+                  }))
+                }
+              })
+        }}
+      />
+
       <section>
         <Crumbs data={category} type={crumbsType || "category"} />
         <CrumbsMobile data={category} type={crumbsType || "category"} className="mt-5" />

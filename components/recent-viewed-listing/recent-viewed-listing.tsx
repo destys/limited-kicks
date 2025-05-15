@@ -1,7 +1,6 @@
-// components/recent-viewed-listing/recent-viewed-listing.tsx
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import ProductItem from '../product-item/product-item';
@@ -14,9 +13,14 @@ import { useViewedProducts } from '@/hooks/use-viewed-products';
 
 const RecentViewedListing = () => {
     const viewedProducts = useViewedProducts((state) => state.viewedProducts);
+    const loadViewedProducts = useViewedProducts((state) => state.loadViewedProducts);
+
+    useEffect(() => {
+        loadViewedProducts();
+    }, []);
 
     if (!viewedProducts.length) {
-        return <p className={styles.noProducts}>Нет просмотренных товаров</p>;
+        return null;
     }
 
     return (
@@ -28,18 +32,10 @@ const RecentViewedListing = () => {
                 modules={[Navigation]}
                 className="!flex flex-col-reverse !pr-20 lg:!pr-0 !overflow-visible"
                 breakpoints={{
-                    474: {
-                        slidesPerView: 2,
-                    },
-                    640: {
-                        slidesPerView: 3,
-                    },
-                    1024: {
-                        slidesPerView: 4,
-                    },
-                    1921: {
-                        slidesPerView: 6,
-                    },
+                    474: { slidesPerView: 2 },
+                    640: { slidesPerView: 3 },
+                    1024: { slidesPerView: 4 },
+                    1921: { slidesPerView: 6 },
                 }}
             >
                 <div className={styles.listing__top}>
@@ -51,7 +47,7 @@ const RecentViewedListing = () => {
                         </div>
                     </div>
                 </div>
-                {viewedProducts?.map((item) => (
+                {viewedProducts.map((item) => (
                     <SwiperSlide key={item.id}>
                         <ProductItem data={item} />
                     </SwiperSlide>

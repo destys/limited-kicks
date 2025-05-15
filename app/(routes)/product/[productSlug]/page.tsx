@@ -66,7 +66,30 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
 
     return (
         <>
-            <SchemaMarkup schema={data.yoast_head_json.schema} />
+            <SchemaMarkup
+                schema={{
+                    "@context": "https://schema.org",
+                    "@type": "Product",
+                    "name": data.name,
+                    "image": data.images.map((img) => img.src),
+                    "description": data.description,
+                    "sku": data.sku || undefined,
+                    "brand": {
+                        "@type": "Brand",
+                        "name": data.brand[0]?.name || ""
+                    },
+                    "offers": {
+                        "@type": "Offer",
+                        "price": data.price,
+                        "priceCurrency": "RUB",
+                        "availability": data.stock_status === "instock"
+                            ? "https://schema.org/InStock"
+                            : "https://schema.org/OutOfStock",
+                        "itemCondition": "https://schema.org/NewCondition",
+                        "url": `https://limited-kicks.ru/product/${data.slug}`
+                    },
+                }}
+            />
             <section>
                 <AddToRecently id={data.id} />
                 <Crumbs type={"product"} data={data} />

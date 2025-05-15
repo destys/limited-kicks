@@ -54,7 +54,23 @@ const ShopPage: React.FC<IShopPage> = async ({ searchParams }) => {
 
     return (
         <>
-            <SchemaMarkup schema={shop[0].yoast_head_json.schema} />
+            <SchemaMarkup
+                schema={{
+                    "@context": "https://schema.org",
+                    "@type": "CollectionPage",
+                    "name": shop[0].title.rendered,
+                    "description": shop[0].acf?.korotkoe_opisanie,
+                    "mainEntity": {
+                        "@type": "ItemList",
+                        "itemListElement": initialProducts.map((product, index) => ({
+                            "@type": "ListItem",
+                            "position": index + 1,
+                            "name": product.name || "",
+                            "url": `https://limited-kicks.ru/product/${product.slug}`
+                        }))
+                    }
+                }}
+            />
             <section>
                 <Crumbs data={shop[0]} />
                 <h1 className="mb-10">{shop[0].title.rendered}</h1>

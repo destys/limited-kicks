@@ -19,7 +19,7 @@ interface ICatalogContent {
   description: string;
   tagCloud: Tag[];
   categoryTags?: Tag[];
-  category: Category | Brand | Page;
+  category: any;
   searchParams: {};
   query: IProductsQuery,
   hiddenBrands?: boolean,
@@ -51,46 +51,52 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
   return (
     <>
       <SchemaMarkup
-        schema={{
-          "@context": "https://schema.org",
-          "@type": (() => {
-            switch (crumbsType) {
-              case "brand":
-                return "Brand";
-              case "model":
-                return "ProductGroup";
-              case "collection":
-              case "category":
-              default:
-                return "CollectionPage";
-            }
-          })(),
-          "name": title,
-          "description": excerpt || description || "",
-          ...(crumbsType === "brand"
+        schema={
+          crumbsType === 'brand'
             ? {
-              "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                "name": `${title} — каталог`,
-                "itemListElement": initialProducts.map((product, index) => ({
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Product",
-                    "name": product.name || "",
-                    "url": `https://limited-kicks.ru/product/${product.slug}`
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Brand",
+                  "name": title,
+                  "description": excerpt || description || "",
+                  "url": `https://limited-kicks.ru/brand/${category.slug}`,
+                  "@id": `https://limited-kicks.ru/brand/${category.slug}`,
+                  "logo": category.acf?.logotip?.url || undefined
+                },
+                {
+                  "@type": "CollectionPage",
+                  "name": `${title} — каталог товаров`,
+                  "description": excerpt || description || "",
+                  "mainEntity": {
+                    "@type": "ItemList",
+                    "itemListElement": initialProducts.map((product, index) => ({
+                      "@type": "ListItem",
+                      "position": index + 1,
+                      "name": product.name || "",
+                      "url": `https://limited-kicks.ru/product/${product.slug}`
+                    }))
                   }
-                }))
-              }
+                }
+              ]
             }
-            : crumbsType === "model"
+            : crumbsType === 'model'
               ? {
+                "@context": "https://schema.org",
+                "@type": "ProductGroup",
+                "name": title,
+                "description": excerpt || description || "",
                 "hasVariant": initialProducts.map((product) => ({
                   "@type": "Product",
-                  "name":product.name || "",
+                  "name": product.name || "",
                   "url": `https://limited-kicks.ru/product/${product.slug}`
                 }))
               }
               : {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": title,
+                "description": excerpt || description || "",
                 "mainEntity": {
                   "@type": "ItemList",
                   "itemListElement": initialProducts.map((product, index) => ({
@@ -100,8 +106,8 @@ const CatalogContent: React.FC<ICatalogContent> = async ({ count, category, quer
                     "name": product.name || ""
                   }))
                 }
-              })
-        }}
+              }
+        }
       />
 
       <section>

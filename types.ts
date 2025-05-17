@@ -3,6 +3,7 @@
 export interface Banners {}
 
 export interface Page {
+  slug: string;
   content: {
     rendered: string;
   };

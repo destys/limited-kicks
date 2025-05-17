@@ -61,7 +61,7 @@ const Post = async ({ params }: { params: { slug: string } }) => {
             <h1 className="mb-5 uppercase">
               {post[0].title?.rendered}
             </h1>
-            <div dangerouslySetInnerHTML={{ __html: post[0].content.rendered }} className="grid gap-4 text-xs xs:text-sm lg:text-base" />
+            <div dangerouslySetInnerHTML={{ __html: post[0].content.rendered }} className="flex flex-col gap-4 text-xs xs:text-sm lg:text-base" />
           </div>
           {post[0].acf.tovar && product && (
             <div className="hidden lg:block">

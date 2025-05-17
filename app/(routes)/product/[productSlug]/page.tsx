@@ -82,9 +82,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
                         "@type": "Offer",
                         "price": data.price,
                         "priceCurrency": "RUB",
-                        "availability": data.stock_status === "instock"
-                            ? "https://schema.org/InStock"
-                            : "https://schema.org/OutOfStock",
+                        "availability": "https://schema.org/InStock",
                         "itemCondition": "https://schema.org/NewCondition",
                         "url": `https://limited-kicks.ru/product/${data.slug}`
                     },

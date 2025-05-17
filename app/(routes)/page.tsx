@@ -17,7 +17,7 @@ import Head from "next/head";
 import { SchemaMarkup } from "@/components/schema-markup";
 
 export async function generateMetadata() {
-  const page = await getPage('main');
+  const page = await getPage(45);
 
   if (!page.length) return null;
 
@@ -27,7 +27,7 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const pageData = await getPage('main');
+  const pageData = await getPage(45);
   const siteOptions = await getAcfOptions();
 
   const listing_1 = siteOptions?.acf?.listing_1?.products?.length

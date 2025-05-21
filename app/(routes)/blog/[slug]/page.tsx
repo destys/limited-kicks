@@ -10,11 +10,12 @@ import getPostProduct from "@/actions/get-post-product";
 import { SchemaMarkup } from "@/components/schema-markup";
 import { generateYoastMetadata } from "@/utils/meta-data";
 import { notFound } from "next/navigation";
+import getPostCategory from "@/actions/get-post-category";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const data = await getPost(params.slug);
 
-  if (!data) {
+  if (!data.length) {
     return notFound();
   }
 
@@ -25,7 +26,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 const Post = async ({ params }: { params: { slug: string } }) => {
   const post = await getPost(params.slug);
-  const posts = await getPosts(`?per_page=4&orderby=date&_embed=true&exclude=${post[0].id}`);
+  const category = await getPostCategory(post[0].categories[0]);
+  const posts = await getPosts(
+    `?per_page=4&orderby=date&_embed=true&categories=${category.id}&exclude=${post[0].id}`
+  );
   const product = await getPostProduct({ id: post[0]?.acf?.tovar?.ID ? post[0]?.acf?.tovar?.ID : 0 });
 
   const pub_date = new Date(post[0].date).toLocaleDateString();
@@ -36,13 +40,14 @@ const Post = async ({ params }: { params: { slug: string } }) => {
       <section>
         <div className="mb-10 relative rounded-lg overflow-hidden">
           <div className="absolute top-5 left-5">
-            <FlagItem title={"Свежий релиз"} />
+            {category && category.id !== 1 && <FlagItem title={category.name} />}
+
           </div>
           <Image
             src={post[0]._embedded['wp:featuredmedia'][0].source_url}
             width={1800}
             height={400}
-            alt="Релиз кроссовок Adidas YEEZY в августе 2023"
+            alt={post[0].title.rendered}
             className="hidden md:block h-[400px] object-cover object-center w-full min-h-[400px]"
           />
           <Image
@@ -70,7 +75,7 @@ const Post = async ({ params }: { params: { slug: string } }) => {
           )}
         </div>
       </section>
-      <BlogSlider data={posts} />
+      {posts.length && <BlogSlider data={posts} />}
     </>
   );
 }

@@ -50,7 +50,10 @@ const Versions = ({ versionsArray }: Props) => {
         }
 
         const newQuery = new URLSearchParams();
-        newQuery.set('attribute', 'pa_versiya');
+
+        currentTerms.forEach(() => {
+            newQuery.append('attribute', 'pa_versiya');
+        });
 
         currentTerms.forEach((id) => {
             newQuery.append('attribute_term', id.toString());
@@ -66,7 +69,7 @@ const Versions = ({ versionsArray }: Props) => {
                 return (
                     <div
                         key={item.id}
-                        className={`flex items-center gap-3 w-fit flex-shrink-0 py-3 px-5 rounded-lg hover:bg-add_1_hv text-sm lg:text-base cursor-pointer
+                        className={`flex items-center gap-3 w-fit flex-shrink-0 py-3 px-5 rounded-lg lg:hover:bg-add_1_hv text-sm lg:text-base cursor-pointer
               ${isSelected ? 'bg-black text-white' : 'bg-add_1'}`}
                         onClick={() => handleVersionClick(item.id)}
                     >

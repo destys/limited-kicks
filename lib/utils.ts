@@ -40,6 +40,7 @@ export async function fetchWooCommerce(
 
   try {
     const response = await fetch(`${url}${endpoint}${params}`, options);
+    // console.log("response: ", await response.json());
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

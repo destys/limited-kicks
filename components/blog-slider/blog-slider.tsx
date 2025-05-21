@@ -37,7 +37,7 @@ const BlogSlider: React.FC<BlogSliderProps> = ({ data }) => {
             slidesPerView: 3,
           },
           1921: {
-            slidesPerView: 6,
+            slidesPerView: 4,
         },
         }}
       >

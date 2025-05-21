@@ -28,8 +28,8 @@ export default async function Footer() {
                             height={130}
                         />
                     </Link>
-                    <div className="ml-5">
-                        <iframe src="https://yandex.ru/sprav/widget/rating-badge/83654437343?type=rating&theme=dark" width="250" height="50" frameBorder="0"></iframe>
+                    <div className="mx-5 flex justify-center">
+                        <iframe src="https://yandex.ru/sprav/widget/rating-badge/83654437343?type=rating&theme=dark" width="150" height="50" frameBorder="0"></iframe>
                     </div>
                 </div>
                 <Menu
@@ -83,9 +83,9 @@ export default async function Footer() {
                 />
             </div>
 
-            <div className="flex flex-col gap-3 pb-10 lg:flex-row lg:gap-5">
+            <div className="max-md:mt-10 flex flex-col gap-3 pb-10 lg:flex-row lg:gap-5">
                 <p>ИП Касаткин Илья Олегович</p>
-                <br />
+                <br className="max-lg:hidden"/>
                 <p>ОГРН: 324774600515950</p>
                 <p>ИНН: 772822920424</p>
             </div>

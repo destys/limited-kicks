@@ -13,6 +13,7 @@ import styles from './layout.module.scss'
 import { Suspense } from 'react'
 import YandexMetrikaContainer from '@/components/metrika/metrika'
 import { Viewport } from 'next'
+import ChatyEmbed from '@/components/chaty-embed'
 
 const font = Unbounded({ subsets: ['cyrillic'] })
 
@@ -79,7 +80,8 @@ export default function RootLayout({
           </main>
           <Subscribe />
           <Footer />
-        </div>
+          <ChatyEmbed />
+          </div>
       </body>
     </html>
   )

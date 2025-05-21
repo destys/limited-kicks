@@ -151,6 +151,7 @@ export interface Post {
   status: string;
   type: string;
   link: string;
+  categories: number[];
   title: { rendered: string };
   content: { rendered: string; protected: boolean };
   excerpt: { rendered: string; protected: boolean };
@@ -335,4 +336,9 @@ export interface iSizesTable {
   use_header: boolean;
   header: { c: string }[];
   body: { c: string }[][];
+}
+
+export interface CategoryPostProps {
+  id: number;
+  name: string;
 }

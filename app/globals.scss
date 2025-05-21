@@ -6,6 +6,13 @@
   outline: none;
 }
 
+html,
+body,
+* {
+  scroll-margin-top: 100px;
+  scroll-behavior: smooth;
+}
+
 body {
   color: #000;
 
@@ -50,6 +57,43 @@ h3 {
 
 h5 {
   @apply text-xs;
+}
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.btn-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 70px;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  filter:blur(20px);
+  transform: skewX(-20deg);
+  z-index: 1;
+  pointer-events: none;
+
+  /* Добавлено: автоматическая анимация */
+  animation: shineLoop 3s ease-in-out infinite;
+}
+
+@keyframes shineLoop {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
 }
 
 .swiper-scrollbar {

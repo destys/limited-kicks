@@ -103,10 +103,10 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
         <Price
           before=""
           value={entrySize.price}
-          className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg"
+          className="mb-5 sm:mb-7 lg:mb-10 xs:text-lg md:text-xl lg:text-2xl xl:text-3xl"
         />
       ) : (
-        <div className="mb-5 sm:mb-7 lg:mb-10 text-xs xs:text-sm sm:text-base lg:text-lg">Цена по запросу</div>
+        <div className="mb-5 sm:mb-7 lg:mb-10 xs:text-lg md:text-xl lg:text-2xl xl:text-3xl">Цена по запросу</div>
       )}
       <div className=" overflow-hidden">
         <div className={styles.sizes_type}>
@@ -163,15 +163,21 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
           Товар будет доставлен{" "}
           <span className="text-main">{deliveryDate}</span>
         </div>
+        <div className="my-5 text-xs xs:text-sm md:text-base lg:text-lg">
+          {isToOrder && entrySize.price.toString() === '0' && <p>Стоимость и наличие эксклюзивной модели подтверждается в день заказа</p>}
+          {isToOrder && entrySize.price.toString() !== '0' && <p>Стоимость и наличие эксклюзивной модели подтверждается в день заказа</p>}
+        </div>
         {(isToOrder && !isInStock) || entrySize.price.toString() === "0" ? (
           <div className="mb-7">
             <Button
               type="button"
               styled={"filled"}
-              className={"px-10 py-5 hover:bg-main hover:border-main"}
+              className={"px-10 py-5 bg-main border-main hover:border-black hover:bg-main max-md:w-full btn-shine"}
               onClick={() => toOrderModal.onOpen(data, entrySize.name[activeSizeIndex], entrySize, data.images[0])}
             >
-              Запросить стоимость
+              {isToOrder && entrySize.price.toString() === '0' && <>Запросить лучшую стоимость в России</>}
+              {isToOrder && entrySize.price.toString() !== '0' && <>Подтвердить лучшую стоимость в России</>}
+
             </Button>
           </div>
         ) : (
@@ -182,7 +188,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
               className={"px-10 py-5"}
               onClick={() => oneClickModal.onOpen(data, entrySize.name[activeSizeIndex], entrySize, data.images[0])}
             >
-              В один клик
+              Купить в один клик
             </Button>
             {!isAdding ? (
               <Button

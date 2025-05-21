@@ -26,6 +26,7 @@ import styles from "./modals.module.scss";
 
 export default function ToOrderModal() {
     const { onClose, isOpen, product, sizeValue, entrySize, image } = useToOrderModal();
+    console.log('entrySize: ', entrySize);
     const { jwtToken, login } = useUser();
     const [count, setCount] = useState(1);
     const [user, setUser] = useState<User | null>(null);
@@ -142,7 +143,7 @@ export default function ToOrderModal() {
     };
 
     return (
-        <Modal title={"Узнать стоимость"} isOpen={isOpen} onChange={onChange}>
+        <Modal title={entrySize.price && entrySize.price.toString() === '0' ? "Узнать стоимость" : "Подтвердить стоимость"} isOpen={isOpen} onChange={onChange}>
             {product && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-7">
                     <div>
@@ -235,19 +236,6 @@ export default function ToOrderModal() {
                                 </>
 
                             )}
-
-                            {/* <div className="flex items-end gap-3 w-full">
-                            <div className="flex-auto">
-                                <Input
-                                    type="text"
-                                    label={"Промокод"}
-                                    name={"oneClickPhone"}
-                                    className="flex-auto"
-                                    placeholder="Введите промокод"
-                                />
-                            </div>
-                            <Button type="button" styled={'filled'}>Применить</Button>
-                        </div> */}
                             <h3>Способ связи</h3>
                             <div className="grid grid-cols-2 gap-2">
                                 <Radio
@@ -268,7 +256,7 @@ export default function ToOrderModal() {
                             </div>
                             <Button className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`} type="submit" styled="filled">
                                 {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : (
-                                    "Узнать стоимость"
+                                    "Получить лучшую стоимость в России"
                                 )}
 
                             </Button>

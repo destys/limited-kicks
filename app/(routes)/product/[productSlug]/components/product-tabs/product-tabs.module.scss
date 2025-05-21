@@ -4,6 +4,7 @@
     }
 
     .description {
+        @apply text-sm lg:text-base;
         p,
         h2,
         h3,

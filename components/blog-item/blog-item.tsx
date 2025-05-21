@@ -13,16 +13,19 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
     return (
         <article>
             <Link href={`/blog/${data.slug}`}>
-                <div className="mb-3 md:mb-5 rounded-[10px] overflow-hidden">
-                    <Image
-                        src={data._embedded['wp:featuredmedia'][0].source_url}
-                        width={589}
-                        height={300}
-                        alt={data.title.rendered}
-                    />
+                <div className="relative mb-3 md:mb-5 rounded-[10px] h-[300px] 3xl:h-[400px] overflow-hidden">
+                    {data._embedded['wp:featuredmedia'] ? (
+                        <Image
+                            src={data._embedded['wp:featuredmedia'][0].source_url}
+                            alt={data.title.rendered}
+                            fill
+                        />
+                    ): (
+                        <div className="h-full bg-main/20"></div>
+                    )}
                 </div>
                 <h3 className="mb-2 max-md:text-base">{data.title.rendered}</h3>
-                <div dangerouslySetInnerHTML={{ __html: data.excerpt.rendered }} className="max-md:text-xs line-clamp-5"/>
+                <div dangerouslySetInnerHTML={{ __html: data.excerpt.rendered }} className="max-md:text-xs line-clamp-5" />
             </Link>
         </article>
     );

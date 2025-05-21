@@ -85,7 +85,7 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
                 className={"px-10 py-5"}
                 onClick={() => oneClickModal.onOpen(data, "", {}, data.images[0])}
               >
-                В один клик
+                Купить в один клик
               </Button>
               {!isAdding ? (
                 <Button

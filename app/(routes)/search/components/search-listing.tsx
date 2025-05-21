@@ -24,11 +24,17 @@ const SearchListing: React.FC<ListingProps> = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            if (search) {
-                const res = await getSearchResults({ search: search, per_page: 100 });
-                setSearchResuts(res)
+            try {
+                if (search) {
+                    const res = await getSearchResults({ search: search, per_page: 100 });
+                    console.log('res: ', res);
+                    setSearchResuts(res)
+                }
+            } catch (e) {
+                console.log(e)
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         }
         fetchData();
     }, [search]);

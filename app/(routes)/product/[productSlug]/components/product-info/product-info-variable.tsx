@@ -142,18 +142,18 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
                 defaultChecked={index === 0}
               />
               <label htmlFor={`size_${item.id}`}>
-                <span className="absolute top-2.5 right-2.5 z-10">
+                <span className="absolute inset-0 size-full z-0">
                   {item.stock_status === 'instock' ?
-                    <Image src="/icons/Icon/Calendar-green.svg" width={15} height={15} alt="calendar" /> :
-                    <Image src="/icons/Icon/Calendar.svg" width={15} height={15} alt="calendar" />
+                    <Image src="/instock.png" fill alt="calendar" className="max-md:size-4" priority unoptimized /> :
+                    <Image src="/onorder.png" fill alt="calendar" className="max-md:size-4" priority unoptimized />
                   }
                 </span>
-                <div className="font-medium text-xs sm:text-sm md:text-base whitespace-nowrap">
+                <div className="font-medium text-xs sm:text-sm md:text-base whitespace-nowrap relative z-20">
                   {item.name[activeSizeIndex]}
                 </div>
                 <Price
                   value={item.price}
-                  className="text-xs whitespace-nowrap xs:text-sm md:text-base"
+                  className="text-xs whitespace-nowrap xs:text-sm md:text-base relative z-20"
                 />
               </label>
             </div>
@@ -172,7 +172,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
             <Button
               type="button"
               styled={"filled"}
-              className={"px-10 py-5 bg-main border-main hover:border-black hover:bg-main max-md:w-full btn-shine"}
+              className={"px-10 max-md:!px-1 py-5 bg-main border-main hover:border-black hover:bg-main max-md:w-full btn-shine"}
               onClick={() => toOrderModal.onOpen(data, entrySize.name[activeSizeIndex], entrySize, data.images[0])}
             >
               {isToOrder && entrySize.price.toString() === '0' && <>Запросить лучшую стоимость в России</>}
@@ -185,7 +185,7 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
             <Button
               type="button"
               styled={"filled"}
-              className={"px-10 py-5"}
+              className={"px-10 py-5 btn-shine"}
               onClick={() => oneClickModal.onOpen(data, entrySize.name[activeSizeIndex], entrySize, data.images[0])}
             >
               Купить в один клик

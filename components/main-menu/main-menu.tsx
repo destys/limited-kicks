@@ -17,6 +17,7 @@ const MainMenu = () => {
     const { isOpen, onClose } = useMainMenu();
 
     const [menu, setMenu] = useState<IMainMenu | null>(null);
+    const [isAnySubmenuOpen, setIsAnySubmenuOpen] = useState(false);
 
     useEffect(() => {
         const fetchMenu = async () => {
@@ -27,12 +28,9 @@ const MainMenu = () => {
     }, [])
 
     return (
-        <div className={`fixed top-0 left-0 w-full h-[100vh] z-[10000] ${isOpen ? 'block' : 'hidden'}`}>
-            {/* Левая панель */}
-            <div className={`absolute inset-0 max-w-[412px] h-full z-50 bg-white ${isOpen ? "!translate-x-0" : "translate-x-[-100%]"} transition-transform duration-300`}>
-
-                {/* Картинка — фиксированная сверху */}
-                <div className="absolute top-0 left-0 w-full h-[250px] z-10">
+        <div className={`fixed top-0 left-0 w-full h-[100dvh] z-[10000] ${isOpen ? 'block' : 'hidden'}`}>
+            <div className="relative z-50 w-full h-full bg-white max-w-xl flex flex-col pb-5">
+                <div className="relative w-full h-[250px] basis-[250px] ">
                     <Image
                         src="/images/best-sellers.png"
                         width={412}
@@ -44,21 +42,19 @@ const MainMenu = () => {
                         <Image src="/icons/Icon/Close.svg" width={30} height={30} alt="close" />
                     </button>
                 </div>
-
-                {/* Прокручиваемая часть под картинкой */}
-                <nav
-                    className="absolute left-0 right-0 bottom-0 top-[250px] overflow-y-auto"
-                >
-                    <div className="flex justify-between items-center gap-3 px-3 py-4 border-b border-add_1 bg-white sticky top-0 z-10">
+                <div className={`flex-auto h-full overflow-y-auto`}>
+                    <div className="flex justify-between items-center gap-3 px-3 py-4 border-b border-add_1 bg-white relative z-50">
                         <h3>Каталог</h3>
                         <Link href="/shop" className="text-xs text-add_4" onClick={onClose}>
                             Посмотреть все
                         </Link>
                     </div>
-                    {menu?.items?.map(item => (
-                        <MainMenuItem key={item.id} data={item} onClose={onClose} />
-                    ))}
-                </nav>
+                    <div className="relative z-10">
+                        {menu?.items?.map(item => (
+                            <MainMenuItem key={item.id} data={item} onClose={onClose} setScroll={(state) => setIsAnySubmenuOpen(state)} />
+                        ))}
+                    </div>
+                </div>
             </div>
 
             {/* Затемнение фона */}

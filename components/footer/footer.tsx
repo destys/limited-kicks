@@ -19,7 +19,7 @@ export default async function Footer() {
                 <div className="col-span-2 sm:col-span-1 text-center sm:text-left">
                     <Link
                         href={"/"}
-                        className="flex justify-center sm:justify-start sm:mr-11 mb-8"
+                        className="flex justify-center sm:justify-start mb-8"
                     >
                         <Image
                             src="/logo_white.svg"

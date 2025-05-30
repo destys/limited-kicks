@@ -23,7 +23,7 @@ export default function SizesTableModal() {
                     <thead>
                         <tr>
                             {sizes?.use_header && sizes.header.map((item: { c: string }, index: number) => (
-                                <th key={index} className="px-4 py-2 text-center bg-add_1 border-b">{item.c}</th>
+                                <th key={index} className="px-4 py-2 text-center bg-add_1 border-b max-md:text-xs">{item.c}</th>
                             ))}
                         </tr>
                     </thead>
@@ -31,7 +31,7 @@ export default function SizesTableModal() {
                         {sizes?.body?.map((row: any, index: number) => (
                             <tr key={index} className="even:bg-add_1">
                                 {row.map((item: { c: string }, cellIndex: number) => (
-                                    <td key={cellIndex} className="px-4 py-2 text-center">{item.c}</td>
+                                    <td key={cellIndex} className="px-4 py-2 text-center max-md:text-xs max-md:px-2">{item.c}</td>
                                 ))}
                             </tr>
                         ))}

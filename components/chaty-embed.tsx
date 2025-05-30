@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 
 export default function ChatyEmbed() {
   const [html, setHtml] = useState('');
-  console.log('html: ', html);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const res = fetch('https://limited-kicks.ru/admin/wp-json/chaty/v1/widget')
       .then((res) => res.json())
       .then((data) => {
@@ -14,8 +13,7 @@ export default function ChatyEmbed() {
           setHtml(data.html);
         }
       });
-    console.log('res: ', res);
-  }, []);
+  }, []); */
 
   useEffect(() => {
     if (!html) return;

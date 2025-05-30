@@ -69,31 +69,13 @@ h5 {
   content: "";
   position: absolute;
   top: 0;
-  left: -75%;
-  width: 70px;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.6) 50%,
-    rgba(255, 255, 255, 0.3) 100%
-  );
-  filter:blur(20px);
-  transform: skewX(-20deg);
-  z-index: 1;
-  pointer-events: none;
-
-  /* Добавлено: автоматическая анимация */
-  animation: shineLoop 3s ease-in-out infinite;
-}
-
-@keyframes shineLoop {
-  0% {
-    left: -75%;
-  }
-  100% {
-    left: 125%;
-  }
+  height: 120%;
+  width: 45px;
+  transform: skewX(-45deg); // Наклон
+  animation: flareAnimation;
+  left: -150%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4));
+  animation: flareAnimation 3s infinite linear; // Время и тип анимации можно менять
 }
 
 .swiper-scrollbar {
@@ -127,4 +109,13 @@ h5 {
 /* Handle on hover */
 *::-webkit-scrollbar-thumb:hover {
   @apply bg-add_4;
+}
+
+@keyframes flareAnimation {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 150%;
+  }
 }

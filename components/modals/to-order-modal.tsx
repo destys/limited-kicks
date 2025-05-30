@@ -26,7 +26,6 @@ import styles from "./modals.module.scss";
 
 export default function ToOrderModal() {
     const { onClose, isOpen, product, sizeValue, entrySize, image } = useToOrderModal();
-    console.log('entrySize: ', entrySize);
     const { jwtToken, login } = useUser();
     const [count, setCount] = useState(1);
     const [user, setUser] = useState<User | null>(null);
@@ -143,7 +142,7 @@ export default function ToOrderModal() {
     };
 
     return (
-        <Modal title={entrySize.price && entrySize.price.toString() === '0' ? "Узнать стоимость" : "Подтвердить стоимость"} isOpen={isOpen} onChange={onChange}>
+        <Modal title={entrySize.price && entrySize.price.toString() === '0' ? "Узнать стоимость" : "Подтвердить лучшую стоимость"} isOpen={isOpen} onChange={onChange}>
             {product && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-7">
                     <div>

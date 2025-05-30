@@ -91,7 +91,7 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
                 <Button
                   type="button"
                   styled={"filled"}
-                  className={`py-5 px-10 bg-add_1 text-black hover:bg-main hover:border-main`}
+                  className={`btn-shine py-5 px-10 bg-add_1 text-black hover:bg-main hover:border-main`}
                   onClick={handleAddToCart}
                 >
                   В корзину

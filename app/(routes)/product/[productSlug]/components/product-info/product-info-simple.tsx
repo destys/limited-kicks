@@ -15,6 +15,7 @@ import { Product } from "@/types";
 import useShoppingCart from "@/hooks/use-cart";
 import Price from "@/components/price/price";
 import useToOrderModal from "@/hooks/use-to-order-modal";
+import ym from "react-yandex-metrika";
 
 interface ProductInfoProps {
   data: Product;
@@ -38,6 +39,10 @@ const ProductInfoSimple: React.FC<ProductInfoProps> = ({ data }) => {
 
   const handleAddToCart = () => {
     setIsAdding(true);
+
+    if (typeof window !== 'undefined' && typeof ym !== 'undefined') {
+      ym("100049821", 'reachGoal', 'added');
+    }
 
     cart.addItem({
       id: data.id,

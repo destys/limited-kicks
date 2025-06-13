@@ -1,3 +1,15 @@
 User-agent: *
+Disallow: /auth/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /feed/
+Disallow: /favorites/
+Disallow: /fail/
+Disallow: /success/
+Disallow: /profile/
+Disallow: /admin/
+Disallow: /*?*
 
-Disallow: /
+Allow: /
+
+Sitemap: https://limited-kicks.ru/sitemap.xml

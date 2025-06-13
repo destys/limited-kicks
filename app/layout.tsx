@@ -14,6 +14,8 @@ import { Suspense } from 'react'
 import YandexMetrikaContainer from '@/components/metrika/metrika'
 import { Viewport } from 'next'
 import ChatyEmbed from '@/components/chaty-embed'
+import { CookieNotice } from '@/components/cookie/cookie-notice'
+import Script from 'next/script'
 
 const font = Unbounded({ subsets: ['cyrillic'] })
 
@@ -80,8 +82,37 @@ export default function RootLayout({
           </main>
           <Subscribe />
           <Footer />
+          <CookieNotice />
           <ChatyEmbed />
-          </div>
+        </div>
+        {/* Глобальный обработчик целей */}
+        <Script id="ym-goals" strategy="afterInteractive">
+          {`
+            document.addEventListener("DOMContentLoaded", function () {
+              const reachGoal = (goal) => {
+                if (typeof yaCounter100049821 !== "undefined") {
+                  yaCounter100049821.reachGoal(goal);
+                }
+              };
+
+              document.querySelectorAll("a[href='https://wa.me/+79951508080']").forEach(el => {
+                el.addEventListener("click", () => reachGoal("whatsapp"));
+              });
+
+              document.querySelectorAll("a[href='https://t.me/LimitedKicksOfficial']").forEach(el => {
+                el.addEventListener("click", () => reachGoal("telegram"));
+              });
+
+              document.querySelectorAll("a[href='tel:+79951508080']").forEach(el => {
+                el.addEventListener("click", () => reachGoal("telephone"));
+              });
+
+              document.querySelectorAll("a[href='mailto:shop@limited-kicks.ru']").forEach(el => {
+                el.addEventListener("click", () => reachGoal("email"));
+              });
+            });
+          `}
+        </Script>
       </body>
     </html>
   )

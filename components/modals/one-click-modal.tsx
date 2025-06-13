@@ -13,13 +13,15 @@ import useUser from "@/hooks/use-user";
 import { User } from "@/types";
 import getUser from "@/actions/get-user";
 import Link from "next/link";
-import toast from "react-hot-toast"; 
+import toast from "react-hot-toast";
 import { fetchWooCommerce } from "@/lib/utils";
 import { PacmanLoader } from "react-spinners";
 import { twMerge } from "tailwind-merge";
 
 
 import styles from "./modals.module.scss";
+import CheckBox from "../ui/checkbox/checkbox";
+import ym from "react-yandex-metrika";
 
 export default function OneClickModal() {
     const { onClose, isOpen, product, sizeValue, entrySize, image } = useOneClickModal();
@@ -30,6 +32,8 @@ export default function OneClickModal() {
     const [phone, setPhone] = useState('');
     const [loading, setLoading] = useState(false);
     const [phoneError, setPhoneError] = useState('');
+    const [agree, setAgree] = useState(false);
+    const [agreeError, setAgreeError] = useState('');
 
     useEffect(() => {
         const FetchData = async () => {
@@ -54,14 +58,30 @@ export default function OneClickModal() {
 
     const handleAuth = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         setPhoneError('');
+        setAgreeError('');
+
         const form = e.target as HTMLFormElement;
         const phone = form.phone.value;
+        const name = form.oneClickName.value.trim();
 
-        if (phone.length < 16) return setPhoneError('Некорректный телефон');
+        let hasError = false;
+
+        if (phone.length < 16) {
+            setPhoneError('Некорректный телефон');
+            hasError = true;
+        }
+
+        if (!agree) {
+            setAgreeError('Необходимо согласиться с политикой конфиденциальности');
+            hasError = true;
+        }
+
+        if (hasError) return;
 
         try {
-            setLoading(true)
+            setLoading(true);
             const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/send-sms-code`, {
                 method: 'POST',
                 headers: {
@@ -69,17 +89,20 @@ export default function OneClickModal() {
                 },
                 body: JSON.stringify({ phone }),
             });
+
             if (response.ok) {
                 setShowConfirmation(true);
                 setPhone(phone);
+            } else {
+                toast.error("Ошибка при отправке SMS");
             }
-        } catch (error: any) {
+        } catch (error) {
             console.error('error: ', error);
+            toast.error("Ошибка при авторизации");
         } finally {
             setLoading(false);
         }
-        setShowConfirmation(true);
-    }
+    };
 
     const handleConfirmation = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -108,8 +131,16 @@ export default function OneClickModal() {
 
     const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoading(true);
         const form = e.target as HTMLFormElement;
+
+        let hasError = false;
+
+        if (!agree) {
+            setAgreeError('Необходимо согласиться с политикой конфиденциальности');
+            hasError = true;
+        }
+
+        if (hasError) return;
 
         const order = {
             status: 'processing',
@@ -126,10 +157,14 @@ export default function OneClickModal() {
         }
 
         try {
+            setLoading(true);
             const orderResponse = await fetchWooCommerce("orders", {
                 withCredentials: true
             }, 'post', order);
             toast.success('Заказ успешно оформлен');
+            if (typeof window !== 'undefined' && typeof ym !== 'undefined') {
+                ym("100049821", 'reachGoal', 'buy1click');
+            }
             onClose();
         } catch (error) {
             console.error('Failed to submit order:', error);
@@ -284,6 +319,15 @@ export default function OneClickModal() {
                                     value="WhatsApp"
                                 />
                             </div>
+                            <CheckBox
+                                id="agree"
+                                name="agree"
+                                checked={agree}
+                                onChange={(e) => setAgree(e.target.checked)}
+                                label='<div className="[&>a]:underline">Я прочитал(а) и соглашаюсь с <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru" className="underline">условиями оферты</a>, <a href="/polozhenie-po-rabote-s-personalnymi-dannymi" className="underline">положением по работе с персональными данными</a>, в частности, с <a href="/privacy-policy" className="underline">обработкой персональных данных</a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara" className="underline">политикой по обмену/возврату</a>. *</div>'
+                                wrapperClassNames="mb-4"
+                            />
+                            {agreeError && <p className="text-xs mt-2 text-red-600">{agreeError}</p>}
                             <Button className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`} type="submit" styled="filled">
                                 {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : (
                                     <>

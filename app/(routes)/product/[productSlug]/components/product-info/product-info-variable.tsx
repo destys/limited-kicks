@@ -17,6 +17,7 @@ import useShoppingCart from "@/hooks/use-cart";
 import Image from "next/image";
 import useTableSizesModal from "@/hooks/use-sizes-table-modal";
 import useToOrderModal from "@/hooks/use-to-order-modal";
+import ym from "react-yandex-metrika";
 
 interface ProductInfoProps {
   data: Product;
@@ -82,6 +83,10 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
 
   const handleAddToCart = async () => {
     setIsAdding(true);
+
+    if (typeof window !== 'undefined' && typeof ym !== 'undefined') {
+      ym("100049821", 'reachGoal', 'added');
+    }
 
     cart.addItem(
       {

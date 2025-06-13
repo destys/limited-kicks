@@ -16,6 +16,7 @@ import { User } from "@/types";
 import getUser from "@/actions/get-user";
 import Link from "next/link";
 import Loader from "../ui/loader/loader";
+import CheckBox from "../ui/checkbox/checkbox";
 import toast from "react-hot-toast";
 import { fetchWooCommerce } from "@/lib/utils";
 import { PacmanLoader } from "react-spinners";
@@ -23,9 +24,13 @@ import useToOrderModal from "@/hooks/use-to-order-modal";
 import { twMerge } from "tailwind-merge";
 
 import styles from "./modals.module.scss";
+import ym from "react-yandex-metrika";
 
 export default function ToOrderModal() {
     const { onClose, isOpen, product, sizeValue, entrySize, image } = useToOrderModal();
+    console.log('product: ', product);
+    console.log('sizeValue: ', sizeValue);
+    console.log('entrySize: ', entrySize);
     const { jwtToken, login } = useUser();
     const [count, setCount] = useState(1);
     const [user, setUser] = useState<User | null>(null);
@@ -33,6 +38,9 @@ export default function ToOrderModal() {
     const [phone, setPhone] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [nameError, setNameError] = useState('');
+    const [agree, setAgree] = useState(false);
+    const [agreeError, setAgreeError] = useState('');
 
     useEffect(() => {
         const FetchData = async () => {
@@ -57,14 +65,36 @@ export default function ToOrderModal() {
 
     const handleAuth = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setPhoneError('');
-        const form = e.target as HTMLFormElement;
-        const phone = form.phone.value;
 
-        if (phone.length < 16) return setPhoneError('Некорректный телефон');
+        setPhoneError('');
+        setNameError('');
+        setAgreeError('');
+
+        const form = e.target as HTMLFormElement;
+        const phone = form.phone.value.trim();
+        const name = form.oneClickName?.value?.trim();
+
+        let hasError = false;
+
+        if (!name) {
+            setNameError("Введите имя");
+            hasError = true;
+        }
+
+        if (phone.length < 16) {
+            setPhoneError("Некорректный телефон");
+            hasError = true;
+        }
+
+        if (!agree) {
+            setAgreeError("Необходимо согласиться с политикой конфиденциальности");
+            hasError = true;
+        }
+
+        if (hasError) return;
 
         try {
-            setLoading(true)
+            setLoading(true);
             const response = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/send-sms-code`, {
                 method: 'POST',
                 headers: {
@@ -72,17 +102,20 @@ export default function ToOrderModal() {
                 },
                 body: JSON.stringify({ phone }),
             });
+
             if (response.ok) {
                 setShowConfirmation(true);
                 setPhone(phone);
+            } else {
+                toast.error("Ошибка при отправке SMS");
             }
         } catch (error: any) {
             console.error('error: ', error);
+            toast.error("Ошибка при авторизации");
         } finally {
             setLoading(false);
         }
-        setShowConfirmation(true);
-    }
+    };
 
     const handleConfirmation = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -111,7 +144,15 @@ export default function ToOrderModal() {
 
     const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoading(true);
+
+        let hasError = false;
+
+        if (!agree) {
+            setAgreeError("Необходимо согласиться с политикой конфиденциальности");
+            hasError = true;
+        }
+
+        if (hasError) return;
 
         const order = {
             status: 'processing',
@@ -128,10 +169,16 @@ export default function ToOrderModal() {
         }
 
         try {
+            setLoading(true);
             const orderResponse = await fetchWooCommerce("orders", {
                 withCredentials: true
             }, 'post', order);
             toast.success('Заказ успешно оформлен');
+
+            if (typeof window !== 'undefined' && typeof ym !== 'undefined') {
+                ym("100049821", 'reachGoal', entrySize && entrySize.regular_price !== "0" ? "order3" : "order2");
+            }
+
             onClose();
         } catch (error) {
             console.error('Failed to submit order:', error);
@@ -253,6 +300,15 @@ export default function ToOrderModal() {
                                     value="WhatsApp"
                                 />
                             </div>
+                            <CheckBox
+                                id="agree"
+                                name="agree"
+                                checked={agree}
+                                onChange={(e) => setAgree(e.target.checked)}
+                                label='<div className="[&>a]:underline">Я прочитал(а) и соглашаюсь с <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru" className="underline">условиями оферты</a>, <a href="/polozhenie-po-rabote-s-personalnymi-dannymi" className="underline">положением по работе с персональными данными</a>, в частности, с <a href="/privacy-policy" className="underline">обработкой персональных данных</a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara" className="underline">политикой по обмену/возврату</a>. *</div>'
+                                wrapperClassNames="mb-4"
+                            />
+                            {agreeError && <p className="text-xs mt-2 text-red-600">{agreeError}</p>}
                             <Button className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`} type="submit" styled="filled">
                                 {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : (
                                     "Получить лучшую стоимость в России"

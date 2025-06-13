@@ -8,12 +8,16 @@ import Textarea from "../ui/textarea/textarea";
 import Radio from "../ui/radio/radio";
 import Button from "../ui/button/button";
 import styles from "./modals.module.scss";
+import CheckBox from "../ui/checkbox/checkbox";
+import Link from "next/link";
 
 export default function ProductsOnRequestModal() {
     const [imageSource, setImageSource] = useState<string | null>(null);
     const { onClose, isOpen } = useProductsOnRequestModal();
     const [loading, setLoading] = useState(false);
     const [isImageLoading, setIsImageLoading] = useState(false);
+    const [agree, setAgree] = useState(false);
+    const [agreeError, setAgreeError] = useState('');
 
     const onChange = (open: boolean) => {
         if (!open) {
@@ -44,21 +48,54 @@ export default function ProductsOnRequestModal() {
             return;
         }
 
-        setLoading(true);
+        let hasError = false;
+
+        if (!agree) {
+            setAgreeError('Необходимо согласиться с политикой конфиденциальности');
+            hasError = true;
+        }
+
+        if (hasError) return;
+
         const form = e.target as HTMLFormElement;
 
+        const product_name = form.product_name.value.trim();
+        const person_name = form.person_name.value.trim();
+        const phone = form.phone.value.trim();
+        const comment = form.comment.value.trim();
+        const messenger = form.oneClickMessengers.value;
+
+        const errors: string[] = [];
+
+        if (!product_name) errors.push("Введите название или артикул товара");
+        if (!person_name) errors.push("Введите имя");
+        if (!phone) {
+            errors.push("Введите телефон");
+        } else if (!/^\+7\d{10}$/.test(phone.replace(/\D/g, ""))) {
+            errors.push("Введите корректный телефон в формате +7XXXXXXXXXX");
+        }
+        if (!messenger) errors.push("Выберите способ связи");
+        if (!agree) errors.push("Необходимо согласиться с политикой конфиденциальности");
+
+        if (errors.length > 0) {
+            alert("Ошибки в форме:\n\n" + errors.join("\n"));
+            return;
+        }
+
+
         try {
+            setLoading(true);
             const res = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/product-request`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    person_name: form.person_name.value,
-                    phone: form.phone.value,
-                    comment: form.comment.value,
-                    product_name: form.product_name.value,
-                    messenger: form.oneClickMessengers.value,
+                    person_name,
+                    phone,
+                    comment,
+                    product_name,
+                    messenger,
                     image: imageSource,
                 }),
             });
@@ -145,9 +182,21 @@ export default function ProductsOnRequestModal() {
                                 className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-black peer-checked:text-white"
                             />
                         </div>
+                        
+                        <CheckBox
+                            id="agree"
+                            name="agree"
+                            checked={agree}
+                            onChange={(e) => setAgree(e.target.checked)}
+                            label='<div className="[&>a]:underline">Я прочитал(а) и соглашаюсь с <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru" className="underline">условиями оферты</a>, <a href="/polozhenie-po-rabote-s-personalnymi-dannymi" className="underline">положением по работе с персональными данными</a>, в частности, с <a href="/privacy-policy" className="underline">обработкой персональных данных</a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara" className="underline">политикой по обмену/возврату</a>. *</div>'
+                            wrapperClassNames="mb-4"
+                        />
+                        {agreeError && <p className="text-xs mt-2 text-red-600">{agreeError}</p>}
                         <Button type="submit" styled="filled" className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`}>
-                            {loading ? "Отправка…" : "Отправить"}
+                            {loading ? "Отправка…" : "Отправить"} 
                         </Button>
+
+                        
                     </div>
                 </div>
             </form>

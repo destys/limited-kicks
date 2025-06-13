@@ -13,6 +13,8 @@ import Button from '@/components/ui/button/button'
 import Input from '@/components/ui/input/input'
 import Radio from '@/components/ui/radio/radio'
 import { fetchWooCommerce } from '@/lib/utils'
+import CheckBox from '@/components/ui/checkbox/checkbox'
+import ym from 'react-yandex-metrika'
 
 interface IDelivery {
     settings: { cost?: { value: string } };
@@ -47,6 +49,9 @@ const CheckoutForm = () => {
     const [showAddForm, setShowAddForm] = useState(false);
     const { jwtToken } = useUser();
     const { items, clearCart, coupon } = useShoppingCart();
+
+    const [agree, setAgree] = useState(false);
+    const [agreeError, setAgreeError] = useState('');
 
     const router = useRouter();
 
@@ -107,6 +112,15 @@ const CheckoutForm = () => {
         const paymentMethod = form.payments.value;
         const isTinkoff = paymentMethod === 'tinkoff_custom_gateway';
         const isDolyami = paymentMethod === "dolyamepayment";
+
+        let hasError = false;
+
+        if (!agree) {
+            setAgreeError('Необходимо согласиться с политикой конфиденциальности');
+            hasError = true;
+        }
+
+        if (hasError) return;
 
         const order = {
             status: 'pending',
@@ -198,6 +212,10 @@ const CheckoutForm = () => {
 
             // Если не Тинькофф, оформляем заказ как обычно
             toast.success('Заказ успешно оформлен');
+
+            if (typeof window !== 'undefined' && typeof ym !== 'undefined') {
+                ym("100049821", 'reachGoal', 'order');
+            }
 
             try {
                 await fetchWooCommerce(`orders/${orderId}`, {}, "PUT", {
@@ -347,6 +365,15 @@ const CheckoutForm = () => {
                             ))}
                         </div>
                     </div>
+                    <CheckBox
+                        id="agree"
+                        name="agree"
+                        checked={agree}
+                        onChange={(e) => setAgree(e.target.checked)}
+                        label='<div className="[&>a]:underline">Я прочитал(а) и соглашаюсь с <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru" className="underline">условиями оферты</a>, <a href="/polozhenie-po-rabote-s-personalnymi-dannymi" className="underline">положением по работе с персональными данными</a>, в частности, с <a href="/privacy-policy" className="underline">обработкой персональных данных</a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara" className="underline">политикой по обмену/возврату</a>. *</div>'
+                        wrapperClassNames="mb-4"
+                    />
+                    {agreeError && <p className="text-xs my-2 text-red-600">{agreeError}</p>}
                     <Button styled="filled" type="submit">
                         {paymentType === "cash" ? "Оформить заказ" : "Перейти к оплате"}
                     </Button>

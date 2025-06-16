@@ -8,6 +8,7 @@ import ProductsOnRequestModal from "@/components/modals/products-on-request-moda
 import ProductGalleryModal from "@/components/modals/product-gallery-modal";
 import SizesTableModal from "@/components/modals/sizes-table-modal";
 import ToOrderModal from "@/components/modals/to-order-modal";
+import CallbakModal from "@/components/modals/callback-modal";
 
 const ModalProvider = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -29,6 +30,7 @@ const ModalProvider = () => {
             <ProductGalleryModal />
             <SizesTableModal />
             <ToOrderModal />
+            <CallbakModal />
         </>
     );
 };

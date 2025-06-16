@@ -44,11 +44,11 @@ export default async function Footer() {
                     <ul className="flex flex-col gap-2">
                         <li>
                             Напишите нам в {" "}
-                            <Link href="https://wa.me/+79951508080" className="font-medium hover:text-main" target="_blank">WhatsApp</Link>
+                            <Link href="https://wa.me/+79951508080" className="font-medium hover:text-main" target="_blank" rel="nofollow">WhatsApp</Link>
                         </li>
                         <li>
                             Напишите нам в {" "}
-                            <Link href="https://t.me/LimitedKicksOfficial" className="font-medium hover:text-main" target="_blank">Telegram</Link>
+                            <Link href="https://t.me/LimitedKicksOfficial" className="font-medium hover:text-main" target="_blank" rel="nofollow">Telegram</Link>
                         </li>
                         <li>
                             Позвоните нам {" "}

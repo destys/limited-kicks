@@ -119,3 +119,7 @@ h5 {
     left: 150%;
   }
 }
+
+label a:hover {
+  @apply text-main;
+}

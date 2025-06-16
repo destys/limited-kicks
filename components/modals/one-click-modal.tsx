@@ -32,7 +32,8 @@ export default function OneClickModal() {
     const [phone, setPhone] = useState('');
     const [loading, setLoading] = useState(false);
     const [phoneError, setPhoneError] = useState('');
-    const [agree, setAgree] = useState(false);
+    const [agreeTerms, setAgreeTerms] = useState(false);
+    const [agreePrivacy, setAgreePrivacy] = useState(false);
     const [agreeError, setAgreeError] = useState('');
 
     useEffect(() => {
@@ -73,8 +74,8 @@ export default function OneClickModal() {
             hasError = true;
         }
 
-        if (!agree) {
-            setAgreeError('Необходимо согласиться с политикой конфиденциальности');
+        if (!agreeTerms || !agreePrivacy) {
+            setAgreeError('Необходимо согласиться со всеми условиями');
             hasError = true;
         }
 
@@ -135,8 +136,8 @@ export default function OneClickModal() {
 
         let hasError = false;
 
-        if (!agree) {
-            setAgreeError('Необходимо согласиться с политикой конфиденциальности');
+        if (!agreeTerms || !agreePrivacy) {
+            setAgreeError('Необходимо согласиться со всеми условиями');
             hasError = true;
         }
 
@@ -233,7 +234,6 @@ export default function OneClickModal() {
                         </form>
                     ) : (
                         <form className="grid gap-4 lg:gap-6" onSubmit={user ? handleCheckout : handleAuth}>
-
                             <div className="grid grid-cols-2 gap-2">
                                 <Radio
                                     label={"Доставка"}
@@ -280,27 +280,11 @@ export default function OneClickModal() {
                                             className={twMerge("", phoneError && "mb-0 border-red-600")}
                                             placeholder="Введите телефон"
                                             name="phone"
-
                                         />
                                         {phoneError && <p className="text-xs mt-2 text-red-600">{phoneError}</p>}
                                     </div>
-
                                 </>
-
                             )}
-
-                            {/* <div className="flex items-end gap-3 w-full">
-                            <div className="flex-auto">
-                                <Input
-                                    type="text"
-                                    label={"Промокод"}
-                                    name={"oneClickPhone"}
-                                    className="flex-auto"
-                                    placeholder="Введите промокод"
-                                />
-                            </div>
-                            <Button type="button" styled={'filled'}>Применить</Button>
-                        </div> */}
                             <h3>Способ связи</h3>
                             <div className="grid grid-cols-2 gap-2">
                                 <Radio
@@ -320,12 +304,20 @@ export default function OneClickModal() {
                                 />
                             </div>
                             <CheckBox
-                                id="agree"
-                                name="agree"
-                                checked={agree}
-                                onChange={(e) => setAgree(e.target.checked)}
-                                label='<div className="[&>a]:underline">Я прочитал(а) и соглашаюсь с <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru" className="underline">условиями оферты</a>, <a href="/polozhenie-po-rabote-s-personalnymi-dannymi" className="underline">положением по работе с персональными данными</a>, в частности, с <a href="/privacy-policy" className="underline">обработкой персональных данных</a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara" className="underline">политикой по обмену/возврату</a>. *</div>'
-                                wrapperClassNames="mb-4"
+                                id="agreeTerms"
+                                name="agreeTerms"
+                                checked={agreeTerms}
+                                onChange={(e) => setAgreeTerms(e.target.checked)}
+                                label='<span className="text-xs">Я ознакомился(ась) и принимаю <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong>условия договора-оферты</strong></a>, <a href="/terms"><strong>правила пользования сайтом</strong></a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong>политику обмена и возврата товаров</strong></a>.</span>'
+                                wrapperClassNames=""
+                            />
+                            <CheckBox
+                                id="agreePrivacy"
+                                name="agreePrivacy"
+                                checked={agreePrivacy}
+                                onChange={(e) => setAgreePrivacy(e.target.checked)}
+                                label='<span className="text-xs">Я даю согласие на обработку моих персональных данных в соответствии с <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong>Политикой обработки персональных данных</strong></a>.</span>'
+                                wrapperClassNames=""
                             />
                             {agreeError && <p className="text-xs mt-2 text-red-600">{agreeError}</p>}
                             <Button className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`} type="submit" styled="filled">
@@ -337,14 +329,11 @@ export default function OneClickModal() {
                                         />
                                     </>
                                 )}
-
                             </Button>
                         </form>
-                    )
-                    }
-
-                </div >
+                    )}
+                </div>
             )}
-        </Modal >
+        </Modal>
     );
 }

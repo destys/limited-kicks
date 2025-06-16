@@ -28,9 +28,6 @@ import ym from "react-yandex-metrika";
 
 export default function ToOrderModal() {
     const { onClose, isOpen, product, sizeValue, entrySize, image } = useToOrderModal();
-    console.log('product: ', product);
-    console.log('sizeValue: ', sizeValue);
-    console.log('entrySize: ', entrySize);
     const { jwtToken, login } = useUser();
     const [count, setCount] = useState(1);
     const [user, setUser] = useState<User | null>(null);
@@ -39,8 +36,10 @@ export default function ToOrderModal() {
     const [phoneError, setPhoneError] = useState('');
     const [loading, setLoading] = useState(false);
     const [nameError, setNameError] = useState('');
-    const [agree, setAgree] = useState(false);
-    const [agreeError, setAgreeError] = useState('');
+    const [agreeTerms, setAgreeTerms] = useState(false);
+    const [agreePrivacy, setAgreePrivacy] = useState(false);
+    const [agreeTermsError, setAgreeTermsError] = useState('');
+    const [agreePrivacyError, setAgreePrivacyError] = useState('');
 
     useEffect(() => {
         const FetchData = async () => {
@@ -68,7 +67,8 @@ export default function ToOrderModal() {
 
         setPhoneError('');
         setNameError('');
-        setAgreeError('');
+        setAgreeTermsError('');
+        setAgreePrivacyError('');
 
         const form = e.target as HTMLFormElement;
         const phone = form.phone.value.trim();
@@ -86,8 +86,13 @@ export default function ToOrderModal() {
             hasError = true;
         }
 
-        if (!agree) {
-            setAgreeError("Необходимо согласиться с политикой конфиденциальности");
+        if (!agreeTerms) {
+            setAgreeTermsError("Необходимо принять условия");
+            hasError = true;
+        }
+
+        if (!agreePrivacy) {
+            setAgreePrivacyError("Необходимо согласие с политикой обработки данных");
             hasError = true;
         }
 
@@ -147,8 +152,16 @@ export default function ToOrderModal() {
 
         let hasError = false;
 
-        if (!agree) {
-            setAgreeError("Необходимо согласиться с политикой конфиденциальности");
+        setAgreeTermsError('');
+        setAgreePrivacyError('');
+
+        if (!agreeTerms) {
+            setAgreeTermsError("Необходимо принять условия");
+            hasError = true;
+        }
+
+        if (!agreePrivacy) {
+            setAgreePrivacyError("Необходимо согласие с политикой обработки данных");
             hasError = true;
         }
 
@@ -191,7 +204,7 @@ export default function ToOrderModal() {
     return (
         <Modal title={entrySize.price && entrySize.price.toString() === '0' ? "Узнать стоимость" : "Подтвердить лучшую стоимость"} isOpen={isOpen} onChange={onChange}>
             {product && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-7">
+                <form className="grid grid-cols-1 lg:grid-cols-2 gap-7" onSubmit={user ? handleCheckout : handleAuth}>
                     <div>
                         <div className="flex justify-center lg:block mb-4">
                             {image && (
@@ -208,24 +221,12 @@ export default function ToOrderModal() {
                         <div className="grid grid-cols-4 gap-2 md:gap-4">
                             <div>
                                 <p className="mb-1.5 md:mb-3 text-xs xs:text-sm sm:text-base">Размер</p>
-                                <p className="font-medium text-xs xs:text-sm sm:text-base lg:text-xl uppercase">
-                                    {sizeValue}
-                                </p>
+                                <p className="font-medium text-xs xs:text-sm sm:text-base lg:text-xl uppercase">{sizeValue}</p>
                             </div>
                             <div className="flex justify-center md:gap-2 col-span-2 items-center font-medium md:text-xl">
-                                <button
-                                    onClick={() => setCount(count > 1 ? count - 1 : 1)}
-                                    className="w-8 h-8 md:w-12 md:h-12 bg-add_1 rounded-lg"
-                                >
-                                    -
-                                </button>
+                                <button onClick={() => setCount(count > 1 ? count - 1 : 1)} className="w-8 h-8 md:w-12 md:h-12 bg-add_1 rounded-lg">-</button>
                                 <div className="w-12 text-center">{count}</div>
-                                <button
-                                    onClick={() => setCount(count + 1)}
-                                    className="w-8 h-8 md:w-12 md:h-12 bg-add_1 rounded-lg"
-                                >
-                                    +
-                                </button>
+                                <button onClick={() => setCount(count + 1)} className="w-8 h-8 md:w-12 md:h-12 bg-add_1 rounded-lg">+</button>
                             </div>
                             <div>
                                 <p className="mb-1.5 md:mb-3 text-xs xs:text-sm sm:text-base">Сумма</p>
@@ -233,94 +234,44 @@ export default function ToOrderModal() {
                             </div>
                         </div>
                     </div>
-                    {showConfirmation ? (
-                        <form className="grid gap-4 lg:gap-6" onSubmit={handleConfirmation}>
-                            <Input
-                                type="text"
-                                placeholder="Код из смс"
-                                name="code"
-                            />
-                            <Button styled="filled" type="submit">Подтвердить номер</Button>
-                        </form>
-                    ) : (
-                        <form className="grid gap-4 lg:gap-6" onSubmit={user ? handleCheckout : handleAuth}>
+                    <div className="grid gap-4 lg:gap-6">
+                        {user ? (
+                            <Link href="/profile" className="flex items-center gap-5 rounded p-5 border border-add_4">
+                                <div className="rounded-full overflow-hidden shrink-0 basis-[50px] h-[50px] relative">
+                                    <Image src={'/images/avatar.jpg'} fill alt="user avatar" />
+                                </div>
+                                <div>
+                                    <div>{`${user.first_name} ${user.last_name}`}</div>
+                                    <div className="text-sm text-add_4">{user.username.replace(/(\d)(\d{3})(\d{3})(\d{2})(\d{2})/, '+$1 ($2) $3-$4-$5')}</div>
+                                </div>
+                            </Link>
+                        ) : (
+                            <>
+                                <Input type="text" label="Ваше имя" name="oneClickName" placeholder="Введите имя" />
+                                {nameError && <p className="text-xs mt-1 text-red-600">{nameError}</p>}
+                                <Input type="tel" label="Ваш телефон" name="phone" placeholder="Введите телефон" className={twMerge("", phoneError && "mb-0 border-red-600")} />
+                                {phoneError && <p className="text-xs mt-1 text-red-600">{phoneError}</p>}
+                            </>
+                        )}
 
-                            {user ? (
-                                <Link href="/profile" className="flex items-center gap-5 rounded p-5 border border-add_4">
-                                    <div className="rounded-full overflow-hidden shrink-0 basis-[50px] h-[50px] relative">
-                                        <Image src={'/images/avatar.jpg'} fill alt="user avatar" />
-                                    </div>
-                                    <div>
-                                        <div>{`${user.first_name} ${user.last_name}`}</div>
-                                        <div className="text-sm text-add_4">
-                                            {user.username.replace(/(\d)(\d{3})(\d{3})(\d{2})(\d{2})/, '+$1 ($2) $3-$4-$5')}
-                                        </div>
-                                    </div>
-                                </Link>
-                            ) : (
-                                <>
-                                    <div>
-                                        <Input
-                                            type="text"
-                                            label="Ваше имя"
-                                            name={"oneClickName"}
-                                            placeholder="Введите имя"
-                                        />
-                                    </div>
-                                    <div className="mb-2.5 md:mb-5">
-                                        <Input
-                                            type="tel"
-                                            label="Ваш телефон"
-                                            className={twMerge("", phoneError && "mb-0 border-red-600")}
-                                            placeholder="Введите телефон"
-                                            name="phone"
+                        <h3>Способ связи</h3>
+                        <div className="grid grid-cols-2 gap-2">
+                            <Radio label="Telegram" name="oneClickMessengers" id="oneClickTg" defaultChecked className="!p-3 sm:p-4 justify-center font-medium text-lg peer-checked:bg-add_2 peer-checked:text-white" value="Telegram" />
+                            <Radio label="WhatsApp" name="oneClickMessengers" id="oneClickWa" className="!p-3 sm:p-4 justify-center font-medium text-lg peer-checked:bg-add_2 peer-checked:text-white" value="WhatsApp" />
+                        </div>
 
-                                        />
-                                        {phoneError && <p className="text-xs mt-2 text-red-600">{phoneError}</p>}
-                                    </div>
+                        <CheckBox id="agreeTerms" name="agreeTerms" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} label='<div className="text-xs">Я ознакомился(ась) и принимаю <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong>условия договора-оферты</strong></a>, <a href="/terms"><strong>правила пользования сайтом</strong></a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong>политику обмена и возврата товаров</strong></a>.</div>' />
+                        {agreeTermsError && <p className="text-xs mt-1 text-red-600">{agreeTermsError}</p>}
 
-                                </>
+                        <CheckBox id="agreePrivacy" name="agreePrivacy" checked={agreePrivacy} onChange={(e) => setAgreePrivacy(e.target.checked)} label='<div className="text-xs">Я даю согласие на обработку моих персональных данных в соответствии с <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong>Политикой обработки персональных данных</strong></a>.</div>' />
+                        {agreePrivacyError && <p className="text-xs mt-1 text-red-600">{agreePrivacyError}</p>}
 
-                            )}
-                            <h3>Способ связи</h3>
-                            <div className="grid grid-cols-2 gap-2">
-                                <Radio
-                                    label={"Telegram"}
-                                    name="oneClickMessengers"
-                                    id="oneClickTg"
-                                    defaultChecked
-                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-                                    value="Telegram"
-                                />
-                                <Radio
-                                    label={"WhatsApp"}
-                                    name="oneClickMessengers"
-                                    id="oneClickWa"
-                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-add_2 peer-checked:text-white"
-                                    value="WhatsApp"
-                                />
-                            </div>
-                            <CheckBox
-                                id="agree"
-                                name="agree"
-                                checked={agree}
-                                onChange={(e) => setAgree(e.target.checked)}
-                                label='<div className="[&>a]:underline">Я прочитал(а) и соглашаюсь с <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru" className="underline">условиями оферты</a>, <a href="/polozhenie-po-rabote-s-personalnymi-dannymi" className="underline">положением по работе с персональными данными</a>, в частности, с <a href="/privacy-policy" className="underline">обработкой персональных данных</a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara" className="underline">политикой по обмену/возврату</a>. *</div>'
-                                wrapperClassNames="mb-4"
-                            />
-                            {agreeError && <p className="text-xs mt-2 text-red-600">{agreeError}</p>}
-                            <Button className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`} type="submit" styled="filled">
-                                {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : (
-                                    "Получить лучшую стоимость в России"
-                                )}
-
-                            </Button>
-                        </form>
-                    )
-                    }
-
-                </div >
+                        <Button className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`} type="submit" styled="filled">
+                            {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : "Получить лучшую стоимость в России"}
+                        </Button>
+                    </div>
+                </form>
             )}
-        </Modal >
+        </Modal>
     );
 }

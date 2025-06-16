@@ -50,8 +50,11 @@ const CheckoutForm = () => {
     const { jwtToken } = useUser();
     const { items, clearCart, coupon } = useShoppingCart();
 
-    const [agree, setAgree] = useState(false);
-    const [agreeError, setAgreeError] = useState('');
+    // Состояния
+    const [acceptTerms, setAcceptTerms] = useState(false);
+    const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+    const [acceptTermsError, setAcceptTermsError] = useState('');
+    const [acceptPrivacyError, setAcceptPrivacyError] = useState('');
 
     const router = useRouter();
 
@@ -115,8 +118,13 @@ const CheckoutForm = () => {
 
         let hasError = false;
 
-        if (!agree) {
-            setAgreeError('Необходимо согласиться с политикой конфиденциальности');
+        if (!acceptTerms) {
+            setAcceptTermsError('Необходимо принять условия оферты и правила');
+            hasError = true;
+        }
+
+        if (!acceptPrivacy) {
+            setAcceptPrivacyError('Необходимо согласиться с обработкой персональных данных');
             hasError = true;
         }
 
@@ -366,14 +374,32 @@ const CheckoutForm = () => {
                         </div>
                     </div>
                     <CheckBox
-                        id="agree"
-                        name="agree"
-                        checked={agree}
-                        onChange={(e) => setAgree(e.target.checked)}
-                        label='<div className="[&>a]:underline">Я прочитал(а) и соглашаюсь с <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru" className="underline">условиями оферты</a>, <a href="/polozhenie-po-rabote-s-personalnymi-dannymi" className="underline">положением по работе с персональными данными</a>, в частности, с <a href="/privacy-policy" className="underline">обработкой персональных данных</a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara" className="underline">политикой по обмену/возврату</a>. *</div>'
+                        id="acceptTerms"
+                        name="acceptTerms"
+                        checked={acceptTerms}
+                        onChange={(e) => setAcceptTerms(e.target.checked)}
+                        label='<div className="text-xs">
+        Я ознакомился(ась) и принимаю 
+        <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong> условия договора-оферты</strong></a>, 
+        <a href="/terms"><strong> правила пользования сайтом</strong></a> и 
+        <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong> политику обмена и возврата товаров</strong></a>.
+    </div>'
+                        wrapperClassNames="mb-2"
+                    />
+                    {acceptTermsError && <p className="text-xs text-red-600 mb-2">{acceptTermsError}</p>}
+
+                    <CheckBox
+                        id="acceptPrivacy"
+                        name="acceptPrivacy"
+                        checked={acceptPrivacy}
+                        onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                        label='<div className="text-xs">
+        Я даю согласие на обработку моих персональных данных в соответствии с 
+        <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong> Политикой обработки персональных данных</strong></a>.
+    </div>'
                         wrapperClassNames="mb-4"
                     />
-                    {agreeError && <p className="text-xs my-2 text-red-600">{agreeError}</p>}
+                    {acceptPrivacyError && <p className="text-xs text-red-600 mb-4">{acceptPrivacyError}</p>}
                     <Button styled="filled" type="submit">
                         {paymentType === "cash" ? "Оформить заказ" : "Перейти к оплате"}
                     </Button>

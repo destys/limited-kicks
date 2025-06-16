@@ -13,9 +13,9 @@ import styles from './layout.module.scss'
 import { Suspense } from 'react'
 import YandexMetrikaContainer from '@/components/metrika/metrika'
 import { Viewport } from 'next'
-import ChatyEmbed from '@/components/chaty-embed'
 import { CookieNotice } from '@/components/cookie/cookie-notice'
 import Script from 'next/script'
+import { Widget } from '@/components/widget/widget'
 
 const font = Unbounded({ subsets: ['cyrillic'] })
 
@@ -83,7 +83,7 @@ export default function RootLayout({
           <Subscribe />
           <Footer />
           <CookieNotice />
-          <ChatyEmbed />
+          <Widget />
         </div>
         {/* Глобальный обработчик целей */}
         <Script id="ym-goals" strategy="afterInteractive">

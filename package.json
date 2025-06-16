@@ -10,6 +10,7 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-dialog": "^1.0.5",
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
     "axios": "^1.6.8",
@@ -20,6 +21,7 @@
     "query-string": "^9.0.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.57.0",
     "react-hot-toast": "^2.4.1",
     "react-input-mask": "^2.0.4",
     "react-range": "^1.10.0",
@@ -29,6 +31,8 @@
     "swiper": "^11.0.7",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.25.64",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

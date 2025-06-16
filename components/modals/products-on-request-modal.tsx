@@ -9,15 +9,17 @@ import Radio from "../ui/radio/radio";
 import Button from "../ui/button/button";
 import styles from "./modals.module.scss";
 import CheckBox from "../ui/checkbox/checkbox";
-import Link from "next/link";
 
 export default function ProductsOnRequestModal() {
     const [imageSource, setImageSource] = useState<string | null>(null);
     const { onClose, isOpen } = useProductsOnRequestModal();
     const [loading, setLoading] = useState(false);
     const [isImageLoading, setIsImageLoading] = useState(false);
-    const [agree, setAgree] = useState(false);
-    const [agreeError, setAgreeError] = useState('');
+
+    const [acceptTerms, setAcceptTerms] = useState(false);
+    const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+    const [acceptTermsError, setAcceptTermsError] = useState('');
+    const [acceptPrivacyError, setAcceptPrivacyError] = useState('');
 
     const onChange = (open: boolean) => {
         if (!open) {
@@ -48,10 +50,17 @@ export default function ProductsOnRequestModal() {
             return;
         }
 
+        setAcceptTermsError('');
+        setAcceptPrivacyError('');
+
         let hasError = false;
 
-        if (!agree) {
-            setAgreeError('Необходимо согласиться с политикой конфиденциальности');
+        if (!acceptTerms) {
+            setAcceptTermsError('Необходимо согласиться с условиями оферты и правилами');
+            hasError = true;
+        }
+        if (!acceptPrivacy) {
+            setAcceptPrivacyError('Необходимо согласиться с политикой обработки данных');
             hasError = true;
         }
 
@@ -69,19 +78,13 @@ export default function ProductsOnRequestModal() {
 
         if (!product_name) errors.push("Введите название или артикул товара");
         if (!person_name) errors.push("Введите имя");
-        if (!phone) {
-            errors.push("Введите телефон");
-        } else if (!/^\+7\d{10}$/.test(phone.replace(/\D/g, ""))) {
-            errors.push("Введите корректный телефон в формате +7XXXXXXXXXX");
-        }
+        if (!phone) errors.push("Введите телефон");
         if (!messenger) errors.push("Выберите способ связи");
-        if (!agree) errors.push("Необходимо согласиться с политикой конфиденциальности");
 
         if (errors.length > 0) {
             alert("Ошибки в форме:\n\n" + errors.join("\n"));
             return;
         }
-
 
         try {
             setLoading(true);
@@ -118,7 +121,7 @@ export default function ProductsOnRequestModal() {
     return (
         <Modal title={"Что ищем?"} isOpen={isOpen} onChange={onChange}>
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-8 lg:mb-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-6">
                     <div className="h-full">
                         <label htmlFor="photo" className="flex items-center justify-center w-full h-full p-4 border-2 border-dashed border-add_4 rounded-2xl cursor-pointer">
                             {imageSource ? (
@@ -138,7 +141,7 @@ export default function ProductsOnRequestModal() {
                             name="product_name"
                             label="Я знаю название или артикул"
                             placeholder="Введите информацию"
-                            className="mb-4 md:mb-6 lg:mb-10"
+                            className="mb-4 md:mb-6"
                         />
                         <Textarea
                             name="comment"
@@ -147,7 +150,7 @@ export default function ProductsOnRequestModal() {
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-8 lg:mb-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-6">
                     <Input
                         type="text"
                         name="person_name"
@@ -161,42 +164,59 @@ export default function ProductsOnRequestModal() {
                         placeholder="+7"
                     />
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5">
-                    <div className="hidden justify-center items-center h-full min-h-20 lg:flex" />
-                    <div>
-                        <h3 className="mb-2">Способ связи</h3>
-                        <div className="grid grid-cols-2 gap-2 mb-6">
-                            <Radio
-                                label="Telegram"
-                                name="oneClickMessengers"
-                                id="oneClickTg"
-                                value="Telegram"
-                                defaultChecked
-                                className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-black peer-checked:text-white"
-                            />
-                            <Radio
-                                label="WhatsApp"
-                                name="oneClickMessengers"
-                                id="oneClickWa"
-                                value="WhatsApp"
-                                className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-black peer-checked:text-white"
-                            />
-                        </div>
-                        
+                <div className="grid grid-cols-1 lg:grid-cols-2 lg:col-span-2 items-center gap-5">
+
+                    <div className="grid md:grid-cols-2 col-span-2 md:gap-4">
                         <CheckBox
-                            id="agree"
-                            name="agree"
-                            checked={agree}
-                            onChange={(e) => setAgree(e.target.checked)}
-                            label='<div className="[&>a]:underline">Я прочитал(а) и соглашаюсь с <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru" className="underline">условиями оферты</a>, <a href="/polozhenie-po-rabote-s-personalnymi-dannymi" className="underline">положением по работе с персональными данными</a>, в частности, с <a href="/privacy-policy" className="underline">обработкой персональных данных</a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara" className="underline">политикой по обмену/возврату</a>. *</div>'
+                            id="accept_terms"
+                            name="accept_terms"
+                            checked={acceptTerms}
+                            onChange={(e) => setAcceptTerms(e.target.checked)}
+                            label='<div className="text-xs">
+                                Я ознакомился(ась) и принимаю 
+                                <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong> условия договора-оферты</strong></a>, 
+                                <a href="/terms"><strong> правила пользования сайтом</strong></a> и 
+                                <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong> политику обмена и возврата товаров</strong></a>.
+                            </div>'
+                            wrapperClassNames="mb-3"
+                        />
+                        {acceptTermsError && <p className="text-xs mt-2 text-red-600">{acceptTermsError}</p>}
+
+                        <CheckBox
+                            id="accept_privacy"
+                            name="accept_privacy"
+                            checked={acceptPrivacy}
+                            onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                            label='<div className="text-xs">
+                                Я даю согласие на обработку моих персональных данных в соответствии с 
+                                <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong> Политикой обработки персональных данных</strong></a>.
+                            </div>'
                             wrapperClassNames="mb-4"
                         />
-                        {agreeError && <p className="text-xs mt-2 text-red-600">{agreeError}</p>}
-                        <Button type="submit" styled="filled" className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`}>
-                            {loading ? "Отправка…" : "Отправить"} 
+                        {acceptPrivacyError && <p className="text-xs mt-2 text-red-600">{acceptPrivacyError}</p>}
+                        <div className="max-md:mb-4">
+                            <h3 className="mb-2">Способ связи</h3>
+                            <div className="grid grid-cols-2 gap-2">
+                                <Radio
+                                    label="Telegram"
+                                    name="oneClickMessengers"
+                                    id="oneClickTg"
+                                    value="Telegram"
+                                    defaultChecked
+                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-black peer-checked:text-white"
+                                />
+                                <Radio
+                                    label="WhatsApp"
+                                    name="oneClickMessengers"
+                                    id="oneClickWa"
+                                    value="WhatsApp"
+                                    className="!p-3 sm:p-4 max-md:text-xs justify-center font-medium text-lg before:hidden after:hidden peer-checked:bg-black peer-checked:text-white"
+                                />
+                            </div>
+                        </div>
+                        <Button type="submit" styled="filled" className={`${styles.toCartLink} w-full h-fit mt-auto font-medium md:text-lg hover:fill-main`}>
+                            {loading ? "Отправка…" : "Отправить"}
                         </Button>
-
-                        
                     </div>
                 </div>
             </form>

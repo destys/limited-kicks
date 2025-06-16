@@ -196,7 +196,7 @@ export default function CallbackModal() {
                                     checked={field.value}
                                     onChange={(e) => field.onChange(e.target.checked)}
                                     label={`<div className="text-xs">
-        Я ознакомился(ась) и принимаю <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong>условия договора-оферты</strong></a>, <a href="/terms"><strong>правила пользования сайтом</strong></a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong>политику обмена и возврата товаров</strong></a>.
+        Я ознакомился(ась) и принимаю <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong>условия договора-оферты</strong></a>, правила пользования сайтом и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong>политику обмена и возврата товаров</strong></a>.
       </div>`}
                                     wrapperClassNames="mb-2"
                                 />

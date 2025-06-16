@@ -260,7 +260,7 @@ export default function ToOrderModal() {
                             <Radio label="WhatsApp" name="oneClickMessengers" id="oneClickWa" className="!p-3 sm:p-4 justify-center font-medium text-lg peer-checked:bg-add_2 peer-checked:text-white" value="WhatsApp" />
                         </div>
 
-                        <CheckBox id="agreeTerms" name="agreeTerms" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} label='<div className="text-xs">Я ознакомился(ась) и принимаю <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong>условия договора-оферты</strong></a>, <a href="/terms"><strong>правила пользования сайтом</strong></a> и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong>политику обмена и возврата товаров</strong></a>.</div>' />
+                        <CheckBox id="agreeTerms" name="agreeTerms" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} label='<div className="text-xs">Я ознакомился(ась) и принимаю <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong>условия договора-оферты</strong></a>, правила пользования сайтом и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong>политику обмена и возврата товаров</strong></a>.</div>' />
                         {agreeTermsError && <p className="text-xs mt-1 text-red-600">{agreeTermsError}</p>}
 
                         <CheckBox id="agreePrivacy" name="agreePrivacy" checked={agreePrivacy} onChange={(e) => setAgreePrivacy(e.target.checked)} label='<div className="text-xs">Я даю согласие на обработку моих персональных данных в соответствии с <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong>Политикой обработки персональных данных</strong></a>.</div>' />

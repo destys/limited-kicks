@@ -303,23 +303,28 @@ export default function OneClickModal() {
                                     value="WhatsApp"
                                 />
                             </div>
-                            <CheckBox
-                                id="agreeTerms"
-                                name="agreeTerms"
-                                checked={agreeTerms}
-                                onChange={(e) => setAgreeTerms(e.target.checked)}
-                                label='<span className="text-xs">Я ознакомился(ась) и принимаю <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong>условия договора-оферты</strong></a>, правила пользования сайтом и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong>политику обмена и возврата товаров</strong></a>.</span>'
-                                wrapperClassNames=""
-                            />
-                            <CheckBox
-                                id="agreePrivacy"
-                                name="agreePrivacy"
-                                checked={agreePrivacy}
-                                onChange={(e) => setAgreePrivacy(e.target.checked)}
-                                label='<span className="text-xs">Я даю согласие на обработку моих персональных данных в соответствии с <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong>Политикой обработки персональных данных</strong></a>.</span>'
-                                wrapperClassNames=""
-                            />
-                            {agreeError && <p className="text-xs mt-2 text-red-600">{agreeError}</p>}
+                            <div className="privacy">
+                                <CheckBox
+                                    id="agreeTerms"
+                                    name="agreeTerms"
+                                    checked={agreeTerms}
+                                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                                    label='<span className="text-xs">Я ознакомился(ась) и принимаю <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong>условия договора-оферты</strong></a>, правила пользования сайтом и <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong>политику обмена и возврата товаров</strong></a>.</span>'
+                                    wrapperClassNames=""
+                                />
+                            </div>
+                            <div className="privacy">
+                                <CheckBox
+                                    id="agreePrivacy"
+                                    name="agreePrivacy"
+                                    checked={agreePrivacy}
+                                    onChange={(e) => setAgreePrivacy(e.target.checked)}
+                                    label='<span className="text-xs">Я даю согласие на обработку моих персональных данных в соответствии с <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong>Политикой обработки персональных данных</strong></a>.</span>'
+                                    wrapperClassNames=""
+                                />
+                                {agreeError && <p className="text-xs mt-2 text-red-600">{agreeError}</p>}
+                            </div>
+
                             <Button className={`${styles.toCartLink} w-full font-medium md:text-lg hover:fill-main`} type="submit" styled="filled">
                                 {loading ? <PacmanLoader color="#fff" size={18} className="fill-main" /> : (
                                     <>

@@ -123,3 +123,21 @@ h5 {
 label a:hover {
   @apply text-main;
 }
+
+.privacy label {
+  @apply text-[8px] sm:text-[10px] lg:text-xs;
+}
+
+.modal {
+  will-change: transform;
+  contain: layout paint;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE и Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}

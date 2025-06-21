@@ -167,33 +167,37 @@ export default function ProductsOnRequestModal() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 lg:col-span-2 items-center gap-5">
 
                     <div className="grid md:grid-cols-2 col-span-2 md:gap-4">
-                        <CheckBox
-                            id="accept_terms"
-                            name="accept_terms"
-                            checked={acceptTerms}
-                            onChange={(e) => setAcceptTerms(e.target.checked)}
-                            label='<div className="text-xs">
+                        <div className="privacy">
+                            <CheckBox
+                                id="accept_terms"
+                                name="accept_terms"
+                                checked={acceptTerms}
+                                onChange={(e) => setAcceptTerms(e.target.checked)}
+                                label='<div className="text-xs">
                                 Я ознакомился(ась) и принимаю 
                                 <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong> условия договора-оферты</strong></a>, 
                                 правила пользования сайтом и 
                                 <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong> политику обмена и возврата товаров</strong></a>.
                             </div>'
-                            wrapperClassNames="mb-3"
-                        />
-                        {acceptTermsError && <p className="text-xs mt-2 text-red-600">{acceptTermsError}</p>}
+                                wrapperClassNames="mb-3"
+                            />
 
-                        <CheckBox
-                            id="accept_privacy"
-                            name="accept_privacy"
-                            checked={acceptPrivacy}
-                            onChange={(e) => setAcceptPrivacy(e.target.checked)}
-                            label='<div className="text-xs">
+                            {acceptTermsError && <p className="text-xs mt-2 text-red-600">{acceptTermsError}</p>}
+                        </div>
+                        <div className="privacy">
+                            <CheckBox
+                                id="accept_privacy"
+                                name="accept_privacy"
+                                checked={acceptPrivacy}
+                                onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                                label='<div className="text-xs">
                                 Я даю согласие на обработку моих персональных данных в соответствии с 
                                 <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong> Политикой обработки персональных данных</strong></a>.
                             </div>'
-                            wrapperClassNames="mb-4"
-                        />
-                        {acceptPrivacyError && <p className="text-xs mt-2 text-red-600">{acceptPrivacyError}</p>}
+                                wrapperClassNames="mb-4"
+                            />
+                            {acceptPrivacyError && <p className="text-xs mt-2 text-red-600">{acceptPrivacyError}</p>}
+                        </div>
                         <div className="max-md:mb-4">
                             <h3 className="mb-2">Способ связи</h3>
                             <div className="grid grid-cols-2 gap-2">

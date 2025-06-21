@@ -373,32 +373,35 @@ const CheckoutForm = () => {
                             ))}
                         </div>
                     </div>
-                    <CheckBox
-                        id="acceptTerms"
-                        name="acceptTerms"
-                        checked={acceptTerms}
-                        onChange={(e) => setAcceptTerms(e.target.checked)}
-                        label='<div className="text-xs">
+                    <div className="privacy">
+                        <CheckBox
+                            id="acceptTerms"
+                            name="acceptTerms"
+                            checked={acceptTerms}
+                            onChange={(e) => setAcceptTerms(e.target.checked)}
+                            label='<div className="text-xs">
         Я ознакомился(ась) и принимаю 
         <a href="/publichnyj-dogovor-oferta-internet-servisa-limited-kicks-ru"><strong> условия договора-оферты</strong></a>, 
         правила пользования сайтом и 
         <a href="/polozhenie-ob-obmene-i-vozvrate-tovara"><strong> политику обмена и возврата товаров</strong></a>.
     </div>'
-                        wrapperClassNames="mb-2"
-                    />
-                    {acceptTermsError && <p className="text-xs text-red-600 mb-2">{acceptTermsError}</p>}
-
-                    <CheckBox
-                        id="acceptPrivacy"
-                        name="acceptPrivacy"
-                        checked={acceptPrivacy}
-                        onChange={(e) => setAcceptPrivacy(e.target.checked)}
-                        label='<div className="text-xs">
+                            wrapperClassNames="mb-2"
+                        />
+                        {acceptTermsError && <p className="text-xs text-red-600 mb-2">{acceptTermsError}</p>}
+                    </div>
+                    <div className="privacy">
+                        <CheckBox
+                            id="acceptPrivacy"
+                            name="acceptPrivacy"
+                            checked={acceptPrivacy}
+                            onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                            label='<div className="text-xs">
         Я даю согласие на обработку моих персональных данных в соответствии с 
         <a href="/polozhenie-po-rabote-s-personalnymi-dannymi"><strong> Политикой обработки персональных данных</strong></a>.
     </div>'
-                        wrapperClassNames="mb-4"
-                    />
+                            wrapperClassNames="mb-4"
+                        />
+                    </div>
                     {acceptPrivacyError && <p className="text-xs text-red-600 mb-4">{acceptPrivacyError}</p>}
                     <Button styled="filled" type="submit">
                         {paymentType === "cash" ? "Оформить заказ" : "Перейти к оплате"}

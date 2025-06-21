@@ -112,7 +112,7 @@ export default function CallbackModal() {
     return (
         <Modal title=" " isOpen={isOpen} onChange={onChange} contentClassNames="">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-4 font-medium text-3xl uppercase font-unbounded">
+                <div className="mb-4 font-medium text-xl lg:text-3xl uppercase font-unbounded">
                     Выберите способ связи
                 </div>
                 <p className="mb-7 text-muted-foreground text-sm text-[#8F8F8F]">
@@ -141,7 +141,7 @@ export default function CallbackModal() {
                     ))}
                 </div>
 
-                <div className="max-w-[608px] space-y-7">
+                <div className="max-w-[608px] space-y-3 md:space-y-7">
                     {(method === "wa" || method === "phone" || method === "tg") && (
                         <div className="space-y-2">
                             <label>Номер телефона</label>
@@ -184,7 +184,7 @@ export default function CallbackModal() {
                         </div>
                     )}
                 </div>
-                <div className="grid md:grid-cols-2 gap-2 mt-4">
+                <div className="grid md:grid-cols-2 gap-2 mt-4 privacy">
                     <div>
                         <Controller
                             name="agree1"

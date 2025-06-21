@@ -17,6 +17,7 @@ const extractNumber = (size: any): any | 0 => {
 };
 
 const ProductItem: React.FC<IProductItem> = ({ data }) => {
+    console.log('data: ', data);
     // Проверяем наличие attributes и options
     const hasSizes = data.attributes?.[0]?.options && Array.isArray(data.attributes[0].options);
     const sortedSizes = hasSizes ? [...data.attributes[0].options].sort((a, b) => extractNumber(a) - extractNumber(b)) : [];

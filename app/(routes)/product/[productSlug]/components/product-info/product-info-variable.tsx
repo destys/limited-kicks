@@ -104,14 +104,25 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
 
   return (
     <>
-      {entrySize.price > 0 ? (
+      {entrySize.regular_price && entrySize.regular_price !== entrySize.price ? (
+        <div className="flex gap-2 mb-5 sm:mb-7 lg:mb-10 xs:text-lg md:text-xl lg:text-2xl xl:text-3xl">
+          <div className="line-through">
+            <Price before="" value={entrySize.regular_price} />
+          </div>
+          <div className="text-main">
+            <Price before="" value={entrySize.price} />
+          </div>
+        </div>
+      ) : entrySize.price > 0 ? (
         <Price
           before=""
           value={entrySize.price}
           className="mb-5 sm:mb-7 lg:mb-10 xs:text-lg md:text-xl lg:text-2xl xl:text-3xl"
         />
       ) : (
-        <div className="mb-5 sm:mb-7 lg:mb-10 xs:text-lg md:text-xl lg:text-2xl xl:text-3xl">Цена по запросу</div>
+        <div className="mb-5 sm:mb-7 lg:mb-10 xs:text-lg md:text-xl lg:text-2xl xl:text-3xl">
+          Цена&nbsp;по&nbsp;запросу
+        </div>
       )}
       <div className=" overflow-hidden">
         <div className={styles.sizes_type}>
@@ -156,10 +167,12 @@ const ProductInfoVariable: React.FC<ProductInfoProps> = ({ data }) => {
                 <div className="font-medium text-xs sm:text-sm md:text-base whitespace-nowrap relative z-20">
                   {item.name[activeSizeIndex]}
                 </div>
-                <Price
-                  value={item.price}
-                  className="text-xs whitespace-nowrap xs:text-sm md:text-base relative z-20"
-                />
+                <div>
+                  <Price
+                    value={item.price}
+                    className="text-xs whitespace-nowrap xs:text-sm md:text-base relative z-20"
+                  />
+                </div>
               </label>
             </div>
           ))}

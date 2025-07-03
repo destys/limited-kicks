@@ -95,6 +95,7 @@ export default function RootLayout({
                 }
               };
 
+              // Цели по кликам
               document.querySelectorAll("a[href='https://wa.me/+79951508080']").forEach(el => {
                 el.addEventListener("click", () => reachGoal("whatsapp"));
               });
@@ -110,6 +111,11 @@ export default function RootLayout({
               document.querySelectorAll("a[href='mailto:shop@limited-kicks.ru']").forEach(el => {
                 el.addEventListener("click", () => reachGoal("email"));
               });
+
+              // Цели по времени нахождения на странице
+              setTimeout(() => reachGoal("time_40_sek"), 40000);
+              setTimeout(() => reachGoal("time_60_sek"), 60000);
+              setTimeout(() => reachGoal("time_80_sek"), 80000);
             });
           `}
         </Script>

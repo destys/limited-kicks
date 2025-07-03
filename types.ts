@@ -105,6 +105,7 @@ export interface Product {
   images: SingleImage[];
   name: string;
   price: number;
+  regular_price: number;
   variations?: [];
   brand: BrandDataItem[];
   tags: Tag[];

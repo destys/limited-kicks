@@ -121,7 +121,7 @@ export default function ProductsOnRequestModal() {
     return (
         <Modal title={"Что ищем?"} isOpen={isOpen} onChange={onChange}>
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-3 mb-5 md:mb-6">
                     <div className="h-full">
                         <label htmlFor="photo" className="flex items-center justify-center w-full h-full p-4 border-2 border-dashed border-add_4 rounded-2xl cursor-pointer">
                             {imageSource ? (
@@ -141,16 +141,17 @@ export default function ProductsOnRequestModal() {
                             name="product_name"
                             label="Я знаю название или артикул"
                             placeholder="Введите информацию"
-                            className="mb-4 md:mb-6"
+                            className="mb-3 md:mb-6"
                         />
                         <Textarea
                             name="comment"
                             label="Комментарий (Необязательно)"
                             placeholder="Комментарий"
+                            className="max-md:h-14"
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-5 mb-5 md:mb-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-3 mb-5 md:mb-6">
                     <Input
                         type="text"
                         name="person_name"
@@ -164,7 +165,7 @@ export default function ProductsOnRequestModal() {
                         placeholder="+7"
                     />
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 lg:col-span-2 items-center gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 lg:col-span-2 items-center gap-3">
 
                     <div className="grid md:grid-cols-2 col-span-2 md:gap-4">
                         <div className="privacy">

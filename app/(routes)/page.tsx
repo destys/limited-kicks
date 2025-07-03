@@ -10,10 +10,10 @@ import Brands from "@/components/brands/brands";
 import Banner from "@/components/banner/banner";
 
 import BlogSlider from "@/components/blog-slider/blog-slider";
-import ProductsOnRequest from "@/components/products-on-request/products-on-request";
+//import ProductsOnRequest from "@/components/products-on-request/products-on-request";
 import getProductsListing from "@/actions/get-products-listing";
 import { generateYoastMetadata } from "@/utils/meta-data";
-import Head from "next/head";
+// import Head from "next/head";
 import { SchemaMarkup } from "@/components/schema-markup";
 
 export async function generateMetadata() {
@@ -31,8 +31,8 @@ export default async function HomePage() {
   const siteOptions = await getAcfOptions();
 
   const listing_1 = siteOptions?.acf?.listing_1?.products?.length
-    ? await getProductsListing({ include: siteOptions.acf.listing_1.products.join() })
-    : [];
+  ? await getProductsListing({ include: siteOptions.acf.listing_1.products.join() })
+  : [];
 
   const listing_2 = siteOptions?.acf?.listing_2?.products?.length
     ? await getProductsListing({ include: siteOptions.acf.listing_2.products.join() })
@@ -89,9 +89,9 @@ export default async function HomePage() {
       <Brands data={brands} />
       {!!listing_2.length && <Listing data={listing_2} title={siteOptions?.acf?.listing_2?.title} titleTag="h2" link={siteOptions?.acf?.listing_2.ssylka} />}
       {!!listing_3.length && <Listing data={listing_3} title={siteOptions?.acf?.listing_3?.title} titleTag="h3" link={siteOptions?.acf?.listing_3.ssylka} />}
-      <div className="mb-10 xl:mb-20">
+      {/* <div className="mb-10 xl:mb-20">
         <ProductsOnRequest data={siteOptions?.acf.tovary_po_zaprosu} />
-      </div>
+      </div> */}
       <BlogSlider data={posts} />
       <Banner data={siteOptions?.acf?.bannery} />
     </>

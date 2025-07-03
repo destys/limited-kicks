@@ -1,7 +1,7 @@
 .listing {
     @apply pt-12 lg:pt-0 relative z-50 hover:z-[10000];
     &__top {
-        @apply absolute lg:static -top-10 left-0 z-30 w-full flex justify-between items-center gap-3 mb-5 md:mb-7 lg:mb-10;
+        @apply absolute lg:static -top-20 left-0 z-30 w-full flex justify-between items-center gap-3 mb-5 md:mb-7 lg:mb-10;
     }
 
     &__title {

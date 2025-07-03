@@ -17,7 +17,6 @@ const extractNumber = (size: any): any | 0 => {
 };
 
 const ProductItem: React.FC<IProductItem> = ({ data }) => {
-    console.log('data: ', data);
     // Проверяем наличие attributes и options
     const hasSizes = data.attributes?.[0]?.options && Array.isArray(data.attributes[0].options);
     const sortedSizes = hasSizes ? [...data.attributes[0].options].sort((a, b) => extractNumber(a) - extractNumber(b)) : [];
@@ -39,7 +38,17 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                     <div className={styles.content}>
                         <h3 className="mb-2 max-md:text-base max-xs:text-[10px] max-xs:leading-tight">{data.name}</h3>
                         <div className="price max-md:text-xs">
-                            {data.price ? <Price before="от" value={data.price} /> : "По запросу"}
+                            {data.regular_price ? (
+                                <div className="flex gap-2">
+                                    <span>от</span>
+                                    <div className="line-through"><Price before="" value={data.regular_price} /></div>
+                                    <div className="text-main"><Price before="" value={data.price} /></div>
+                                </div>
+
+                            ) : (
+                                <span>{data.price ? <Price before="от" value={data.price} /> : "По запросу"}</span>
+                            )}
+
                         </div>
                     </div>
                 </Link>
@@ -53,8 +62,8 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                         </div>
                     </Link>
                 )} */}
-            </div>
-        </article>
+            </div >
+        </article >
     );
 }
 

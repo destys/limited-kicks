@@ -75,7 +75,6 @@ export default function CallbackModal() {
     } = form;
 
     const onSubmit = async (data: FormData) => {
-        console.log("Отправка формы:", data);
         try {
             setLoading(true);
             const res = await fetch(`${process.env.WP_ADMIN_REST_URL}/custom/v1/product-request`, {

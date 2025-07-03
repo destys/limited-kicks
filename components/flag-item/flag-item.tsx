@@ -20,7 +20,7 @@ const FlagItem: React.FC<IFlagItem> = ({ title }) => {
     return (
         <div className="flex items-center gap-2 py-1 px-3 w-fit bg-main rounded-lg text-white text-xs xs:text-sm md:text-base">
             {iconPath && (
-                <Image src={iconPath} width={20} height={20} alt={title} unoptimized />
+                <Image src={iconPath} width={20} height={20} alt={title} unoptimized priority/>
             )}
             <span className="uppercase">{title}</span>
         </div>

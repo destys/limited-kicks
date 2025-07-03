@@ -30,7 +30,7 @@ const Listing: React.FC<ListingProps> = ({ data, title, titleTag, link }) => {
                 slidesPerView={1}
                 speed={700}
                 modules={[Navigation]}
-                className="!flex flex-col-reverse !pr-20 lg:!pr-0 !overflow-visible"
+                className="!flex flex-col-reverse !pr-20 lg:!pr-0 !overflow-visible mt-10"
                 breakpoints={{
                     474: {
                         slidesPerView: 2,

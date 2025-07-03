@@ -27,7 +27,6 @@ const SearchListing: React.FC<ListingProps> = () => {
             try {
                 if (search) {
                     const res = await getSearchResults({ search: search, per_page: 100 });
-                    console.log('res: ', res);
                     setSearchResuts(res)
                 }
             } catch (e) {

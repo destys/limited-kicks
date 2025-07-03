@@ -21,12 +21,9 @@ const FilterItem: React.FC<IFilterItem> = ({ data, onChange }) => {
       try {
         const attributesList = await getAttributes(data.id);
 
-        if (data.name === 'Модель') console.log('attributesList: ', attributesList);
-
         const filteredAttributesList = attributesList.filter(attribute =>
           data.options.includes(attribute.id)
         );
-        if (data.name === 'Модель') console.log('filteredAttributesList: ', filteredAttributesList);
         setAttributes(filteredAttributesList);
       } catch (e) {
         console.log(e)

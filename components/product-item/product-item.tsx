@@ -37,9 +37,9 @@ const ProductItem: React.FC<IProductItem> = ({ data }) => {
                     </div>
                     <div className={styles.content}>
                         <h3 className="mb-2 max-md:text-base max-xs:text-[10px] max-xs:leading-tight">{data.name}</h3>
-                        <div className="price max-md:text-xs">
+                        <div className="price max-md:text-[10px]">
                             {data.regular_price ? (
-                                <div className="flex gap-2">
+                                <div className="flex gap-1">
                                     <span>от</span>
                                     <div className="line-through"><Price before="" value={data.regular_price} /></div>
                                     <div className="text-main"><Price before="" value={data.price} /></div>

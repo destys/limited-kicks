@@ -6,7 +6,7 @@
     }
 
     .flags {
-        @apply absolute top-2 right-2 z-50 flex justify-end gap-2;
+        @apply absolute top-4 sm:top-2 right-2 z-50 flex justify-end gap-2;
     }
     .image {
         @apply flex m-5 bg-white rounded-lg max-h-[240px] max-md:max-h-[181px];

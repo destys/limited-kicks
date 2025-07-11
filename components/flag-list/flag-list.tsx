@@ -11,7 +11,7 @@ const FlagList: React.FC<IFlagList> = ({ data, className = "" }) => {
     const flagValues = flagKeys.map(key => data.acf[key]).filter(Boolean); // убираем пустые
 
     return (
-        <div className={`flex flex-wrap gap-2 ${className}`}>
+        <div className={`flex gap-2 ${className}`}>
             {flagValues.map((flag, index) => (
                 <div
                     key={flag + index}
